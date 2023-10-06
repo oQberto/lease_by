@@ -2,6 +2,7 @@ package com.example.lease_by.model.entity;
 
 import com.example.lease_by.model.entity.enums.Amenities;
 import com.example.lease_by.model.entity.enums.Feature;
+import com.example.lease_by.model.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -40,6 +42,10 @@ public class Rental {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @Column(name = "status")
+    @Enumerated(STRING)
+    private Status status;
+
     @OneToMany(mappedBy = "rental", fetch = LAZY)
     private Set<Image> images = new HashSet<>();
 
@@ -52,7 +58,7 @@ public class Rental {
             joinColumns = @JoinColumn(name = "rental_id")
     )
     @Column(name = "name")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private Set<Amenities> amenities = new HashSet<>();
 
     @ElementCollection
@@ -61,6 +67,6 @@ public class Rental {
             joinColumns = @JoinColumn(name = "rental_id")
     )
     @Column(name = "name")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private Set<Feature> features = new HashSet<>();
 }
