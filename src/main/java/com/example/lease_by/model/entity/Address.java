@@ -34,6 +34,7 @@ public class Address {
     @JoinColumn(name = "street_id")
     private Street street;
 
+    @Builder.Default
     @OneToMany(mappedBy = "address", fetch = LAZY)
     private List<Rental> rentals = new ArrayList<>();
 }

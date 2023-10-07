@@ -46,12 +46,14 @@ public class Rental {
     @Enumerated(STRING)
     private Status status;
 
+    @Builder.Default
     @OneToMany(mappedBy = "rental", fetch = LAZY)
     private Set<Image> images = new HashSet<>();
 
     @OneToOne(mappedBy = "rental")
     private About about;
 
+    @Builder.Default
     @ElementCollection
     @CollectionTable(
             name = "amenities",
@@ -61,6 +63,7 @@ public class Rental {
     @Enumerated(STRING)
     private Set<Amenities> amenities = new HashSet<>();
 
+    @Builder.Default
     @ElementCollection
     @CollectionTable(
             name = "feature",
