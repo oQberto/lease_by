@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS users
     id       BIGSERIAL PRIMARY KEY,
     email    VARCHAR(256) UNIQUE NOT NULL,
     username VARCHAR(128) UNIQUE NOT NULL,
-    password VARCHAR(128)        NOT NULL
+    password VARCHAR(128)        NOT NULL,
+    role     VARCHAR(64)         NOT NULL DEFAULT 'USER'
 );
 
 --changeset alexermakov:2
@@ -49,7 +50,7 @@ CREATE TABLE IF NOT EXISTS address
 CREATE TABLE IF NOT EXISTS rental
 (
     id          BIGSERIAL PRIMARY KEY,
-    user_id     BIGINT UNIQUE REFERENCES users (id),
+    user_id     BIGINT REFERENCES users (id),
     address_id  BIGINT  NOT NULL REFERENCES address (id),
     price       NUMERIC NOT NULL,
     description VARCHAR(520)

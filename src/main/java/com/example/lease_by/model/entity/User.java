@@ -1,5 +1,6 @@
 package com.example.lease_by.model.entity;
 
+import com.example.lease_by.model.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,9 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
+    private Role role;
 
     @OneToOne(mappedBy = "user")
     private Profile profile;
