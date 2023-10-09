@@ -12,8 +12,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"street", "city"})
-@EqualsAndHashCode(exclude = {"street", "city"})
+@ToString(exclude = {"street", "city", "rentals"})
+@EqualsAndHashCode(exclude = {"street", "city", "rentals"})
 @Entity
 public class Address {
 

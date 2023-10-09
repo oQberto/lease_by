@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/cities")
+@RequestMapping("/lease.by")
 public class CityController {
     private final CityService cityService;
 
