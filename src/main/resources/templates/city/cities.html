@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"
-          xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
     <title>Lease.by</title>
 </head>
 <body>
 <div th:each="city: ${cities}">
-    <a th:href="@{'/cities/' + ${city.id}}" th:text="${city.name}">City</a>
+    <a th:href="@{/rentals/{id}(id=${city.id})}" th:text="${city.name}">City</a>
 </div>
 </body>
 </html>
