@@ -2,18 +2,18 @@ package com.example.lease_by.model.entity;
 
 import com.example.lease_by.model.entity.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = "profile")
+@EqualsAndHashCode(exclude = "profile")
 @Entity
 @Table(name = "users")
 public class User {
@@ -35,6 +35,6 @@ public class User {
     @Enumerated(STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", fetch = LAZY)
     private Profile profile;
 }

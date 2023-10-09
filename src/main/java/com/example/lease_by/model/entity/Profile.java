@@ -2,17 +2,17 @@ package com.example.lease_by.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = "user")
+@EqualsAndHashCode(exclude = "user")
 @Entity
 public class Profile {
 
@@ -32,7 +32,7 @@ public class Profile {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

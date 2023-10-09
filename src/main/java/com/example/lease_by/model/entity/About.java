@@ -4,19 +4,19 @@ import com.example.lease_by.model.entity.enums.Furnished;
 import com.example.lease_by.model.entity.enums.ParkingType;
 import com.example.lease_by.model.entity.enums.PropertyType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = "rental")
+@EqualsAndHashCode(exclude = "rental")
 @Entity
 public class About {
 
@@ -45,7 +45,7 @@ public class About {
     @Column(name = "year_built")
     private LocalDate yearBuilt;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "rental_id")
     private Rental rental;
 }

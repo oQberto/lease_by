@@ -4,10 +4,7 @@ import com.example.lease_by.model.entity.enums.Amenities;
 import com.example.lease_by.model.entity.enums.Feature;
 import com.example.lease_by.model.entity.enums.Status;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -21,6 +18,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(exclude = {"about", "user", "address"})
+@EqualsAndHashCode(exclude = {"about", "user", "address"})
 @Entity
 public class Rental {
 
@@ -34,23 +33,23 @@ public class Rental {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id", unique = true)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-
     @Column(name = "status")
     @Enumerated(STRING)
     private Status status;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @Builder.Default
-    @OneToMany(mappedBy = "rental", fetch = LAZY)
+    @OneToMany(mappedBy = "rental")
     private Set<Image> images = new HashSet<>();
 
-    @OneToOne(mappedBy = "rental")
+    @OneToOne(mappedBy = "rental", fetch = LAZY)
     private About about;
 
     @Builder.Default
