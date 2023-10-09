@@ -107,8 +107,22 @@ VALUES (1, 1, 100.0, null),
        (13, 13, 112.0, null),
        (14, 14, 113.0, null);
 
--- image table
--- INSERT INTO image (rental_id, image_path) VALUES ();
+
+INSERT INTO image (rental_id, image_path)
+VALUES (1, 'image1'),
+       (2, 'image2'),
+       (3, 'image3'),
+       (4, 'image4'),
+       (5, 'image5'),
+       (6, 'image6'),
+       (7, 'image7'),
+       (8, 'image8'),
+       (9, 'image9'),
+       (10, 'image10'),
+       (11, 'image11'),
+       (12, 'image12'),
+       (13, 'image13'),
+       (14, 'image14');
 
 INSERT INTO about (rental_id, property_type, parking_type, furnished, lease_term, short_term, year_built)
 VALUES (1, 'APARTMENT', 'NO_PARKING', 'NO_FURNITURE', '2024-10-08', null, '2015-01-01'),
