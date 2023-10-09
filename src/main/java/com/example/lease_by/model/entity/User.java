@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -31,6 +32,7 @@ public class User {
     private String password;
 
     @Column(name = "role")
+    @Enumerated(STRING)
     private Role role;
 
     @OneToOne(mappedBy = "user")
