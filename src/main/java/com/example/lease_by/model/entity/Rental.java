@@ -37,11 +37,11 @@ public class Rental {
     @Enumerated(STRING)
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
 

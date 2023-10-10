@@ -6,6 +6,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -24,11 +25,11 @@ public class Address {
     @Column(name = "house_no")
     private Integer houseNo;
 
-    @ManyToOne()
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "city_id")
     private City city;
 
-    @ManyToOne()
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "street_id")
     private Street street;
 

@@ -1,14 +1,14 @@
 package com.example.lease_by.mapper;
 
 import com.example.lease_by.dto.CityReadDto;
+import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.City;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@MapperTest
 @RequiredArgsConstructor
 class CityMapperTest {
     private final CityMapper cityMapper;

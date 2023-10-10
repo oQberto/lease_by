@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:each="rental: ${rentals}">
-    <p th:text="${rental}">Rental</p>
+    <p th:text="${rental.addressDto.streetDto.name}">Rental</p>
 </div>
 </body>
 </html>
