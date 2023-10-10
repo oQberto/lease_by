@@ -1,9 +1,6 @@
 package com.example.lease_by.dto;
 
-import com.example.lease_by.model.entity.About;
-import com.example.lease_by.model.entity.Address;
 import com.example.lease_by.model.entity.Image;
-import com.example.lease_by.model.entity.User;
 import com.example.lease_by.model.entity.enums.Amenities;
 import com.example.lease_by.model.entity.enums.Feature;
 import com.example.lease_by.model.entity.enums.Status;
@@ -11,6 +8,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Value
@@ -18,11 +16,17 @@ import java.util.Set;
 public class RentalReadDto {
     Long id;
     BigDecimal price;
-    User user;
-    Address address;
+    UserReadDto userReadDto;
+    AddressDto addressDto;
     Status status;
-    About about;
-    Set<Image> images;
-    Set<Amenities> amenities;
-    Set<Feature> features;
+    AboutDto aboutDto;
+
+    @Builder.Default
+    Set<Image> images = new HashSet<>();
+
+    @Builder.Default
+    Set<Amenities> amenities = new HashSet<>();
+
+    @Builder.Default
+    Set<Feature> features = new HashSet<>();
 }
