@@ -15,16 +15,8 @@ class CityMapperTest {
 
     @Test
     void mapCityToCityReadDto() {
-        City city = City.builder()
-                .id(1L)
-                .image("imagePath")
-                .name("Minsk")
-                .build();
-        CityReadDto expectedResult = CityReadDto.builder()
-                .id(1L)
-                .image("imagePath")
-                .name("Minsk")
-                .build();
+        City city = getCity();
+        CityReadDto expectedResult = getCityReadDto();
 
         CityReadDto actualResult = cityMapper.mapToCityReadDto(city);
         assertThat(actualResult).isEqualTo(expectedResult);
@@ -32,18 +24,27 @@ class CityMapperTest {
 
     @Test
     void mapCityReadDtoToCity() {
-        CityReadDto cityReadDto = CityReadDto.builder()
-                .id(1L)
-                .image("imagePath")
-                .name("Minsk")
-                .build();
-        City expectedResult = City.builder()
-                .id(1L)
-                .image("imagePath")
-                .name("Minsk")
-                .build();
+        CityReadDto cityReadDto = getCityReadDto();
+        City expectedResult = getCity();
 
         City actualResult = cityMapper.mapToCity(cityReadDto);
         assertThat(actualResult).isEqualTo(expectedResult);
     }
+
+    private static CityReadDto getCityReadDto() {
+        return CityReadDto.builder()
+                .id(1L)
+                .image("imagePath")
+                .name("Minsk")
+                .build();
+    }
+
+    private static City getCity() {
+        return City.builder()
+                .id(1L)
+                .image("imagePath")
+                .name("Minsk")
+                .build();
+    }
+
 }
