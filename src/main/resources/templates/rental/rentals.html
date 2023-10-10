@@ -5,8 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<div th:each="rental: ${rentals}">
-    <p th:text="${rental.addressDto.streetDto.name}">Rental</p>
+<div>
+    <div th:each="rental: ${rentals}">
+        <p th:text="${rental.addressDto.streetDto.name}">Rental</p>
+        <p th:text="${rental.amenities}">Rental</p>
+        <p th:text="${rental.features}">Rental</p>
+        <a th:href="@{}"
+    </div>
 </div>
 </body>
 </html>

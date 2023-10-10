@@ -17,10 +17,10 @@ import java.util.List;
 public class RentalController {
     private final RentalService rentalService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{cityName}")
     public String findRentals(Model model,
-                              @PathVariable("id") Long id) {
-        List<RentalReadDto> rentals = rentalService.getAllRentalsByCityId(id);
+                              @PathVariable("cityName") String cityName) {
+        List<RentalReadDto> rentals = rentalService.getAllRentalsByCityName(cityName);
         model.addAttribute("rentals", rentals);
 
         return "rental/rentals";

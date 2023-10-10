@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:each="city: ${cities}">
-    <a th:href="@{/rentals/{id}(id=${city.id})}" th:text="${city.name}">City</a>
+    <a th:href="@{/rentals/{cityName}(cityName=${city.name})}" th:text="${city.name}">City</a>
 </div>
 </body>
 </html>

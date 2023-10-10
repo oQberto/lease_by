@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface RentalRepository extends JpaRepository<Rental, Long> {
 
-    List<Rental> findAllByAddress_CityId(Long cityId);
+    List<Rental> findAllByAddress_CityName(String cityName);
 }

@@ -16,8 +16,8 @@ public class RentalService {
     private final RentalRepository rentalRepository;
     private final RentalMapper rentalMapper;
 
-    public List<RentalReadDto> getAllRentalsByCityId(Long cityId) {
-        return rentalRepository.findAllByAddress_CityId(cityId).stream()
+    public List<RentalReadDto> getAllRentalsByCityName(String cityNme) {
+        return rentalRepository.findAllByAddress_CityName(cityNme).stream()
                 .map(rentalMapper::mapToRentalReadDto)
                 .toList();
     }
