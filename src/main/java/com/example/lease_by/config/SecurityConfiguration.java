@@ -1,14 +1,27 @@
 package com.example.lease_by.config;
 
+import com.example.lease_by.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
+    private final UserService userService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -23,8 +36,28 @@ public class SecurityConfiguration {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .defaultSuccessUrl("/cities"))
-//                TODO: google authentication .oauth2Login(oauth2 -> {return;})
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/cities")
+                        .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService())))
 //                TODO: logout functionality  .logout(logout -> {return;})
                 .build();
+    }
+
+    private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
+        return userRequest -> {
+            String email = userRequest.getIdToken().getClaim("email");
+            UserDetails userDetails = userService.loadUserByUsername(email);
+            DefaultOidcUser defaultOidcUser = new DefaultOidcUser(userDetails.getAuthorities(), userRequest.getIdToken());
+            Set<Method> methods = Set.of(UserDetails.class.getMethods());
+
+            return (OidcUser) Proxy.newProxyInstance(
+                    SecurityConfiguration.class.getClassLoader(),
+                    new Class[]{UserDetails.class, OidcUser.class},
+                    (proxy, method, args) -> methods.contains(method)
+                            ? method.invoke(userDetails, args)
+                            : method.invoke(defaultOidcUser, args)
+            );
+        };
     }
 }

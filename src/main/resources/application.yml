@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:secrets.yml
   datasource:
     url: jdbc:postgresql://localhost:5432/lease_by
     username: postgres
@@ -12,6 +14,16 @@ spring:
         hbm2ddl:
           auto: validate
     open-in-view: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            scope:
+              - openid
+              - email
+              - profile
 logging:
   level:
     root: info
