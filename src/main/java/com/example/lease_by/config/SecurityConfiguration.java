@@ -29,8 +29,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/login",
-                                "/cities"
-                        ).permitAll()
+                                "/registration",
+                                "/cities",
+                                "/rentals/\\w+",
+                                "/rentals/\\w+/\\d+").permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(formLogin -> formLogin
@@ -40,7 +42,10 @@ public class SecurityConfiguration {
                         .loginPage("/login")
                         .defaultSuccessUrl("/cities")
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService())))
-//                TODO: logout functionality  .logout(logout -> {return;})
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/cities")
+                        .deleteCookies("JSESSIONID"))
                 .build();
     }
 

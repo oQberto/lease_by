@@ -5,6 +5,7 @@
     <title>Lease.by</title>
 </head>
 <body>
+<div th:insert="~{fragment::header}"></div>
 <div th:each="city: ${cities}">
     <a th:href="@{/rentals/{cityName}(cityName=${city.name})}" th:text="${city.name}">City</a>
 </div>
