@@ -3,6 +3,8 @@ package com.example.lease_by.model.entity;
 import com.example.lease_by.model.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -12,11 +14,11 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = "profile")
-@EqualsAndHashCode(exclude = "profile")
 @Entity
 @Table(name = "users")
-public class User {
+@EqualsAndHashCode(callSuper = true)
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+public class User extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
