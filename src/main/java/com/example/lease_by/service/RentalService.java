@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,5 +21,10 @@ public class RentalService {
         return rentalRepository.findAllByAddress_CityName(cityNme).stream()
                 .map(rentalMapper::mapToRentalReadDto)
                 .toList();
+    }
+
+    public Optional<RentalReadDto> getRentalById(Long id) {
+        return rentalRepository.findRentalById(id)
+                .map(rentalMapper::mapToRentalReadDto);
     }
 }

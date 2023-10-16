@@ -10,7 +10,7 @@
         <p th:text="${rental.addressDto.streetDto.name}">Rental</p>
         <p th:text="${rental.amenities}">Rental</p>
         <p th:text="${rental.features}">Rental</p>
-        <a th:href="@{}"
+        <a th:href="@{/rentals/{cityName}/{rentalId}(cityName=${rental.addressDto.cityReadDto.name},rentalId=${rental.id})}">Rental info</a>
     </div>
 </div>
 </body>
