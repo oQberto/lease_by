@@ -4,6 +4,7 @@ import com.example.lease_by.dto.ProfileReadDto;
 import com.example.lease_by.model.entity.Profile;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
@@ -13,6 +14,7 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
         injectionStrategy = CONSTRUCTOR,
         uses = UserReadMapper.class
 )
+@Component
 public interface ProfileMapper {
 
     @Mapping(target = "userReadDto", source = "user")

@@ -3,6 +3,7 @@ package com.example.lease_by.mapper;
 import com.example.lease_by.dto.AddressDto;
 import com.example.lease_by.model.entity.Address;
 import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
 
 @Mapper(
@@ -13,6 +14,7 @@ import org.mapstruct.*;
                 CityMapper.class
         }
 )
+@Component
 public interface AddressMapper {
 
     @Mappings({

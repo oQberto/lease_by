@@ -5,6 +5,7 @@ import com.example.lease_by.model.entity.Rental;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.springframework.stereotype.Component;
 
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
@@ -18,6 +19,7 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
                 AboutMapper.class
         }
 )
+@Component
 public interface RentalMapper {
 
     @Mappings({
