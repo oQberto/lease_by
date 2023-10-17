@@ -1,5 +1,6 @@
 package com.example.lease_by.mapper;
 
+import com.example.lease_by.dto.ProfileCreateDto;
 import com.example.lease_by.dto.ProfileReadDto;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.Profile;
@@ -21,7 +22,18 @@ class ProfileMapperTest {
     }
 
     @Test
-    void mapToProfile() {
+    void mapToProfileFromProfileCreateDto() {
+        Profile expectedResult = Profile.builder()
+                .avatar("dummy")
+                .build();
+
+        Profile actualResult = profileMapper.mapToProfile(getProfileCreateDto());
+
+        assertThat(actualResult).isEqualTo(expectedResult);
+    }
+
+    @Test
+    void mapToProfileFromProfileReadDto() {
         Profile actualResult = profileMapper.mapToProfile(getProfileReadDto());
 
         assertThat(actualResult).isEqualTo(getProfile());
@@ -44,6 +56,12 @@ class ProfileMapperTest {
                 .firstname("Firstname")
                 .lastname("Lastname")
                 .phoneNumber("(00)000-0000")
+                .build();
+    }
+
+    private static ProfileCreateDto getProfileCreateDto() {
+        return ProfileCreateDto.builder()
+                .avatar("dummy")
                 .build();
     }
 }

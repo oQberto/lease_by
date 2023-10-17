@@ -1,5 +1,6 @@
 package com.example.lease_by.mapper;
 
+import com.example.lease_by.dto.ProfileCreateDto;
 import com.example.lease_by.dto.ProfileReadDto;
 import com.example.lease_by.model.entity.Profile;
 import org.mapstruct.Mapper;
@@ -22,4 +23,7 @@ public interface ProfileMapper {
 
     @Mapping(target = "user", source = "userReadDto")
     Profile mapToProfile(ProfileReadDto dto);
+
+    @Mapping(target = "user", source = "userCreateDto")
+    Profile mapToProfile(ProfileCreateDto dto);
 }
