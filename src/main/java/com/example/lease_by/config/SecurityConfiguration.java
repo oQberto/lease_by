@@ -31,8 +31,7 @@ public class SecurityConfiguration {
                                 "/login",
                                 "/registration",
                                 "/cities",
-                                "/rentals/\\w+",
-                                "/rentals/\\w+/\\d+").permitAll()
+                                "/rentals/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(formLogin -> formLogin
