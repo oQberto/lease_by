@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService())))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/cities")
+                        .logoutSuccessUrl("/login")
                         .deleteCookies("JSESSIONID"))
                 .build();
     }
