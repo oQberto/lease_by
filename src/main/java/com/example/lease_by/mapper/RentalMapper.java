@@ -15,7 +15,7 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
         injectionStrategy = CONSTRUCTOR,
         uses = {
                 AddressMapper.class,
-                UserReadMapper.class,
+                UserMapper.class,
                 AboutMapper.class
         }
 )

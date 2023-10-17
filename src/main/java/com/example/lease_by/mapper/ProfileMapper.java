@@ -12,7 +12,7 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 @Mapper(
         componentModel = SPRING,
         injectionStrategy = CONSTRUCTOR,
-        uses = UserReadMapper.class
+        uses = UserMapper.class
 )
 @Component
 public interface ProfileMapper {
