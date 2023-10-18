@@ -24,6 +24,6 @@ public interface ProfileMapper {
     @Mapping(target = "user", source = "userReadDto")
     Profile mapToProfile(ProfileReadDto dto);
 
-    @Mapping(target = "user", source = "userCreateDto")
+//    @Mapping(target = "user", source = "userCreateDto")
     Profile mapToProfile(ProfileCreateDto dto);
 }

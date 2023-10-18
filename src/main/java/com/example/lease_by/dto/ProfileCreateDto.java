@@ -7,5 +7,5 @@ import lombok.Value;
 @Builder
 public class ProfileCreateDto {
     String avatar;
-    UserCreateDto userCreateDto;
+//    UserCreateDto userCreateDto;
 }

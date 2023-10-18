@@ -11,4 +11,5 @@ public class UserCreateDto {
     String username;
     String password;
     Role role;
+    ProfileCreateDto profileCreateDto;
 }
