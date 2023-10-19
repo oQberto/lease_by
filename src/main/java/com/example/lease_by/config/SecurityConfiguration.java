@@ -29,7 +29,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/login",
-                                "/registration",
+                                "/account/registration",
+                                "/account/create",
                                 "/cities",
                                 "/rentals/**").permitAll()
                         .anyRequest()
