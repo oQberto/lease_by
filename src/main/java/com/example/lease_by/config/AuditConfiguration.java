@@ -11,9 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
-@Configuration
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
+@EnableJpaAuditing
 @EnableEnversRepositories(basePackageClasses = LeaseByApplication.class)
+@Configuration
 public class AuditConfiguration {
 
     @Bean

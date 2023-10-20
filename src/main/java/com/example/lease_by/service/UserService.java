@@ -1,6 +1,7 @@
 package com.example.lease_by.service;
 
 import com.example.lease_by.dto.UserCreateDto;
+import com.example.lease_by.dto.UserReadDto;
 import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
 import com.example.lease_by.model.entity.User;
@@ -35,18 +36,26 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    public Optional<UserReadDto> getUserByEmail(String email) {
+        return Optional.ofNullable(userRepository.findUserByEmail(email)
+                .map(userMapper::mapToUserReadDto)
+                .orElseThrow(() -> new EntityNotFoundException("User with email: " + email + " not found")));
+    }
+
     public Optional<User> getUserById(Long id) {
         return Optional.ofNullable(userRepository.findUserById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));
     }
 
     @Transactional
-    public void createUser(UserCreateDto dto) {
+    public UserReadDto createUser(UserCreateDto dto) {
         User user = userMapper.mapToUser(dto);
         userRepository.saveAndFlush(user);
 
         Profile profile  = new Profile();
         profile.setUser(user);
         profileService.createProfile(profile);
+
+        return userMapper.mapToUserReadDto(user);
     }
 }
