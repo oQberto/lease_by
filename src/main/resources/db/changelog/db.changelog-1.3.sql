@@ -10,12 +10,23 @@ CREATE TABLE IF NOT EXISTS revision
 --changeset alexermakov:2
 CREATE TABLE IF NOT EXISTS users_aud
 (
-    id         BIGINT,
-    rev        INT REFERENCES revision (id),
-    revtype    SMALLINT,
-    email      VARCHAR(128) NOT NULL UNIQUE,
-    username   VARCHAR(64)  NOT NULL UNIQUE,
-    password   VARCHAR(32),
-    role       VARCHAR(32),
-    company_id INT
+    id       BIGINT,
+    rev      INT REFERENCES revision (id),
+    revtype  SMALLINT,
+    email    VARCHAR(256) NOT NULL,
+    username VARCHAR(256) NOT NULL,
+    password VARCHAR(256),
+    role     VARCHAR(64)
 );
+
+--changeset alexermakov:3
+ALTER TABLE users
+    ALTER COLUMN username TYPE VARCHAR(256);
+
+--changeset alexermakov:4
+ALTER TABLE users
+    ALTER COLUMN password TYPE VARCHAR(256);
+
+--changeset alexermakov:5
+ALTER TABLE profile
+    ALTER COLUMN phone_number TYPE VARCHAR(24);
