@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS users_aud
     email    VARCHAR(256) NOT NULL,
     username VARCHAR(256) NOT NULL,
     password VARCHAR(256),
-    role     VARCHAR(64)
+    role     VARCHAR(64),
+    PRIMARY KEY (id, rev)
 );
 
 --changeset alexermakov:3
