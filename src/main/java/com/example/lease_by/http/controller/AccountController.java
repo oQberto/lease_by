@@ -16,10 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -27,7 +24,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/account")
+@RequestMapping("/accounts")
 public class AccountController {
     private final UserService userService;
     private final ProfileService profileService;
@@ -39,7 +36,7 @@ public class AccountController {
         return "user/registration";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") @Validated({Default.class}) UserCreateDto userCreateDto,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -48,6 +45,7 @@ public class AccountController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/account/registration";
         }
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(userCreateDto, null, List.of(Role.values()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -55,12 +53,13 @@ public class AccountController {
         return "redirect:/cities";
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public String getUserAccount(Model model,
+                                 @PathVariable("id") Long id,
                                  @AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();
         Optional<UserReadDto> userByEmail = userService.getUserByEmail(email);
         model.addAttribute("user", userByEmail.get());
-        return "user/account";
+        return "user/profile";
     }
 }

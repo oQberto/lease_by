@@ -5,7 +5,7 @@
     <title>Registration</title>
 </head>
 <body>
-<form th:action="@{/account/create}" method="post" th:object="${user}">
+<form th:action="@{/accounts/register}" method="post" th:object="${user}">
     <label for="email">Email:
         <input id="email" type="email" name="email" th:value="*{email}">
     </label><br>
