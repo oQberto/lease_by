@@ -41,8 +41,8 @@ public class AccountController {
 
     @PostMapping("/create")
     public String registerUser(@ModelAttribute("user") @Validated({Default.class}) UserCreateDto userCreateDto,
-                             BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("user", userCreateDto);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
