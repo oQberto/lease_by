@@ -3,8 +3,7 @@ package com.example.lease_by.mapper;
 import com.example.lease_by.dto.ProfileCreateDto;
 import com.example.lease_by.dto.ProfileReadDto;
 import com.example.lease_by.model.entity.Profile;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
@@ -24,6 +23,13 @@ public interface ProfileMapper {
     @Mapping(target = "user", source = "userReadDto")
     Profile mapToProfile(ProfileReadDto dto);
 
-//    @Mapping(target = "user", source = "userCreateDto")
     Profile mapToProfile(ProfileCreateDto dto);
+
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "user", ignore = true)
+    })
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Profile updateProfile(ProfileCreateDto dto,
+                          @MappingTarget Profile profile);
 }

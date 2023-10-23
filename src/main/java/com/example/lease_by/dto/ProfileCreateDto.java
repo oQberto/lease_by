@@ -7,5 +7,7 @@ import lombok.Value;
 @Builder
 public class ProfileCreateDto {
     String avatar;
-//    UserCreateDto userCreateDto;
+    String firstname;
+    String lastname;
+    String phoneNumber;
 }
