@@ -36,6 +36,7 @@ public class ProfileService {
         profileRepository.saveAndFlush(profile);
     }
 
+    @Transactional
     public Optional<ProfileReadDto> updateProfile(Long id, ProfileCreateDto profileCreateDto) {
         return profileRepository.findById(id)
                 .map(profile -> {
