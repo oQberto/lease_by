@@ -3,8 +3,7 @@ package com.example.lease_by.mapper;
 import com.example.lease_by.dto.UserCreateDto;
 import com.example.lease_by.dto.UserReadDto;
 import com.example.lease_by.model.entity.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -23,6 +22,15 @@ public abstract class UserMapper {
 
     @Autowired
     protected PasswordEncoder passwordEncoder;
+
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "role", ignore = true),
+            @Mapping(target = "profile", ignore = true)
+    })
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    public abstract User updateUser(UserCreateDto dto,
+                                    @MappingTarget User user);
 
     public abstract UserReadDto mapToUserReadDto(User entity);
 

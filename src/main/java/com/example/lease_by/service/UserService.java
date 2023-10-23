@@ -42,8 +42,9 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException("User with email: " + email + " not found")));
     }
 
-    public Optional<User> getUserById(Long id) {
+    public Optional<UserReadDto> getUserById(Long id) {
         return Optional.ofNullable(userRepository.findUserById(id)
+                .map(userMapper::mapToUserReadDto)
                 .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));
     }
 
@@ -52,10 +53,19 @@ public class UserService implements UserDetailsService {
         User user = userMapper.mapToUser(dto);
         userRepository.saveAndFlush(user);
 
-        Profile profile  = new Profile();
+        Profile profile = new Profile();
         profile.setUser(user);
         profileService.createProfile(profile);
 
         return userMapper.mapToUserReadDto(user);
+    }
+
+    @Transactional
+    public Optional<UserReadDto> updateUser(Long id, UserCreateDto userCreateDto) {
+        return userRepository.findUserById(id)
+                .map(user -> {
+                    User updatedUser = userMapper.updateUser(userCreateDto, user);
+                    return userMapper.mapToUserReadDto(userRepository.saveAndFlush(updatedUser));
+                });
     }
 }

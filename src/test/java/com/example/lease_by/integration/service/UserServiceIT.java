@@ -1,10 +1,10 @@
 package com.example.lease_by.integration.service;
 
 import com.example.lease_by.dto.ProfileCreateDto;
+import com.example.lease_by.dto.ProfileReadDto;
 import com.example.lease_by.dto.UserCreateDto;
+import com.example.lease_by.dto.UserReadDto;
 import com.example.lease_by.integration.IntegrationTestBase;
-import com.example.lease_by.model.entity.Profile;
-import com.example.lease_by.model.entity.User;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
@@ -27,16 +27,15 @@ class UserServiceIT extends IntegrationTestBase {
         var profile = profileService.getProfileById(PROFILE_ID);
         assertThat(profile).isPresent();
 
-        User user = User.builder()
+        UserReadDto user = UserReadDto.builder()
                 .id(1L)
                 .email("user1@gmail.com")
                 .username("username1")
                 .password("1231")
                 .role(Role.ADMIN)
-                .profile(profile.get())
                 .build();
 
-        Optional<User> actualResult = userService.getUserById(USER_ID);
+        Optional<UserReadDto> actualResult = userService.getUserById(USER_ID);
         assertThat(actualResult).isPresent();
         assertThat(actualResult.get()).isEqualTo(user);
     }
@@ -55,11 +54,28 @@ class UserServiceIT extends IntegrationTestBase {
 
         userService.createUser(userCreateDto);
 
-        Optional<User> actualUser = userService.getUserById(16L);
+        Optional<UserReadDto> actualUser = userService.getUserById(16L);
         assertThat(actualUser).isPresent();
 
-        Optional<Profile> actualProfile = profileService.getProfileById(actualUser.get().getProfile().getId());
+        Optional<ProfileReadDto> actualProfile = profileService.getProfileById(actualUser.get().getId());
         assertThat(actualProfile).isPresent();
-        assertThat(actualProfile.get().getUser()).isEqualTo(actualUser.get());
+        assertThat(actualProfile.get().getUserReadDto()).isEqualTo(actualUser.get());
+    }
+
+    @Test
+    void updateUser() {
+        var existingUser = userService.getUserById(1L);
+        assertThat(existingUser).isPresent();
+
+        var userCreateDto = UserCreateDto.builder()
+                .email("newMail@gmail.com")
+                .username("newUserName")
+                .build();
+
+        Optional<UserReadDto> actualResult = userService.updateUser(1L, userCreateDto);
+        assertThat(actualResult).isPresent();
+
+        assertThat(actualResult).isEqualTo(userService.getUserById(1L));
+        assertThat(actualResult.get().getPassword()).isEqualTo(existingUser.get().getPassword());
     }
 }

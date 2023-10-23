@@ -20,7 +20,7 @@ public class UserCreateDto implements UserDetails {
     @Email
     String email;
 
-    @NotEmpty
+    @NotEmpty(groups = CreateAction.class)
     String username;
 
     @NotBlank(groups = CreateAction.class)
