@@ -62,10 +62,11 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public Optional<UserReadDto> updateUser(Long id, UserCreateDto userCreateDto) {
-        return userRepository.findUserById(id)
+        return Optional.ofNullable(userRepository.findUserById(id)
                 .map(user -> {
                     User updatedUser = userMapper.updateUser(userCreateDto, user);
                     return userMapper.mapToUserReadDto(userRepository.saveAndFlush(updatedUser));
-                });
+                })
+                .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));
     }
 }
