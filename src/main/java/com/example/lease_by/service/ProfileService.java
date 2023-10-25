@@ -38,10 +38,11 @@ public class ProfileService {
 
     @Transactional
     public Optional<ProfileReadDto> updateProfile(Long id, ProfileCreateDto profileCreateDto) {
-        return profileRepository.findById(id)
+        return Optional.ofNullable(profileRepository.findById(id)
                 .map(profile -> {
                     Profile updatedProfile = profileMapper.updateProfile(profileCreateDto, profile);
                     return profileMapper.mapToProfileReadDto(updatedProfile);
-                });
+                })
+                .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found")));
     }
 }
