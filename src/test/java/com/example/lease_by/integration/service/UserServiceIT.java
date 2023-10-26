@@ -8,22 +8,25 @@ import com.example.lease_by.integration.IntegrationTestBase;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @RequiredArgsConstructor
 class UserServiceIT extends IntegrationTestBase {
-    private static final Long USER_ID = 1L;
+    private static final Long EXISTING_USER_ID = 1L;
+    private static final Long NOT_EXISTING_USER_ID = Long.MAX_VALUE;
     private static final Long PROFILE_ID = 1L;
     private final UserService userService;
     private final ProfileService profileService;
 
     @Test
-    void getUserById() {
+    void getUserById_whenUserIdExists_shouldReturnUser() {
         var profile = profileService.getProfileById(PROFILE_ID);
         assertThat(profile).isPresent();
 
@@ -35,9 +38,16 @@ class UserServiceIT extends IntegrationTestBase {
                 .role(Role.ADMIN)
                 .build();
 
-        Optional<UserReadDto> actualResult = userService.getUserById(USER_ID);
+        Optional<UserReadDto> actualResult = userService.getUserById(EXISTING_USER_ID);
         assertThat(actualResult).isPresent();
         assertThat(actualResult.get()).isEqualTo(user);
+    }
+
+    @Test
+    void getUserById_whenUserIdDoesNotExist_shouldThrowEntityNotFoundException() {
+        assertThatThrownBy(() -> userService.getUserById(NOT_EXISTING_USER_ID))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining("User with id: " + NOT_EXISTING_USER_ID + " not found!");
     }
 
     @Test

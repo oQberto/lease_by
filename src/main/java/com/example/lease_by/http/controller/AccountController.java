@@ -95,4 +95,6 @@ public class AccountController {
                 .map(it -> "redirect:/accounts/profile/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    //TODO: create separate tab to the user's rentals
 }

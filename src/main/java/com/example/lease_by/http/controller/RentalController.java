@@ -39,4 +39,10 @@ public class RentalController {
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+
+
+
+
+    //TODO: create separate tab to the user's rentals
 }

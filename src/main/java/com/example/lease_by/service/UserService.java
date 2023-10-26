@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
                         user.getPassword(),
                         Collections.singleton(user.getRole())
                 ))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User with username: " + username + " not found"));
     }
 
     public Optional<UserReadDto> getUserByEmail(String email) {
