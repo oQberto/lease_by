@@ -3,10 +3,7 @@ package com.example.lease_by.mapper;
 import com.example.lease_by.dto.*;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.*;
-import com.example.lease_by.model.entity.enums.Furnished;
-import com.example.lease_by.model.entity.enums.ParkingType;
-import com.example.lease_by.model.entity.enums.PropertyType;
-import com.example.lease_by.model.entity.enums.Status;
+import com.example.lease_by.model.entity.enums.*;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
@@ -58,13 +55,13 @@ class RentalMapperTest {
                                 .zipCode("220055")
                                 .build())
                         .build())
-                .about(About.builder()
+                .about(RentalDetails.builder()
                         .id(1L)
                         .propertyType(PropertyType.HOUSE)
                         .parkingType(ParkingType.STREET)
                         .furnished(Furnished.NO_FURNITURE)
-                        .leaseTerm(LocalDate.now())
-                        .shortTerm(LocalDate.now())
+                        .leaseTerm(LeaseTerm.MONTHLY)
+                        .shortTerm(true)
                         .yearBuilt(LocalDate.now())
                         .build())
                 .build();
@@ -94,13 +91,13 @@ class RentalMapperTest {
                                 .zipCode("220055")
                                 .build())
                         .build())
-                .aboutDto(AboutDto.builder()
+                .aboutDto(RentalDetailsDto.builder()
                         .id(1L)
                         .propertyType(PropertyType.HOUSE)
                         .parkingType(ParkingType.STREET)
                         .furnished(Furnished.NO_FURNITURE)
-                        .leaseTerm(LocalDate.now())
-                        .shortTerm(LocalDate.now())
+                        .leaseTerm(LeaseTerm.MONTHLY)
+                        .shortTerm(true)
                         .yearBuilt(LocalDate.now())
                         .build())
                 .build();

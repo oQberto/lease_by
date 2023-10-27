@@ -65,15 +65,16 @@ CREATE TABLE image
 );
 
 --changeset alexermakov:8
-CREATE TABLE IF NOT EXISTS about
+CREATE TABLE IF NOT EXISTS rental_details
 (
     id            BIGSERIAL PRIMARY KEY,
     rental_id     BIGINT NOT NULL UNIQUE REFERENCES rental (id),
     property_type VARCHAR(128),
     parking_type  VARCHAR(128),
     furnished     VARCHAR(128),
-    lease_term    DATE   NOT NULL,
-    short_term    DATE,
+    lease_term    VARCHAR(128),
+    short_term    BOOLEAN,
+    pet_friendly  BOOLEAN,
     year_built    DATE
 );
 
@@ -91,4 +92,20 @@ CREATE TABLE IF NOT EXISTS feature
     rental_id BIGINT REFERENCES rental (id),
     name      VARCHAR(128),
     PRIMARY KEY (rental_id, name)
+);
+
+--changeset alexermakov:11
+CREATE TABLE IF NOT EXISTS utility
+(
+    rental_details_id BIGINT REFERENCES rental_details (id),
+    name              VARCHAR(256),
+    PRIMARY KEY (rental_details_id, name)
+);
+
+--changeset alexermakov:12
+CREATE TABLE IF NOT EXISTS category
+(
+    rental_details_id BIGINT REFERENCES rental_details (id),
+    name              VARCHAR(256),
+    PRIMARY KEY (rental_details_id, name)
 );
