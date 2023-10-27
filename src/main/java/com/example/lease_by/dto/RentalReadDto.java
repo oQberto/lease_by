@@ -19,7 +19,7 @@ public class RentalReadDto {
     UserReadDto userReadDto;
     AddressDto addressDto;
     Status status;
-    AboutDto aboutDto;
+    RentalDetailsDto aboutDto;
 
     @Builder.Default
     Set<Image> images = new HashSet<>();

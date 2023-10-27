@@ -50,7 +50,7 @@ public class Rental {
     private Set<Image> images = new HashSet<>();
 
     @OneToOne(mappedBy = "rental", fetch = LAZY)
-    private About about;
+    private RentalDetails about;
 
     @Builder.Default
     @ElementCollection

@@ -1,13 +1,14 @@
 package com.example.lease_by.model.entity;
 
-import com.example.lease_by.model.entity.enums.Furnished;
-import com.example.lease_by.model.entity.enums.ParkingType;
-import com.example.lease_by.model.entity.enums.PropertyType;
+import com.example.lease_by.model.entity.enums.*;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -18,7 +19,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @ToString(exclude = "rental")
 @EqualsAndHashCode(exclude = "rental")
 @Entity
-public class About {
+@Table(name = "rental_details")
+public class RentalDetails {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -37,10 +39,14 @@ public class About {
     private Furnished furnished;
 
     @Column(name = "lease_term")
-    private LocalDate leaseTerm;
+    @Enumerated(STRING)
+    private LeaseTerm leaseTerm;
 
     @Column(name = "short_term")
-    private LocalDate shortTerm;
+    private Boolean shortTerm;
+
+    @Column(name = "pet_friendly")
+    private Boolean petFriendly;
 
     @Column(name = "year_built")
     private LocalDate yearBuilt;
@@ -48,4 +54,24 @@ public class About {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "rental_id")
     private Rental rental;
+
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(
+            name = "category",
+            joinColumns = @JoinColumn(name = "rental_details_id")
+    )
+    @Column(name = "name")
+    @Enumerated(STRING)
+    private Set<Category> categories = new HashSet<>();
+
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(
+            name = "utility",
+            joinColumns = @JoinColumn(name = "rental_details_id")
+    )
+    @Column(name = "name")
+    @Enumerated(STRING)
+    private Set<Utility> utilities = new HashSet<>();
 }

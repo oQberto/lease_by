@@ -1,7 +1,7 @@
 package com.example.lease_by.mapper;
 
-import com.example.lease_by.dto.AboutDto;
-import com.example.lease_by.model.entity.About;
+import com.example.lease_by.dto.RentalDetailsDto;
+import com.example.lease_by.model.entity.RentalDetails;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 @Component
 public interface AboutMapper {
 
-    AboutDto mapToAboutDto(About entity);
+    RentalDetailsDto mapToAboutDto(RentalDetails entity);
 
-    About mapToAbout(AboutDto dto);
+    RentalDetails mapToAbout(RentalDetailsDto dto);
 }
