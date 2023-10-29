@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post a rental</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/post-rental}" method="post">
+        <div id="group_1">
+            <div th:each="propertyType: ${propertyTypes}">
+                <label th:for="${propertyType}">
+                    <input th:id="${propertyType}" type="radio" name="propertyType" th:value="${propertyType}"
+                           th:text="${propertyType}">
+                </label>
+            </div>
+            <label for="address">Address:
+                <input id="address" type="text" name="address">
+            </label>
+            <label for="houseNo">House number:
+                <input id="houseNo" type="text" name="houseNo">
+            </label>
+        </div>
+        <br><br>
+
+        <div id="group_2">
+            <h2>Rental details</h2>
+            <hr>
+            <h3>Utilities</h3>
+            <div th:each="utility: ${utilities}">
+                <label th:for="${utility}">
+                    <input th:id="${utility}" type="checkbox" name="utility" th:value="${utility}"
+                           th:text="${utility}">
+                </label>
+            </div>
+            <hr>
+            <h3>Category</h3>
+            <div th:each="category: ${categories}">
+                <label th:for="${category}">
+                    <input th:id="${category}" type="checkbox" name="category" th:value="${category}"
+                           th:text="${category}">
+                </label>
+            </div>
+            <hr>
+            <h3>Furnished</h3>
+            <div th:each="furniture: ${furnished}">
+                <label th:for="${furniture}">
+                    <input th:id="${furniture}" type="radio" name="furniture" th:value="${furniture}"
+                           th:text="${furniture}">
+                </label>
+            </div>
+            <hr>
+            <div>
+                <label for="yearBuilt">Year built:
+                    <input id="yearBuilt" type="date" name="yearBuilt">
+                </label>
+            </div>
+            <hr>
+            <div>
+                <h3>Pet friendly</h3>
+                <label for="petFriendlyTrue">
+                    <input id="petFriendlyTrue" type="radio" name="petFriendly" value="true">Yes
+                </label>
+                <label for="petFriendlyFalse">
+                    <input id="petFriendlyFalse" type="radio" name="petFriendly" value="false">No
+                </label>
+            </div>
+            <hr>
+            <div>
+                <h3>Short term</h3>
+                <label for="shortTermTrue">
+                    <input id="shortTermTrue" type="radio" name="shortTerm" value="true">Yes
+                </label>
+                <label for="shortTermFalse">
+                    <input id="shortTermFalse" type="radio" name="shortTerm" value="false">No
+                </label>
+            </div>
+            <hr>
+            <h3>Lease term</h3>
+            <div th:each="leaseTerm: ${leaseTerms}">
+                <label th:for="${leaseTerm}">
+                    <input th:id="${leaseTerm}" type="radio" name="leaseTerm" th:value="${leaseTerm}"
+                           th:text="${leaseTerm}">
+                </label>
+            </div>
+            <hr>
+            <h3>Parking type</h3>
+            <div th:each="parkingType: ${parkingTypes}">
+                <label th:for="${parkingType}">
+                    <input th:id="${parkingType}" type="radio" name="parkingType" th:value="${parkingType}"
+                           th:text="${parkingType}">
+                </label>
+            </div>
+        </div>
+        <hr>
+        <br><br>
+
+        <div id="group_3">
+            <h2>Additional information</h2>
+            <hr>
+            <div>
+                <label for="price">Price:
+                    <input id="price" type="text" name="price">
+                </label>
+            </div>
+            <hr>
+            <label for="photos">Add photos:
+                <input id="photos" type="file" multiple="multiple" name="photos">
+            </label>
+        </div>
+        <hr>
+        <div>
+            <label for="description">Description:
+                <input id="description" type="text" name="description">
+            </label>
+        </div>
+        <hr>
+        <h3>Features</h3>
+        <div th:each="feature: ${features}">
+            <label th:for="${feature}">
+                <input th:id="${feature}" type="checkbox" name="leaseTerm" th:value="${feature}"
+                       th:text="${feature}">
+            </label>
+        </div>
+        <hr>
+        <h3>Amenities</h3>
+        <div th:each="amenity: ${amenities}">
+            <label th:for="${amenity}">
+                <input th:id="${amenity}" type="checkbox" name="leaseTerm" th:value="${amenity}"
+                       th:text="${amenity}">
+            </label>
+        </div>
+        <button type="submit">Post</button>
+    </form>
+</div>
+</body>
+</html>
