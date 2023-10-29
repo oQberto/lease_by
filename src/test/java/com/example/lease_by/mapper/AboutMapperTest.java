@@ -17,18 +17,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @MapperTest
 @RequiredArgsConstructor
 class AboutMapperTest {
-    private final AboutMapper aboutMapper;
+    private final RentalDetailsMapper aboutMapper;
 
     @Test
     void mapToAboutDto() {
-        RentalDetailsDto actualResult = aboutMapper.mapToAboutDto(getAbout());
+        RentalDetailsDto actualResult = aboutMapper.mapToRentalDetailsDto(getAbout());
 
         assertThat(actualResult).isEqualTo(getAboutDto());
     }
 
     @Test
     void mapToAbout() {
-        RentalDetails actualResult = aboutMapper.mapToAbout(getAboutDto());
+        RentalDetails actualResult = aboutMapper.mapToRentalDetails(getAboutDto());
 
         assertThat(actualResult).isEqualTo(getAbout());
     }

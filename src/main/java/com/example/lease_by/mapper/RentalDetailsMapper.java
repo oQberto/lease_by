@@ -1,5 +1,6 @@
 package com.example.lease_by.mapper;
 
+import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalDetailsDto;
 import com.example.lease_by.model.entity.RentalDetails;
 import org.mapstruct.Mapper;
@@ -9,9 +10,11 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
 @Mapper(componentModel = SPRING)
 @Component
-public interface AboutMapper {
+public interface RentalDetailsMapper {
 
-    RentalDetailsDto mapToAboutDto(RentalDetails entity);
+    RentalDetailsDto mapToRentalDetailsDto(RentalDetails entity);
 
-    RentalDetails mapToAbout(RentalDetailsDto dto);
+    RentalDetails mapToRentalDetails(RentalDetailsDto dto);
+
+    RentalDetails mapToRentalDetails(RentalCreateEditDto dto);
 }

@@ -74,4 +74,9 @@ public class RentalDetails {
     @Column(name = "name")
     @Enumerated(STRING)
     private Set<Utility> utilities = new HashSet<>();
+
+    public void setRental(Rental rental) {
+        rental.setRentalDetails(this);
+        this.rental = rental;
+    }
 }
