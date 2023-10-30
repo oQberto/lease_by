@@ -1,6 +1,6 @@
 package com.example.lease_by.config;
 
-import com.example.lease_by.service.UserService;
+import com.example.lease_by.service.SecurityUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ import java.util.Set;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    private final UserService userService;
+    private final SecurityUserService securityUserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -54,7 +54,7 @@ public class SecurityConfiguration {
     private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
         return userRequest -> {
             String email = userRequest.getIdToken().getClaim("email");
-            UserDetails userDetails = userService.loadUserByUsername(email);
+            UserDetails userDetails = securityUserService.loadUserByUsername(email);
             DefaultOidcUser defaultOidcUser = new DefaultOidcUser(userDetails.getAuthorities(), userRequest.getIdToken());
             Set<Method> methods = Set.of(UserDetails.class.getMethods());
 
