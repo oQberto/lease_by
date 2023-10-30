@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-    Optional<Address> findAddressBy(Integer houseNo, String cityName, String streetName);
+    Optional<Address> findAddressByHouseNoAndCity_NameAndStreet_Name(Integer houseNo, String cityName, String streetName);
 }

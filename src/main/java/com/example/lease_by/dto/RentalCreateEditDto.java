@@ -18,7 +18,7 @@ public class RentalCreateEditDto {
 
     PropertyType propertyType; // rentalDetails
     String address; //address
-    String houseNo; //address
+    Integer houseNo; //address
 
     LocalDate yearBuilt; // rentalDetails
     Boolean petFriendly; // rentalDetails
