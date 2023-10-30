@@ -1,8 +1,18 @@
 package com.example.lease_by.service;
 
+import com.example.lease_by.dto.AddressDto;
+import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
+import com.example.lease_by.mapper.AddressMapper;
+import com.example.lease_by.mapper.RentalDetailsMapper;
 import com.example.lease_by.mapper.RentalMapper;
+import com.example.lease_by.mapper.UserMapper;
+import com.example.lease_by.model.entity.Rental;
+import com.example.lease_by.model.entity.RentalDetails;
+import com.example.lease_by.model.entity.enums.Status;
+import com.example.lease_by.model.repository.RentalDetailsRepository;
 import com.example.lease_by.model.repository.RentalRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +25,15 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class RentalService {
     private final RentalRepository rentalRepository;
+    private final RentalDetailsRepository rentalDetailsRepository;
+
+    private final UserService userService;
+    private final AddressService addressService;
+
+    private final UserMapper userMapper;
     private final RentalMapper rentalMapper;
+    private final AddressMapper addressMapper;
+    private final RentalDetailsMapper rentalDetailsMapper;
 
     public List<RentalReadDto> getAllRentalsByCityName(String cityNme) {
         return rentalRepository.findAllByAddress_CityName(cityNme).stream()
@@ -26,5 +44,34 @@ public class RentalService {
     public Optional<RentalReadDto> getRentalById(Long id) {
         return rentalRepository.findRentalById(id)
                 .map(rentalMapper::mapToRentalReadDto);
+    }
+
+    @Transactional
+    public Optional<RentalReadDto> createRental(RentalCreateEditDto dto, String userEmail) {
+        Rental rental = rentalMapper.mapToRental(dto);
+        Optional<AddressDto> addressDto = Optional.empty();
+
+        try {
+            //TODO: add method in mapper that will be map address from RentalCreateEditDto
+            addressDto = addressService.getAddressBy(
+                    dto.getHouseNo(),
+                    dto.getAddress().split(", ")[1],
+                    dto.getAddress().split(", ")[0]);
+        } catch (EntityNotFoundException e) {
+            addressDto = addressService.createAddress(dto);
+        } finally {
+            rental.setUser(userMapper.mapToUser(
+                    userService.getUserByEmail(userEmail).get()));
+
+            rental.setAddress(addressMapper.mapToAddress(addressDto.get()));
+            rental.setStatus(Status.NO_INFO);
+            rentalRepository.saveAndFlush(rental);
+
+            RentalDetails rentalDetails = rentalDetailsMapper.mapToRentalDetails(dto);
+            rentalDetails.setRental(rental);
+            rentalDetailsRepository.saveAndFlush(rentalDetails);
+        }
+
+        return Optional.of(rentalMapper.mapToRentalReadDto(rental));
     }
 }

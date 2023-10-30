@@ -1,6 +1,7 @@
 package com.example.lease_by.http.controller;
 
 import com.example.lease_by.dto.RentalReadDto;
+import com.example.lease_by.model.entity.enums.*;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,11 +22,20 @@ import java.util.List;
 public class RentalController {
     private final RentalService rentalService;
 
-    @GetMapping("/post")
+    @GetMapping("/post-rental")
     public String postRental(Model model,
                              @ModelAttribute("rental") RentalReadDto rentalReadDto) {
-
-        return "rental/post";
+        model.addAllAttributes(Map.of(
+                "propertyTypes", List.of(PropertyType.values()),
+                "utilities", List.of(Utility.values()),
+                "categories", List.of(Category.values()),
+                "leaseTerms", List.of(LeaseTerm.values()),
+                "parkingTypes", List.of(ParkingType.values()),
+                "furnished", List.of(Furnished.values()),
+                "features", List.of(Feature.values()),
+                "amenities", List.of(Amenities.values())
+        ));
+        return "rental/postRental";
     }
 
     @GetMapping("/{cityName}")
