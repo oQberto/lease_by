@@ -29,7 +29,8 @@ public class AddressService {
     public Optional<AddressDto> getAddressBy(Integer houseNo, String cityName, String streetName) {
         return Optional.ofNullable(
                 addressMapper.mapToAddressDto(addressRepository
-                        .findAddressBy(houseNo, cityName, streetName)
+                        .findAddressByHouseNoAndCity_NameAndStreet_Name(
+                                houseNo, cityName, streetName)
                         .orElseThrow(() ->
                                 new EntityNotFoundException(
                                         "Address with houseNo: " + houseNo + ", city name: "
