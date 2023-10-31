@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    <form th:action="@{/post-rental}" method="post">
+    <form th:action="@{/rentals/post-rental}" method="post">
         <div id="group_1">
             <div th:each="propertyType: ${propertyTypes}">
                 <label th:for="${propertyType}">
@@ -29,7 +29,7 @@
             <h3>Utilities</h3>
             <div th:each="utility: ${utilities}">
                 <label th:for="${utility}">
-                    <input th:id="${utility}" type="checkbox" name="utility" th:value="${utility}"
+                    <input th:id="${utility}" type="checkbox" name="utilities" th:value="${utility}"
                            th:text="${utility}">
                 </label>
             </div>
@@ -37,7 +37,7 @@
             <h3>Category</h3>
             <div th:each="category: ${categories}">
                 <label th:for="${category}">
-                    <input th:id="${category}" type="checkbox" name="category" th:value="${category}"
+                    <input th:id="${category}" type="checkbox" name="categories" th:value="${category}"
                            th:text="${category}">
                 </label>
             </div>
@@ -45,7 +45,7 @@
             <h3>Furnished</h3>
             <div th:each="furniture: ${furnished}">
                 <label th:for="${furniture}">
-                    <input th:id="${furniture}" type="radio" name="furniture" th:value="${furniture}"
+                    <input th:id="${furniture}" type="radio" name="furnished" th:value="${furniture}"
                            th:text="${furniture}">
                 </label>
             </div>
@@ -104,9 +104,9 @@
                 </label>
             </div>
             <hr>
-            <label for="photos">Add photos:
-                <input id="photos" type="file" multiple="multiple" name="photos">
-            </label>
+<!--            <label for="photos">Add photos:-->
+<!--                <input id="photos" type="file" multiple="multiple" name="images">-->
+<!--            </label>-->
         </div>
         <hr>
         <div>
@@ -118,7 +118,7 @@
         <h3>Features</h3>
         <div th:each="feature: ${features}">
             <label th:for="${feature}">
-                <input th:id="${feature}" type="checkbox" name="leaseTerm" th:value="${feature}"
+                <input th:id="${feature}" type="checkbox" name="features" th:value="${feature}"
                        th:text="${feature}">
             </label>
         </div>
@@ -126,7 +126,7 @@
         <h3>Amenities</h3>
         <div th:each="amenity: ${amenities}">
             <label th:for="${amenity}">
-                <input th:id="${amenity}" type="checkbox" name="leaseTerm" th:value="${amenity}"
+                <input th:id="${amenity}" type="checkbox" name="amenities" th:value="${amenity}"
                        th:text="${amenity}">
             </label>
         </div>

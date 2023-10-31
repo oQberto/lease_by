@@ -1,4 +1,4 @@
-package com.example.lease_by.http.handler;
+package com.example.lease_by.api.handler;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
-@ControllerAdvice(basePackages = "com.example.lease_by.http.controller")
+@ControllerAdvice(basePackages = "com.example.lease_by.api.controller")
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)

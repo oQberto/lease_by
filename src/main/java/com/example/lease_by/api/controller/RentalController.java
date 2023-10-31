@@ -1,17 +1,20 @@
-package com.example.lease_by.http.controller;
+package com.example.lease_by.api.controller;
 
+import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
 import com.example.lease_by.model.entity.enums.*;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +27,7 @@ public class RentalController {
 
     @GetMapping("/post-rental")
     public String postRental(Model model,
-                             @ModelAttribute("rental") RentalReadDto rentalReadDto) {
+                             @ModelAttribute("rental") RentalCreateEditDto rentalCreateEditDto) {
         model.addAllAttributes(Map.of(
                 "propertyTypes", List.of(PropertyType.values()),
                 "utilities", List.of(Utility.values()),
@@ -36,6 +39,21 @@ public class RentalController {
                 "amenities", List.of(Amenities.values())
         ));
         return "rental/postRental";
+    }
+
+    @PostMapping("/post-rental")
+    @PreAuthorize("isAuthenticated()")
+    public String createRental(@AuthenticationPrincipal UserDetails userDetails,
+                               @ModelAttribute("rental") RentalCreateEditDto rentalCreateEditDto,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("rental", rentalCreateEditDto);
+            return "redirect:/rentals/post-rental";
+        }
+
+        rentalService.createRental(rentalCreateEditDto, userDetails.getUsername());
+        return "city/cities";
     }
 
     @GetMapping("/{cityName}")

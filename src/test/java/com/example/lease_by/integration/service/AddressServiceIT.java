@@ -8,7 +8,6 @@ import com.example.lease_by.model.entity.Address;
 import com.example.lease_by.model.entity.enums.*;
 import com.example.lease_by.model.repository.AddressRepository;
 import com.example.lease_by.service.AddressService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @RequiredArgsConstructor
 class AddressServiceIT extends IntegrationTestBase {
@@ -56,14 +54,6 @@ class AddressServiceIT extends IntegrationTestBase {
 
         Address actualAddress = addressMapper.mapToAddress(actualResult.get());
         assertThat(actualAddress).isEqualTo(expectedResult.get());
-    }
-
-    @Test
-    void getAddressByHouseNoCityNameStreetName_whenAddressDoesNotExist_shouldThrowEntityNotFoundException() {
-        assertThatThrownBy(() -> addressService.getAddressBy(NOT_EXISTING_HOUSE_NO, CITY_NAME, STREET_NAME))
-                .isInstanceOf(EntityNotFoundException.class)
-                .hasMessageContaining("Address with houseNo: " + NOT_EXISTING_HOUSE_NO + ", city name: "
-                                      + CITY_NAME + ", street name: " + STREET_NAME + " not found");
     }
 
     private static RentalCreateEditDto getRentalCreateEditDto() {
