@@ -14,9 +14,13 @@ import com.example.lease_by.model.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ public class RentalService {
     private final RentalDetailsRepository rentalDetailsRepository;
 
     private final UserService userService;
+    private final ImageService imageService;
     private final AddressService addressService;
 
     private final UserMapper userMapper;
@@ -48,6 +53,7 @@ public class RentalService {
     public Optional<RentalReadDto> createRental(RentalCreateEditDto dto, String userEmail) {
         return Optional.ofNullable(rentalMapper.mapToRental(dto))
                 .map(rental -> {
+                    uploadImage(dto.getImages());
                     rental.setUser(userMapper.mapToUser(
                             userService.getUserByEmail(userEmail).get()));
                     rental.setAddress(addressMapper.mapToAddress(
@@ -58,6 +64,18 @@ public class RentalService {
                     createRentalDetails(dto, rental);
                     return rental;
                 }).map(rentalMapper::mapToRentalReadDto);
+    }
+
+    private void uploadImage(Set<MultipartFile> images) {
+        images.stream()
+                .filter(Predicate.not(MultipartFile::isEmpty))
+                .forEach(image -> {
+                    try {
+                        imageService.upload(image.getOriginalFilename(), image.getInputStream());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     private void createRentalDetails(RentalCreateEditDto dto, Rental rental) {

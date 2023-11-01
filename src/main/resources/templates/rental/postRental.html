@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    <form th:action="@{/rentals/post-rental}" method="post">
+    <form th:action="@{/rentals/post-rental}" enctype="multipart/form-data" method="post">
         <div id="group_1">
             <div th:each="propertyType: ${propertyTypes}">
                 <label th:for="${propertyType}">
@@ -104,9 +104,9 @@
                 </label>
             </div>
             <hr>
-<!--            <label for="photos">Add photos:-->
-<!--                <input id="photos" type="file" multiple="multiple" name="images">-->
-<!--            </label>-->
+            <label for="photos">Add photos:
+                <input id="photos" type="file" multiple="multiple" name="images">
+            </label>
         </div>
         <hr>
         <div>

@@ -1,10 +1,10 @@
 package com.example.lease_by.dto;
 
-import com.example.lease_by.model.entity.Image;
 import com.example.lease_by.model.entity.enums.*;
 import lombok.Builder;
 import lombok.Value;
 import lombok.experimental.FieldNameConstants;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,7 +39,7 @@ public class RentalCreateEditDto {
     Set<Category> categories = new HashSet<>(); // rentalDetails
 
     @Builder.Default
-    Set<Image> images = new HashSet<>(); // rental
+    Set<MultipartFile> images = new HashSet<>(); // rental
 
     @Builder.Default
     Set<Feature> features = new HashSet<>(); // rental

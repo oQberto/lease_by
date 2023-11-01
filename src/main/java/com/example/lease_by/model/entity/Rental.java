@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -45,12 +47,18 @@ public class Rental {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "rental")
-    private Set<Image> images = new HashSet<>();
-
     @OneToOne(mappedBy = "rental", fetch = LAZY)
     private RentalDetails rentalDetails;
+
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(
+            name = "image",
+            joinColumns = @JoinColumn(name = "rental_id")
+    )
+    @MapKeyColumn(name = "path")
+    @Column(name = "bucket")
+    private Map<String, String> images = new HashMap<>();
 
     @Builder.Default
     @ElementCollection
