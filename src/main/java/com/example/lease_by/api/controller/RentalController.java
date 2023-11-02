@@ -3,8 +3,10 @@ package com.example.lease_by.api.controller;
 import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
 import com.example.lease_by.model.entity.enums.*;
+import com.example.lease_by.service.ImageService;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +28,13 @@ import java.util.Map;
 @RequestMapping("/rentals")
 public class RentalController {
     private final RentalService rentalService;
+    private final ImageService imageService;
+
+    @ResponseBody
+    @GetMapping("/image/{image}")
+    public Resource getFile(@PathVariable("image") String image) throws IOException, URISyntaxException {
+        return imageService.getImage(image);
+    }
 
     @GetMapping("/post-rental")
     public String postRental(Model model,

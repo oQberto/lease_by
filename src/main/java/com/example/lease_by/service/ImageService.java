@@ -3,11 +3,14 @@ package com.example.lease_by.service;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
@@ -16,7 +19,7 @@ import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 @RequiredArgsConstructor
 public class ImageService {
 
-    @Value("image/rental")
+    @Value("src/main/resources/static/image/rental")
     private final String bucket;
 
     @SneakyThrows
@@ -27,5 +30,12 @@ public class ImageService {
             Files.createDirectories(fullImagePath.getParent());
             Files.write(fullImagePath, content.readAllBytes(), CREATE, TRUNCATE_EXISTING);
         }
+    }
+
+    @SneakyThrows
+    public Resource getImage(String image) {
+        Path path = Paths.get(getClass().getResource("/static/image/rental/" + image).toURI());
+
+        return new ByteArrayResource(Files.readAllBytes(path));
     }
 }
