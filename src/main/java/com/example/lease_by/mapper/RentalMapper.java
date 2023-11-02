@@ -55,7 +55,8 @@ public interface RentalMapper {
                     expression = """
                             java(dto.getImages().stream()
                                          .filter(Predicate.not(MultipartFile::isEmpty))
-                                         .collect(Collectors.toMap(MultipartFile::getOriginalFilename, MultipartFile::getName)))
+                                         .map(MultipartFile::getOriginalFilename)
+                                         .collect(Collectors.toSet()))
                             """)
     })
     Rental mapToRental(RentalCreateEditDto dto);

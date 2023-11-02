@@ -7,9 +7,7 @@ import lombok.Builder;
 import lombok.Value;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Value
@@ -24,7 +22,7 @@ public class RentalReadDto {
     RentalDetailsDto rentalDetailsDto;
 
     @Builder.Default
-    Map<String, String> images = new HashMap<>();
+    Set<String> images = new HashSet<>();
 
     @Builder.Default
     Set<Amenities> amenities = new HashSet<>();

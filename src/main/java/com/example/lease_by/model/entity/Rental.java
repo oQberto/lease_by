@@ -7,9 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -56,9 +54,8 @@ public class Rental {
             name = "image",
             joinColumns = @JoinColumn(name = "rental_id")
     )
-    @MapKeyColumn(name = "path")
-    @Column(name = "bucket")
-    private Map<String, String> images = new HashMap<>();
+    @Column(name = "path")
+    private Set<String> images = new HashSet<>();
 
     @Builder.Default
     @ElementCollection
