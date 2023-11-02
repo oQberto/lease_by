@@ -11,7 +11,6 @@ import com.example.lease_by.model.entity.RentalDetails;
 import com.example.lease_by.model.entity.enums.Status;
 import com.example.lease_by.model.repository.RentalDetailsRepository;
 import com.example.lease_by.model.repository.RentalRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,16 +47,6 @@ public class RentalService {
     public Optional<RentalReadDto> getRentalById(Long id) {
         return rentalRepository.findRentalById(id)
                 .map(rentalMapper::mapToRentalReadDto);
-    }
-
-    public String getImage(String imagePath, Long id) {
-        return rentalRepository.findRentalById(id)
-                .flatMap(rental -> rental
-                        .getImages()
-                        .stream()
-                        .filter(Predicate.isEqual(imagePath))
-                        .findFirst())
-                .orElseThrow(() -> new EntityNotFoundException("Rental with id: " + id + " not found"));
     }
 
     @Transactional
