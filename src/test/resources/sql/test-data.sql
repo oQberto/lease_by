@@ -113,39 +113,39 @@ VALUES (1, 1, 1, 100.0, null),
        (14, 14, 14, 113.0, null);
 SELECT setval('rental_id_seq', (SELECT max(id) FROM rental));
 
-INSERT INTO image (id, rental_id, image_path)
-VALUES (1, 1, 'image1'),
-       (2, 2, 'image2'),
-       (3, 3, 'image3'),
-       (4, 4, 'image4'),
-       (5, 5, 'image5'),
-       (6, 6, 'image6'),
-       (7, 7, 'image7'),
-       (8, 8, 'image8'),
-       (9, 9, 'image9'),
-       (10, 10, 'image10'),
-       (11, 11, 'image11'),
-       (12, 12, 'image12'),
-       (13, 13, 'image13'),
-       (14, 14, 'image14');
-SELECT setval('image_id_seq', (SELECT max(id) FROM image));
+INSERT INTO image (rental_id, path, bucket)
+VALUES (1, 'image1', null),
+       (2, 'image2', null),
+       (3, 'image3', null),
+       (4, 'image4', null),
+       (5, 'image5', null),
+       (6, 'image6', null),
+       (7, 'image7', null),
+       (8, 'image8', null),
+       (9, 'image9', null),
+       (10, 'image10', null),
+       (11, 'image11', null),
+       (12, 'image12', null),
+       (13, 'image13', null),
+       (14, 'image14', null);
+-- SELECT setval('image_id_seq', (SELECT max(id) FROM image));
 
-INSERT INTO about (id, rental_id, property_type, parking_type, furnished, lease_term, short_term, year_built)
-VALUES (1, 1, 'APARTMENT', 'NO_PARKING', 'NO_FURNITURE', '2024-10-08', null, '2015-01-01'),
-       (2, 2, 'HOUSE', 'GARAGE', 'KITCHEN', '2024-10-08', null, '2018-01-01'),
-       (3, 3, 'ROOM', 'DRIVEWAY', 'BEDROOM', '2025-10-08', null, '2012-01-01'),
-       (4, 4, 'CONDO', 'UNDERGROUND', 'ALL', '2024-10-08', null, '2015-01-01'),
-       (5, 5, 'APARTMENT', 'STREET', 'NO_FURNITURE', '2024-10-08', null, '2018-01-01'),
-       (6, 6, 'HOUSE', 'NO_PARKING', 'KITCHEN', '2025-10-08', null, '2015-01-01'),
-       (7, 7, 'ROOM', 'GARAGE', 'ALL', '2024-10-08', null, '2015-01-01'),
-       (8, 8, 'CONDO', 'DRIVEWAY', 'NO_FURNITURE', '2024-10-08', null, '2015-01-01'),
-       (9, 9, 'APARTMENT', 'UNDERGROUND', 'KITCHEN', '2024-10-08', null, '2012-01-01'),
-       (10, 10, 'HOUSE', 'STREET', 'BEDROOM', '2024-10-08', null, '2015-01-01'),
-       (11, 11, 'ROOM', 'NO_PARKING', 'ALL', '2024-10-08', null, '2015-01-01'),
-       (12, 12, 'CONDO', 'GARAGE', 'NO_FURNITURE', '2024-10-08', null, '2012-01-01'),
-       (13, 13, 'APARTMENT', 'DRIVEWAY', 'KITCHEN', '2025-10-08', null, '2015-01-01'),
-       (14, 14, 'HOUSE', 'UNDERGROUND', 'BEDROOM', '2024-10-08', null, '2018-01-01');
-SELECT setval('about_id_seq', (SELECT max(id) FROM about));
+INSERT INTO rental_details (id, rental_id, property_type, parking_type, furnished, year_built, lease_term, short_term, pet_friendly)
+VALUES (1, 1, 'APARTMENT', 'NO_PARKING', 'NO_FURNITURE', '2024-10-08', 'MONTHLY', true, true),
+       (2, 2, 'HOUSE', 'GARAGE', 'KITCHEN', '2024-10-08', 'MONTHLY', true, true),
+       (3, 3, 'ROOM', 'DRIVEWAY', 'BEDROOM', '2025-10-08', 'MONTHLY', true, true),
+       (4, 4, 'CONDO', 'UNDERGROUND', 'ALL', '2024-10-08', 'MONTHLY', true, true),
+       (5, 5, 'APARTMENT', 'STREET', 'NO_FURNITURE', '2024-10-08', 'MONTHLY', true, true),
+       (6, 6, 'HOUSE', 'NO_PARKING', 'KITCHEN', '2025-10-08', 'MONTHLY', true, true),
+       (7, 7, 'ROOM', 'GARAGE', 'ALL', '2024-10-08', 'MONTHLY', true, true),
+       (8, 8, 'CONDO', 'DRIVEWAY', 'NO_FURNITURE', '2024-10-08', 'MONTHLY', true, true),
+       (9, 9, 'APARTMENT', 'UNDERGROUND', 'KITCHEN', '2024-10-08', 'MONTHLY', true, true),
+       (10, 10, 'HOUSE', 'STREET', 'BEDROOM', '2024-10-08', 'MONTHLY', true, true),
+       (11, 11, 'ROOM', 'NO_PARKING', 'ALL', '2024-10-08', 'MONTHLY', true, true),
+       (12, 12, 'CONDO', 'GARAGE', 'NO_FURNITURE', '2024-10-08', 'MONTHLY', true, true),
+       (13, 13, 'APARTMENT', 'DRIVEWAY', 'KITCHEN', '2025-10-08', 'MONTHLY', true, true),
+       (14, 14, 'HOUSE', 'UNDERGROUND', 'BEDROOM', '2024-10-08', 'MONTHLY', true, true);
+SELECT setval('rental_details_id_seq', (SELECT max(id) FROM rental_details));
 
 INSERT INTO amenities (rental_id, name)
 VALUES (1, 'BARS'),
@@ -233,4 +233,34 @@ VALUES (1, 'BIKE_ROOM'),
        (10, 'SECURITY_24H'),
        (11, 'MOVIE_ROOM');
 
+INSERT INTO category(rental_details_id, name)
+VALUES (1, 'STUDENT_HOUSE'),
+       (2, 'CORPORATE_HOUSING'),
+       (3, 'STUDENT_HOUSE'),
+       (4, 'SENIOR_HOUSING'),
+       (5, 'CORPORATE_HOUSING'),
+       (6, 'SENIOR_HOUSING'),
+       (7, 'STUDENT_HOUSE'),
+       (8, 'STUDENT_HOUSE'),
+       (9, 'SUBLET'),
+       (10, 'STUDENT_HOUSE'),
+       (11, 'CORPORATE_HOUSING'),
+       (12, 'SENIOR_HOUSING'),
+       (13, 'STUDENT_HOUSE'),
+       (14, 'CORPORATE_HOUSING');
 
+INSERT INTO utility(rental_details_id, name)
+VALUES (1, 'NOT_INCLUDED'),
+       (2, 'WATER'),
+       (3, 'ELECTRICITY'),
+       (4, 'SATELLITE_TV'),
+       (5, 'ELECTRICITY'),
+       (6, 'WATER'),
+       (7, 'SATELLITE_TV'),
+       (8, 'NOT_INCLUDED'),
+       (9, 'INTERNET'),
+       (10, 'NOT_INCLUDED'),
+       (11, 'SATELLITE_TV'),
+       (12, 'WATER'),
+       (13, 'NOT_INCLUDED'),
+       (14, 'ELECTRICITY');

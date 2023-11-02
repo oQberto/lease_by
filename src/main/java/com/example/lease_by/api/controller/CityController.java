@@ -1,4 +1,4 @@
-package com.example.lease_by.http.controller;
+package com.example.lease_by.api.controller;
 
 import com.example.lease_by.dto.CityReadDto;
 import com.example.lease_by.service.CityService;

@@ -9,6 +9,9 @@
 <div>
     <p th:text="${rental.features}"></p>
     Hi from rental info!
+    <div th:each="imageEntry: ${rental.images}">
+        <img th:src="@{/rentals/image/{image}(image=${imageEntry})}" alt="Image">
+    </div>
 </div>
 </body>
 </html>

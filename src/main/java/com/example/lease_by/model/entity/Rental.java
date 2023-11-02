@@ -18,8 +18,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"about", "user", "address"})
-@EqualsAndHashCode(exclude = {"about", "user", "address"})
+@ToString(exclude = {"rentalDetails", "user", "address"})
+@EqualsAndHashCode(exclude = {"rentalDetails", "user", "address"})
 @Entity
 public class Rental {
 
@@ -45,12 +45,17 @@ public class Rental {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "rental")
-    private Set<Image> images = new HashSet<>();
-
     @OneToOne(mappedBy = "rental", fetch = LAZY)
-    private About about;
+    private RentalDetails rentalDetails;
+
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(
+            name = "image",
+            joinColumns = @JoinColumn(name = "rental_id")
+    )
+    @Column(name = "path")
+    private Set<String> images = new HashSet<>();
 
     @Builder.Default
     @ElementCollection

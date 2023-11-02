@@ -1,6 +1,5 @@
 package com.example.lease_by.dto;
 
-import com.example.lease_by.model.entity.Image;
 import com.example.lease_by.model.entity.enums.Amenities;
 import com.example.lease_by.model.entity.enums.Feature;
 import com.example.lease_by.model.entity.enums.Status;
@@ -19,10 +18,11 @@ public class RentalReadDto {
     UserReadDto userReadDto;
     AddressDto addressDto;
     Status status;
-    AboutDto aboutDto;
+    String description;
+    RentalDetailsDto rentalDetailsDto;
 
     @Builder.Default
-    Set<Image> images = new HashSet<>();
+    Set<String> images = new HashSet<>();
 
     @Builder.Default
     Set<Amenities> amenities = new HashSet<>();
