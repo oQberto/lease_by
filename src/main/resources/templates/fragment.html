@@ -1,18 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Fragments</title>
 </head>
 <body>
-<div th:fragment="header">
-    <div sec:authorize="isAuthenticated()">
-        <span th:text="${#authentication.principal.username}">Anonymous user</span>
-        <form th:action="@{/logout}" method="post">
-            <button type="submit">Logout</button>
-        </form>
+<div class="header" th:fragment="header">
+    <div class="logo_div">
+        <img src="/image/content/logo/logo.webp" alt="Logo">
+        <a href="/cities" class="logo">Lease.by</a>
     </div>
+    <nav class="navbar">
+        <a href="#">About</a>
+        <a th:href="@{/rentals/post-rental}">Post a rental</a>
+        <a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/profile}" th:text="${#authentication.principal.username}"></a>
+        <a sec:authorize="isAuthenticated()" href="javascript: document.logoutForm.submit()" role="menuitem">Logout</a>
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out"/>
+        </form>
+    </nav>
 </div>
 </body>
 </html>

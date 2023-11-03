@@ -34,7 +34,10 @@ public class SecurityConfiguration {
                                 "/accounts/registration",
                                 "/accounts/register",
                                 "/cities",
-                                "/rentals/**").permitAll()
+                                "/rentals/**",
+                                "/css/**",
+                                "/image/**",
+                                "/js/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(formLogin -> formLogin

@@ -1,5 +1,6 @@
 package com.example.lease_by.service;
 
+import com.example.lease_by.dto.security.SecurityCustomUser;
 import com.example.lease_by.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,8 +20,9 @@ public class SecurityUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(username)
-                .map(user -> new org.springframework.security.core.userdetails.User(
+                .map(user -> new SecurityCustomUser(
                         user.getEmail(),
+                        user.getUsername(),
                         user.getPassword(),
                         Collections.singleton(user.getRole())
                 ))
