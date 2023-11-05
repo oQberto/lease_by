@@ -6,11 +6,39 @@
     <link rel="shortcut icon" th:href="@{/image/content/logo/logo-title.webp}" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/city.css}" type="text/css">
 </head>
 <body>
 <div th:insert="~{fragment::header}"></div>
-<div th:each="city: ${cities}">
-    <a th:href="@{/rentals/{cityName}(cityName=${city.name})}" th:text="${city.name}">City</a>
+
+<div class="intro">
+    <h1>It's Time to Move</h1>
+    <h2>Thousands of apartments, houses, and condos for rent across Belarus</h2>
 </div>
+
+<div class="search_box">
+    <input type="text" class="search_txt" placeholder="Search city, neighbourhood or address...">
+    <a href="#" class="search_btn">
+        <img th:src="@{/image/content/icon/search_button.svg}" alt="search">
+    </a>
+</div>
+
+<div class="desc">
+    <h1>Popular Cities</h1>
+    <h2>Find your next apartment for rent anywhere in Belarus</h2>
+</div>
+
+<div class="cities">
+    <div th:each="city: ${cities}">
+        <a th:href="@{/rentals/{cityName}(cityName=${city.name})}">
+            <img th:src="@{/image/content/city/{image}(image=${city.image})}" th:alt="${city.name}">
+            <h3>
+                <span th:text="${city.name}">City</span>
+            </h3>
+        </a>
+    </div>
+</div>
+
+<div th:insert="~{fragment::footer}"></div>
 </body>
 </html>
