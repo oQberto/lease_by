@@ -53,7 +53,7 @@ class AddressMapperTest {
                 .cityReadDto(CityReadDto.builder()
                         .id(1L)
                         .name("Minsk")
-                        .image("minskImage")
+                        .image("minsk.webp")
                         .build())
                 .streetDto(StreetDto.builder()
                         .id(1L)

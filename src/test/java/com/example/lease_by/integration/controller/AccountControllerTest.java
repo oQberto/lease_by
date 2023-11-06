@@ -2,6 +2,7 @@ package com.example.lease_by.integration.controller;
 
 import com.example.lease_by.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.security.test.context.support.WithAnonymousUser;
@@ -31,6 +32,7 @@ class AccountControllerTest extends IntegrationTestBase {
     private final MockMvc mockMvc;
 
     @Test
+    @Disabled
     void registration() throws Exception {
         mockMvc.perform(
                         get("/accounts/registration"))

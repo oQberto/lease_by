@@ -93,7 +93,10 @@ VALUES (1, 1, 1, 1),
        (11, 2, 11, 11),
        (12, 1, 12, 12),
        (13, 2, 13, 13),
-       (14, 3, 14, 14);
+       (14, 3, 14, 14),
+       (15, 1, 1, 10),
+       (16, 1, 1, 11),
+       (17, 1, 1, 12);
 SELECT setval('address_id_seq', (SELECT max(id) FROM address));
 
 INSERT INTO rental (id, user_id, address_id, price, description)
@@ -110,24 +113,27 @@ VALUES (1, 1, 1, 100.0, null),
        (11, 11, 11, 110.0, null),
        (12, 12, 12, 111.0, null),
        (13, 13, 13, 112.0, null),
-       (14, 14, 14, 113.0, null);
+       (14, 14, 14, 113.0, null),
+       (15, 14, 15, 113.0, null),
+       (16, 14, 16, 113.0, null),
+       (17, 14, 17, 113.0, null);
 SELECT setval('rental_id_seq', (SELECT max(id) FROM rental));
 
-INSERT INTO image (rental_id, path, bucket)
-VALUES (1, 'image1', null),
-       (2, 'image2', null),
-       (3, 'image3', null),
-       (4, 'image4', null),
-       (5, 'image5', null),
-       (6, 'image6', null),
-       (7, 'image7', null),
-       (8, 'image8', null),
-       (9, 'image9', null),
-       (10, 'image10', null),
-       (11, 'image11', null),
-       (12, 'image12', null),
-       (13, 'image13', null),
-       (14, 'image14', null);
+INSERT INTO image (rental_id, path)
+VALUES (1, 'image1'),
+       (2, 'image2'),
+       (3, 'image3'),
+       (4, 'image4'),
+       (5, 'image5'),
+       (6, 'image6'),
+       (7, 'image7'),
+       (8, 'image8'),
+       (9, 'image9'),
+       (10, 'image10'),
+       (11, 'image11'),
+       (12, 'image12'),
+       (13, 'image13'),
+       (14, 'image14');
 -- SELECT setval('image_id_seq', (SELECT max(id) FROM image));
 
 INSERT INTO rental_details (id, rental_id, property_type, parking_type, furnished, year_built, lease_term, short_term, pet_friendly)

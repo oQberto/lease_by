@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @MapperTest
 @RequiredArgsConstructor
@@ -29,6 +30,15 @@ class RentalMapperTest {
         Rental actualResult = rentalMapper.mapToRental(getRentalReadDto());
 
         assertThat(actualResult).isEqualTo(getRental());
+    }
+
+    @Test
+    void mapToRentalSearchDto() {
+        RentalSearchDto actualResult = rentalMapper.mapTpRentalSearchDto(getRental());
+        assertAll(() -> {
+            assertThat(actualResult.getId()).isEqualTo(1L);
+            assertThat(actualResult.getAddress()).isEqualTo("street, City");
+        });
     }
 
     private Rental getRental() {
