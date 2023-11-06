@@ -13,7 +13,7 @@ import com.example.lease_by.model.entity.enums.Status;
 import com.example.lease_by.model.repository.RentalDetailsRepository;
 import com.example.lease_by.model.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,10 +51,8 @@ public class RentalService {
                 .map(rentalMapper::mapToRentalReadDto);
     }
 
-    public List<RentalSearchDto> getRentalsBy(String address) {
-        PageRequest pageRequest = PageRequest.of(0, 10);
-
-        return rentalRepository.findRentalsBy(address, pageRequest)
+    public List<RentalSearchDto> getRentalsBy(String address, Pageable pageable) {
+        return rentalRepository.findRentalsBy(address, pageable)
                 .stream()
                 .map(rentalMapper::mapTpRentalSearchDto)
                 .toList();
