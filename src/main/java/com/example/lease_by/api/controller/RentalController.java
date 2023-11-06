@@ -7,6 +7,7 @@ import com.example.lease_by.service.ImageService;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -71,6 +72,15 @@ public class RentalController {
     public String findRentals(Model model,
                               @PathVariable("cityName") String cityName) {
         List<RentalReadDto> rentals = rentalService.getAllRentalsByCityName(cityName);
+        model.addAttribute("rentals", rentals);
+
+        return "rental/rentals";
+    }
+
+    @GetMapping("/address/{address}")
+    public String findRentalsByAddress(Model model,
+                                       @PathVariable("address") String address) {
+        List<RentalReadDto> rentals = rentalService.getRentalsByAddress(address, PageRequest.of(0, 10));
         model.addAttribute("rentals", rentals);
 
         return "rental/rentals";

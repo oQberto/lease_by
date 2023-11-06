@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/city.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/searchBox.css}" type="text/css">
 </head>
 <body>
 <div th:insert="~{fragment::header}"></div>
@@ -16,12 +17,26 @@
     <h2>Thousands of apartments, houses, and condos for rent across Belarus</h2>
 </div>
 
-<div class="search_box">
-    <input type="text" class="search_txt" placeholder="Search city, neighbourhood or address...">
-    <a href="#" class="search_btn">
-        <img th:src="@{/image/content/icon/search_button.svg}" alt="search">
-    </a>
+<div class="wrapper">
+    <div class="search-input">
+        <a href="" target="_blank" hidden></a>
+        <input type="text" placeholder="Type to search..">
+        <div class="autocom-box">
+<!--            here list are inserted from javascript-->
+        </div>
+<!--        <div class="icon"><img th:src="@{/image/content/icon/search_button.svg}" alt="search"><i class="fas fa-search"></i></div>-->
+    </div>
 </div>
+
+<!--<div class="search_box">-->
+<!--    <input type="text" class="search_txt" placeholder="Search city, neighbourhood or address...">-->
+<!--    <a href="#" class="search_btn">-->
+<!--        <img th:src="@{/image/content/icon/search_button.svg}" alt="search">-->
+<!--    </a>-->
+<!--    <div class="autocom-box">-->
+<!--        here list are inserted from javascript-->
+<!--    </div>-->
+<!--</div>-->
 
 <div class="desc">
     <h1>Popular Cities</h1>
@@ -40,5 +55,7 @@
 </div>
 
 <div th:insert="~{fragment::footer}"></div>
+
+<script th:src="@{/js/autoCompleteSearchBox.js}"></script>
 </body>
 </html>

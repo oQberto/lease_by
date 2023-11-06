@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +47,19 @@ public class RentalService {
                 .toList();
     }
 
+    public List<RentalReadDto> getRentalsByAddress(String address, Pageable pageable) {
+        var streetName = address.split(", ")[0];
+        var cityName = address.split(", ")[1];
+
+        return rentalRepository.findRentalsByAddress_CityNameAndAddress_StreetName(
+                cityName,
+                streetName,
+                pageable
+        ).stream()
+                .map(rentalMapper::mapToRentalReadDto)
+                .toList();
+    }
+
     public Optional<RentalReadDto> getRentalById(Long id) {
         return rentalRepository.findRentalById(id)
                 .map(rentalMapper::mapToRentalReadDto);
@@ -55,6 +69,13 @@ public class RentalService {
         return rentalRepository.findRentalsBy(address, pageable)
                 .stream()
                 .map(rentalMapper::mapTpRentalSearchDto)
+                .collect(Collectors.toMap(
+                        RentalSearchDto::getAddress,
+                        rental -> rental,
+                        (existing, replacement) -> existing
+                ))
+                .values()
+                .stream()
                 .toList();
     }
 

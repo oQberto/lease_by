@@ -62,10 +62,20 @@ public interface RentalMapper {
     })
     Rental mapToRental(RentalCreateEditDto dto);
 
-    @Mapping(target = "address",
-            expression = """
+    @Mappings({
+            @Mapping(target = "address",
+                    expression = """
                     java(entity.getAddress().getStreet().getName() + ", "
                             + entity.getAddress().getCity().getName())
+                    """),
+            @Mapping(target = "streetId",
+                    expression = """
+                    java(entity.getAddress().getStreet().getId())
+                    """),
+            @Mapping(target = "cityId",
+            expression = """
+                    java(entity.getAddress().getCity().getId())
                     """)
+    })
     RentalSearchDto mapTpRentalSearchDto(Rental entity);
 }
