@@ -35,6 +35,7 @@ public class SecurityConfiguration {
                                 "/accounts/register",
                                 "/cities",
                                 "/rentals/**",
+                                "/api/v1/**",
                                 "/css/**",
                                 "/image/**",
                                 "/js/**").permitAll()

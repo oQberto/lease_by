@@ -2,6 +2,7 @@ package com.example.lease_by.service;
 
 import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
+import com.example.lease_by.dto.RentalSearchDto;
 import com.example.lease_by.mapper.AddressMapper;
 import com.example.lease_by.mapper.RentalDetailsMapper;
 import com.example.lease_by.mapper.RentalMapper;
@@ -12,6 +13,7 @@ import com.example.lease_by.model.entity.enums.Status;
 import com.example.lease_by.model.repository.RentalDetailsRepository;
 import com.example.lease_by.model.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +49,15 @@ public class RentalService {
     public Optional<RentalReadDto> getRentalById(Long id) {
         return rentalRepository.findRentalById(id)
                 .map(rentalMapper::mapToRentalReadDto);
+    }
+
+    public List<RentalSearchDto> getRentalsBy(String address) {
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
+        return rentalRepository.findRentalsBy(address, pageRequest)
+                .stream()
+                .map(rentalMapper::mapTpRentalSearchDto)
+                .toList();
     }
 
     @Transactional
