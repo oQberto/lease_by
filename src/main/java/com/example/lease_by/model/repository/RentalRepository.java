@@ -13,12 +13,12 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     List<Rental> findAllByAddress_CityName(String cityName);
 
-    Page<Rental> findRentalsByAddress_CityNameAndAddress_StreetName(String cityName, String streetName, Pageable pageable);
-
     Optional<Rental> findRentalById(Long id);
 
+    Page<Rental> findRentalsByAddress_CityNameAndAddress_StreetName(String cityName, String streetName, Pageable pageable);
+
     @Query("""
-            select concat(a.street.name, ', ', a.city.name)
+            select distinct concat(a.street.name, ', ', a.city.name)
             from Rental r
             join r.address a
             where concat(a.street.name, ', ', a.city.name)

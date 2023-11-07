@@ -53,7 +53,7 @@ public class RentalService {
                         address.split(", ")[1],
                         address.split(", ")[0],
                         pageable
-                ).stream()
+                )
                 .map(rentalMapper::mapToRentalReadDto)
                 .toList();
     }
@@ -65,7 +65,8 @@ public class RentalService {
 
     public Set<String> getRentalsBy(String address, Pageable pageable) {
         return rentalRepository.findRentalsBy(address, pageable)
-                .stream().collect(Collectors.toSet());
+                .stream()
+                .collect(Collectors.toSet());
     }
 
     @Transactional
