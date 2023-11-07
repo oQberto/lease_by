@@ -3,6 +3,8 @@ package com.example.lease_by.model.entity;
 import com.example.lease_by.model.entity.enums.*;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -17,10 +19,11 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder
 @ToString(exclude = "rental")
-@EqualsAndHashCode(exclude = "rental")
+@EqualsAndHashCode(exclude = "rental", callSuper = false)
 @Entity
 @Table(name = "rental_details")
-public class RentalDetails {
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+public class RentalDetails extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

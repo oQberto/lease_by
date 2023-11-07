@@ -84,10 +84,10 @@ public class RentalService {
                 .map(rentalMapper::mapToRentalReadDto);
     }
 
-    private void setDependentEntitiesToRental(RentalCreateEditDto dto, String userEmail, Rental rental) {
+    private void setDependentEntitiesToRental(RentalCreateEditDto dto, String username, Rental rental) {
         rental.setUser(userMapper.mapToUser(
-                userService.getUserByEmail(userEmail)
-                        .orElseThrow(() -> new EntityNotFoundException("User with email: " + userEmail + " not found")))
+                userService.getUserByUsername(username)
+                        .orElseThrow(() -> new EntityNotFoundException("User with email: " + username + " not found")))
         );
         rental.setAddress(addressMapper.mapToAddress(
                 addressService.createAddress(dto)

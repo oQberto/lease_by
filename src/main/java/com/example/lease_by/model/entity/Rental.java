@@ -5,6 +5,8 @@ import com.example.lease_by.model.entity.enums.Feature;
 import com.example.lease_by.model.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -18,10 +20,22 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"rentalDetails", "user", "address"})
-@EqualsAndHashCode(exclude = {"rentalDetails", "user", "address"})
+@ToString(
+        exclude = {
+                "rentalDetails",
+                "user",
+                "address"
+        })
+@EqualsAndHashCode(
+        exclude = {
+                "rentalDetails",
+                "user",
+                "address"
+        },
+        callSuper = false)
 @Entity
-public class Rental {
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+public class Rental extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

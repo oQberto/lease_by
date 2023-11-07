@@ -27,6 +27,12 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User with email: " + email + " not found")));
     }
 
+    public Optional<UserReadDto> getUserByUsername(String username) {
+        return Optional.ofNullable(userRepository.findUserByUsername(username)
+                .map(userMapper::mapToUserReadDto)
+                .orElseThrow(() -> new EntityNotFoundException("User with username: " + username + " not found")));
+    }
+
     public Optional<UserReadDto> getUserById(Long id) {
         return Optional.ofNullable(userRepository.findUserById(id)
                 .map(userMapper::mapToUserReadDto)
