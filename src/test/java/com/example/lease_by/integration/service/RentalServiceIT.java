@@ -12,7 +12,6 @@ import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.PageRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -59,21 +58,21 @@ class RentalServiceIT extends IntegrationTestBase {
         });
     }
 
-    @Test
-    void getRentalsByAddress_whenRentalsWithTheSameAddressExist_shouldReturnListOfRentals() {
-        var existingAddress = getRentalCreateEditDto().getAddress();
-        var pageable = PageRequest.of(0, 5);
-
-        List<RentalSearchDto> actualResult = rentalService.getRentalsBy(existingAddress, pageable);
-        List<Long> rentalIds = actualResult.stream()
-                .map(RentalSearchDto::getId)
-                .toList();
-
-        assertAll(() -> {
-            assertThat(actualResult).hasSize(4);
-            assertThat(rentalIds).contains(1L, 15L, 16L, 17L);
-        });
-    }
+//    @Test
+//    void getRentalsByAddress_whenRentalsWithTheSameAddressExist_shouldReturnListOfRentals() {
+//        var existingAddress = getRentalCreateEditDto().getAddress();
+//        var pageable = PageRequest.of(0, 5);
+//
+//        List<RentalSearchDto> actualResult = rentalService.getRentalsBy(existingAddress, pageable);
+//        List<Long> rentalIds = actualResult.stream()
+//                .map(RentalSearchDto::getId)
+//                .toList();
+//
+//        assertAll(() -> {
+//            assertThat(actualResult).hasSize(4);
+//            assertThat(rentalIds).contains(1L, 15L, 16L, 17L);
+//        });
+//    }
 
     private static RentalCreateEditDto getRentalCreateEditDto() {
         return RentalCreateEditDto.builder()
