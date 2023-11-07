@@ -2,7 +2,6 @@ package com.example.lease_by.mapper;
 
 import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
-import com.example.lease_by.dto.RentalSearchDto;
 import com.example.lease_by.model.entity.Rental;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -61,21 +60,4 @@ public interface RentalMapper {
                             """)
     })
     Rental mapToRental(RentalCreateEditDto dto);
-
-    @Mappings({
-            @Mapping(target = "address",
-                    expression = """
-                    java(entity.getAddress().getStreet().getName() + ", "
-                            + entity.getAddress().getCity().getName())
-                    """),
-            @Mapping(target = "streetId",
-                    expression = """
-                    java(entity.getAddress().getStreet().getId())
-                    """),
-            @Mapping(target = "cityId",
-            expression = """
-                    java(entity.getAddress().getCity().getId())
-                    """)
-    })
-    RentalSearchDto mapTpRentalSearchDto(Rental entity);
 }

@@ -13,7 +13,7 @@ inputBox.onkeyup = (e)=>{
             .then(response => response.json())
             .then(data => {
                 if (data && data.length > 0) {
-                    const addresses = data.map(item => item.address);
+                    const addresses = data.map(item => item);
 
                     showSuggestions(addresses);
                 }

@@ -18,11 +18,11 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
     Optional<Rental> findRentalById(Long id);
 
     @Query("""
-            select distinct r
+            select concat(a.street.name, ', ', a.city.name)
             from Rental r
             join r.address a
             where concat(a.street.name, ', ', a.city.name)
                 ilike :address%
             """)
-    Page<Rental> findRentalsBy(String address, Pageable pageable);
+    Page<String> findRentalsBy(String address, Pageable pageable);
 }

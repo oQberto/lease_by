@@ -2,7 +2,6 @@ package com.example.lease_by.service;
 
 import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
-import com.example.lease_by.dto.RentalSearchDto;
 import com.example.lease_by.mapper.AddressMapper;
 import com.example.lease_by.mapper.RentalDetailsMapper;
 import com.example.lease_by.mapper.RentalMapper;
@@ -12,6 +11,8 @@ import com.example.lease_by.model.entity.RentalDetails;
 import com.example.lease_by.model.entity.enums.Status;
 import com.example.lease_by.model.repository.RentalDetailsRepository;
 import com.example.lease_by.model.repository.RentalRepository;
+import com.example.lease_by.service.exception.AddressCreationException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,14 +49,11 @@ public class RentalService {
     }
 
     public List<RentalReadDto> getRentalsByAddress(String address, Pageable pageable) {
-        var streetName = address.split(", ")[0];
-        var cityName = address.split(", ")[1];
-
         return rentalRepository.findRentalsByAddress_CityNameAndAddress_StreetName(
-                cityName,
-                streetName,
-                pageable
-        ).stream()
+                        address.split(", ")[1],
+                        address.split(", ")[0],
+                        pageable
+                ).stream()
                 .map(rentalMapper::mapToRentalReadDto)
                 .toList();
     }
@@ -65,18 +63,9 @@ public class RentalService {
                 .map(rentalMapper::mapToRentalReadDto);
     }
 
-    public List<RentalSearchDto> getRentalsBy(String address, Pageable pageable) {
+    public Set<String> getRentalsBy(String address, Pageable pageable) {
         return rentalRepository.findRentalsBy(address, pageable)
-                .stream()
-                .map(rentalMapper::mapTpRentalSearchDto)
-                .collect(Collectors.toMap(
-                        RentalSearchDto::getAddress,
-                        rental -> rental,
-                        (existing, replacement) -> existing
-                ))
-                .values()
-                .stream()
-                .toList();
+                .stream().collect(Collectors.toSet());
     }
 
     @Transactional
@@ -84,16 +73,26 @@ public class RentalService {
         return Optional.ofNullable(rentalMapper.mapToRental(dto))
                 .map(rental -> {
                     uploadImage(dto.getImages());
-                    rental.setUser(userMapper.mapToUser(
-                            userService.getUserByEmail(userEmail).get()));
-                    rental.setAddress(addressMapper.mapToAddress(
-                            addressService.createAddress(dto).get()));
-                    rental.setStatus(Status.NO_INFO);
+
+                    setDependentEntitiesToRental(dto, userEmail, rental);
 
                     rentalRepository.saveAndFlush(rental);
                     createRentalDetails(dto, rental);
                     return rental;
-                }).map(rentalMapper::mapToRentalReadDto);
+                })
+                .map(rentalMapper::mapToRentalReadDto);
+    }
+
+    private void setDependentEntitiesToRental(RentalCreateEditDto dto, String userEmail, Rental rental) {
+        rental.setUser(userMapper.mapToUser(
+                userService.getUserByEmail(userEmail)
+                        .orElseThrow(() -> new EntityNotFoundException("User with email: " + userEmail + " not found")))
+        );
+        rental.setAddress(addressMapper.mapToAddress(
+                addressService.createAddress(dto)
+                        .orElseThrow(() -> new AddressCreationException("Address hasn't created: " + dto.toString())))
+        );
+        rental.setStatus(Status.NO_INFO);
     }
 
     private void uploadImage(Set<MultipartFile> images) {
