@@ -93,7 +93,7 @@ public class RentalService {
                 addressService.createAddress(dto)
                         .orElseThrow(() -> new AddressCreationException("Address hasn't created: " + dto.toString())))
         );
-        rental.setStatus(Status.NO_INFO);
+        rental.setStatus(Status.PENDING_CONFIRMATION);
     }
 
     private void uploadImage(Set<MultipartFile> images) {
