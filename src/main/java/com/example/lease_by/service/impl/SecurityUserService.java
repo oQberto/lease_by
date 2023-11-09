@@ -1,4 +1,4 @@
-package com.example.lease_by.service;
+package com.example.lease_by.service.impl;
 
 import com.example.lease_by.dto.security.SecurityCustomUser;
 import com.example.lease_by.model.repository.UserRepository;

@@ -1,6 +1,6 @@
 package com.example.lease_by.config;
 
-import com.example.lease_by.service.SecurityUserService;
+import com.example.lease_by.service.impl.SecurityUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.example.lease_by.api.rest;
 
-import com.example.lease_by.service.RentalService;
+import com.example.lease_by.service.impl.RentalServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/rentals")
 public class RentalRestController {
-    private final RentalService rentalService;
+    private final RentalServiceImpl rentalService;
 
     @GetMapping("/{address}")
     @ResponseBody

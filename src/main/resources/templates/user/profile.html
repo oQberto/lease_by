@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <link rel="shortcut icon" th:href="@{/image/content/logo/logo-title.webp}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
 </head>
 <body>
+<div th:insert="~{fragment::header}"></div>
 
+<div class="manage-bar">
+    <ul class="menu-bar">
+        <li>
+            <a href="#">
+                <img th:src="@{/image/content/menuBar/city-building.webp}" alt="listings">
+                <span>Listings</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img th:src="@{/image/content/menuBar/draft.webp}" alt="drafts">
+                <span>Listings</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img th:src="@{/image/content/menuBar/user-profile.webp}" alt="userProfile">
+                <span>Listings</span>
+            </a>
+        </li>
+    </ul>
+    <div class="info">
+
+    </div>
+</div>
+
+<div th:insert="~{fragment::footer}"></div>
 </body>
 </html>
