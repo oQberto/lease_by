@@ -23,22 +23,25 @@ import java.util.Set;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+    private static final String[] URL_WHITE_LIST = {
+            "/login",
+            "/accounts/registration",
+            "/accounts/register",
+            "/cities",
+            "/rentals/**",
+            "/api/v1/**",
+            "/css/**",
+            "/image/**",
+            "/js/**"
+    };
     private final SecurityUserService securityUserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/login",
-                                "/accounts/registration",
-                                "/accounts/register",
-                                "/cities",
-                                "/rentals/**",
-                                "/api/v1/**",
-                                "/css/**",
-                                "/image/**",
-                                "/js/**").permitAll()
+                        .requestMatchers(URL_WHITE_LIST)
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(formLogin -> formLogin
