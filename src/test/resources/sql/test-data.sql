@@ -99,24 +99,24 @@ VALUES (1, 1, 1, 1),
        (17, 1, 1, 12);
 SELECT setval('address_id_seq', (SELECT max(id) FROM address));
 
-INSERT INTO rental (id, user_id, address_id, price, description)
-VALUES (1, 1, 1, 100.0, null),
-       (2, 2, 2, 101.0, null),
-       (3, 3, 3, 102.0, null),
-       (4, 4, 4, 103.0, null),
-       (5, 5, 5, 104.0, null),
-       (6, 6, 6, 105.0, null),
-       (7, 7, 7, 106.0, null),
-       (8, 8, 8, 107.0, null),
-       (9, 9, 9, 108.0, null),
-       (10, 10, 10, 109.0, null),
-       (11, 11, 11, 110.0, null),
-       (12, 12, 12, 111.0, null),
-       (13, 13, 13, 112.0, null),
-       (14, 14, 14, 113.0, null),
-       (15, 14, 15, 113.0, null),
-       (16, 14, 16, 113.0, null),
-       (17, 14, 17, 113.0, null);
+INSERT INTO rental (id, user_id, address_id, price, description, status)
+VALUES (1, 1, 1, 100.0, null, 'DRAFT'),
+       (2, 2, 2, 101.0, null, 'BLOCKED'),
+       (3, 3, 3, 102.0, null, 'ACTIVE'),
+       (4, 4, 4, 103.0, null, 'ACTIVE'),
+       (5, 5, 5, 104.0, null, 'PENDING_CONFIRMATION'),
+       (6, 6, 6, 105.0, null, 'ACTIVE'),
+       (7, 7, 7, 106.0, null, 'ACTIVE'),
+       (8, 8, 8, 107.0, null, 'BLOCKED'),
+       (9, 9, 9, 108.0, null, 'ACTIVE'),
+       (10, 10, 10, 109.0, null, 'PENDING_CONFIRMATION'),
+       (11, 11, 11, 110.0, null, 'NO_INFO'),
+       (12, 12, 12, 111.0, null, 'ACTIVE'),
+       (13, 13, 13, 112.0, null, 'BOOKED'),
+       (14, 14, 14, 113.0, null, 'NO_INFO'),
+       (15, 14, 15, 113.0, null, 'PENDING_CONFIRMATION'),
+       (16, 14, 16, 113.0, null, 'ACTIVE'),
+       (17, 14, 17, 113.0, null, 'DELETED');
 SELECT setval('rental_id_seq', (SELECT max(id) FROM rental));
 
 INSERT INTO image (rental_id, path)
@@ -240,19 +240,19 @@ VALUES (1, 'BIKE_ROOM'),
        (11, 'MOVIE_ROOM');
 
 INSERT INTO category(rental_details_id, name)
-VALUES (1, 'STUDENT_HOUSE'),
+VALUES (1, 'STUDENT_HOUSING'),
        (2, 'CORPORATE_HOUSING'),
-       (3, 'STUDENT_HOUSE'),
+       (3, 'STUDENT_HOUSING'),
        (4, 'SENIOR_HOUSING'),
        (5, 'CORPORATE_HOUSING'),
        (6, 'SENIOR_HOUSING'),
-       (7, 'STUDENT_HOUSE'),
-       (8, 'STUDENT_HOUSE'),
+       (7, 'STUDENT_HOUSING'),
+       (8, 'STUDENT_HOUSING'),
        (9, 'SUBLET'),
-       (10, 'STUDENT_HOUSE'),
+       (10, 'STUDENT_HOUSING'),
        (11, 'CORPORATE_HOUSING'),
        (12, 'SENIOR_HOUSING'),
-       (13, 'STUDENT_HOUSE'),
+       (13, 'STUDENT_HOUSING'),
        (14, 'CORPORATE_HOUSING');
 
 INSERT INTO utility(rental_details_id, name)

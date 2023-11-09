@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +31,17 @@ public class RentalController {
 
     @ResponseBody
     @GetMapping("/image/{image}")
-    public Resource getFile(@PathVariable("image") String image) throws IOException, URISyntaxException {
+    public Resource getFile(@PathVariable("image") String image) {
         return imageService.getImage(image);
+    }
+
+    @GetMapping("/rental")
+    public String getRentalsByStatus(Model model,
+                                     @RequestParam("status") String status) {
+        List<RentalReadDto> rentalsByStatus = rentalService.getRentalsByStatus(Status.valueOf(status.toUpperCase()));
+        model.addAttribute("rentalsByStatus", rentalsByStatus);
+
+        return "rental/profileRentals";
     }
 
     @GetMapping("/post-rental")

@@ -42,6 +42,12 @@ public class RentalService {
     private final AddressMapper addressMapper;
     private final RentalDetailsMapper rentalDetailsMapper;
 
+    public List<RentalReadDto> getRentalsByStatus(Status status) {
+        return rentalRepository.findRentalsByStatus(status).stream()
+                .map(rentalMapper::mapToRentalReadDto)
+                .toList();
+    }
+
     public List<RentalReadDto> getAllRentalsByCityName(String cityNme) {
         return rentalRepository.findAllByAddress_CityName(cityNme).stream()
                 .map(rentalMapper::mapToRentalReadDto)

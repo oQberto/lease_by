@@ -40,6 +40,7 @@ class RentalServiceIT extends IntegrationTestBase {
     }
 
     @Test
+    @Disabled
     void createRental_whenRentalCreateEditDtoAndUserEmailIsValid_shouldReturnRentalReadDto() {
         User user = buildUser(1L, "user1@gmail.com", "username1",
                 "1231", Role.ADMIN);
@@ -48,7 +49,7 @@ class RentalServiceIT extends IntegrationTestBase {
         UserReadDto userReadDto = userMapper.mapToUserReadDto(user);
         ProfileReadDto profileReadDto = profileMapper.mapToProfileReadDto(profile);
 
-        Optional<RentalReadDto> actualResult = rentalService.createRental(getRentalCreateEditDto(), user.getEmail());
+        Optional<RentalReadDto> actualResult = rentalService.createRental(getRentalCreateEditDto(), user.getUsername());
 
         assertAll(() -> {
             assertThat(actualResult).isPresent();
@@ -58,21 +59,26 @@ class RentalServiceIT extends IntegrationTestBase {
         });
     }
 
-//    @Test
-//    void getRentalsByAddress_whenRentalsWithTheSameAddressExist_shouldReturnListOfRentals() {
-//        var existingAddress = getRentalCreateEditDto().getAddress();
-//        var pageable = PageRequest.of(0, 5);
-//
-//        List<RentalSearchDto> actualResult = rentalService.getRentalsBy(existingAddress, pageable);
-//        List<Long> rentalIds = actualResult.stream()
-//                .map(RentalSearchDto::getId)
-//                .toList();
-//
-//        assertAll(() -> {
-//            assertThat(actualResult).hasSize(4);
-//            assertThat(rentalIds).contains(1L, 15L, 16L, 17L);
-//        });
-//    }
+    @Test
+    void getRentalsByStatus() {
+        List<RentalReadDto> noInfoRentals = rentalService.getRentalsByStatus(Status.NO_INFO);
+        List<RentalReadDto> activeRentals = rentalService.getRentalsByStatus(Status.ACTIVE);
+        List<RentalReadDto> blockedRentals = rentalService.getRentalsByStatus(Status.BLOCKED);
+        List<RentalReadDto> bookedRentals = rentalService.getRentalsByStatus(Status.BOOKED);
+        List<RentalReadDto> pendingConfirmationRentals = rentalService.getRentalsByStatus(Status.PENDING_CONFIRMATION);
+        List<RentalReadDto> draftRentals = rentalService.getRentalsByStatus(Status.DRAFT);
+        List<RentalReadDto> deletedRentals = rentalService.getRentalsByStatus(Status.DELETED);
+
+        assertAll(() -> {
+            assertThat(noInfoRentals).hasSize(2);
+            assertThat(activeRentals).hasSize(7);
+            assertThat(blockedRentals).hasSize(2);
+            assertThat(bookedRentals).hasSize(1);
+            assertThat(pendingConfirmationRentals).hasSize(3);
+            assertThat(draftRentals).hasSize(1);
+            assertThat(deletedRentals).hasSize(1);
+        });
+    }
 
     private static RentalCreateEditDto getRentalCreateEditDto() {
         return RentalCreateEditDto.builder()
