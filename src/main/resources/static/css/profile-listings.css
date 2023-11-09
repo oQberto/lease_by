@@ -1,0 +1,94 @@
+.header {
+    height: 100px;
+}
+
+.profile-page {
+    position: absolute;
+    width: 100%;
+    height: 800px;
+    top: 150px;
+    display: flex;
+    padding: 100px;
+    margin: 10px;
+}
+
+.menu {
+    background: darkorange;
+    width: 20%;
+    float: left;
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7));
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+}
+
+.menu ul li {
+    list-style-type: none;
+    top: 50px;
+    margin: 15px;
+}
+
+.menu ul li a {
+    margin: 20px;
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    display: inline-block;
+}
+
+.work-zone {
+    background: #644bff;
+    width: 80%;
+    height: 100%;
+    float: right;
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7));
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+}
+
+.work-zone span {
+    float: left;
+    font-size: 45px;
+    color: white;
+}
+
+.listing-nav-bar {
+    margin-top: 15px;
+    margin-left: 35px;
+    margin-right: 95px;
+    height: 15%;
+}
+
+.listing-nav-bar form {
+    float: right;
+    margin-right: 50px;
+}
+
+.listing-nav-bar button {
+    height: 50px;
+    width: 100px;
+    border-radius: 15px;
+    border: none;
+}
+
+.listing-nav-bar select {
+
+}
+
+.display-zone {
+    height: 80%;
+    font-size: 35px;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #42404000;
+    border-radius: 12px;
+}

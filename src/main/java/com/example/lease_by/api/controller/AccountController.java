@@ -73,7 +73,7 @@ public class AccountController {
         return profileService.getProfileByUserId(id)
                 .map(profile -> {
                     model.addAttribute("profile", profile);
-                    return "user/profile";
+                    return "user/profile/listings";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }

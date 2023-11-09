@@ -16,13 +16,35 @@
         <a href="#">About</a>
         <a th:href="@{/rentals/post-rental}">Post a rental</a>
         <a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
-        <a sec:authorize="isAuthenticated()" th:href="@{/profile}" th:text="${#authentication.principal.username}"></a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/accounts/profile/16}"
+           th:text="${#authentication.principal.username}"></a>
         <a sec:authorize="isAuthenticated()" href="javascript: document.logoutForm.submit()" role="menuitem">Logout</a>
         <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
             <input hidden type="submit" value="Sign Out"/>
         </form>
     </nav>
 </div>
+
+<ul th:fragment="menu">
+    <li>
+        <img th:src="@{/image/content/menuBar/city-building.webp}" alt="listings">
+        <a href="">
+            <span>Listings</span>
+        </a>
+    </li>
+    <li>
+        <img th:src="@{/image/content/menuBar/draft.webp}" alt="drafts">
+        <a href="#">
+            <span>Drafts</span>
+        </a>
+    </li>
+    <li>
+        <img th:src="@{/image/content/menuBar/user-profile.webp}" alt="userProfile">
+        <a href="#">
+            <span>Account</span>
+        </a>
+    </li>
+</ul>
 
 <footer th:fragment="footer">
     <div class="footer-content">

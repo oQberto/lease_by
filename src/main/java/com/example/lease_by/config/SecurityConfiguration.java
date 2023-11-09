@@ -27,6 +27,7 @@ public class SecurityConfiguration {
             "/login",
             "/accounts/registration",
             "/accounts/register",
+            "/accounts/profile/**",
             "/cities",
             "/rentals/**",
             "/api/v1/**",
