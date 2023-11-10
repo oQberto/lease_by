@@ -1,7 +1,9 @@
 package com.example.lease_by.mapper;
 
 import com.example.lease_by.dto.AddressDto;
+import com.example.lease_by.dto.CityReadDto;
 import com.example.lease_by.dto.RentalCreateEditDto;
+import com.example.lease_by.dto.StreetDto;
 import com.example.lease_by.model.entity.Address;
 import com.example.lease_by.model.repository.CityRepository;
 import com.example.lease_by.model.repository.StreetRepository;
@@ -18,12 +20,7 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
 @Mapper(
         componentModel = SPRING,
-        injectionStrategy = CONSTRUCTOR,
-        imports = {EntityNotFoundException.class},
-        uses = {
-                StreetMapper.class,
-                CityMapper.class
-        }
+        injectionStrategy = CONSTRUCTOR
 )
 @Component
 public abstract class AddressMapper {
@@ -33,6 +30,12 @@ public abstract class AddressMapper {
 
     @Autowired
     protected StreetRepository streetRepository;
+
+    @Autowired
+    protected CityMapper cityMapper;
+
+    @Autowired
+    protected StreetMapper streetMapper;
 
     @Mappings({
             @Mapping(target = "cityReadDto", source = "city"),
@@ -44,21 +47,13 @@ public abstract class AddressMapper {
             @Mapping(target = "cityReadDto",
                     expression = """
                             java(
-                                cityMapper.mapToCityReadDto(cityRepository
-                                                .findCityByName(dto
-                                                        .getAddress()
-                                                        .split(", ")[1])
-                                                .orElseThrow(() -> new EntityNotFoundException("City not found!")))
+                                getCityDtoFromAddress(dto)
                             )
                             """),
             @Mapping(target = "streetDto",
                     expression = """
                             java(
-                                streetMapper.mapToStreetDto(streetRepository
-                                                .findStreetByName(dto
-                                                        .getAddress()
-                                                        .split(", ")[0])
-                                                .orElseThrow(() -> new EntityNotFoundException("Street not found!")))
+                                getStreetDtoFromAddress(dto)
                             )
                             """),
             @Mapping(target = "rentals", ignore = true)
@@ -70,4 +65,20 @@ public abstract class AddressMapper {
             @Mapping(target = "street", source = "streetDto")
     })
     public abstract Address mapToAddress(AddressDto dto);
+
+    protected CityReadDto getCityDtoFromAddress(RentalCreateEditDto dto) {
+        return cityMapper.mapToCityReadDto(cityRepository
+                .findCityByName(dto
+                        .getAddress()
+                        .split(", ")[1])
+                .orElseThrow(() -> new EntityNotFoundException("City not found!")));
+    }
+
+    protected StreetDto getStreetDtoFromAddress(RentalCreateEditDto dto) {
+        return streetMapper.mapToStreetDto(streetRepository
+                .findStreetByName(dto
+                        .getAddress()
+                        .split(", ")[0])
+                .orElseThrow(() -> new EntityNotFoundException("Street not found!")));
+    }
 }
