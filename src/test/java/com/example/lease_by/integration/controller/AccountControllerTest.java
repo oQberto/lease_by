@@ -92,7 +92,7 @@ class AccountControllerTest extends IntegrationTestBase {
         mockMvc.perform(get("/accounts/profile/{userId}", EXISTING_USER_ID))
                 .andExpectAll(
                         status().isOk(),
-                        view().name("user/profile"),
+                        view().name("user/profile/listings"),
                         model().attributeExists("profile")
                 );
     }

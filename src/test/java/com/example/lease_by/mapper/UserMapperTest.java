@@ -61,7 +61,6 @@ class UserMapperTest {
                 .id(1L)
                 .email("email@gmail.com")
                 .username("username")
-                .password("123")
                 .build();
     }
 
@@ -70,7 +69,6 @@ class UserMapperTest {
                 .id(1L)
                 .email("email@gmail.com")
                 .username("username")
-                .password("123")
                 .build();
     }
 

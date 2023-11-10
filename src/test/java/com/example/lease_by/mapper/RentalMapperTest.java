@@ -76,7 +76,6 @@ class RentalMapperTest {
                         .id(1L)
                         .email("email@gmail.com")
                         .username("username")
-                        .password("123")
                         .build())
                 .addressDto(AddressDto.builder()
                         .id(1L)

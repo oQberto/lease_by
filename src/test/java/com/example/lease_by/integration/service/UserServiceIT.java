@@ -5,6 +5,7 @@ import com.example.lease_by.dto.ProfileReadDto;
 import com.example.lease_by.dto.UserCreateDto;
 import com.example.lease_by.dto.UserReadDto;
 import com.example.lease_by.integration.IntegrationTestBase;
+import com.example.lease_by.mapper.ProfileMapper;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
@@ -24,6 +25,7 @@ class UserServiceIT extends IntegrationTestBase {
     private static final Long PROFILE_ID = 1L;
     private final UserService userService;
     private final ProfileService profileService;
+    private final ProfileMapper profileMapper;
 
     @Test
     void getUserById_whenUserIdExists_shouldReturnUser() {
@@ -34,8 +36,14 @@ class UserServiceIT extends IntegrationTestBase {
                 .id(1L)
                 .email("user1@gmail.com")
                 .username("username1")
-                .password("1231")
                 .role(Role.ADMIN)
+                .profileReadDto(ProfileReadDto.builder()
+                        .id(1L)
+                        .avatar("avatar1")
+                        .firstname("firstname1")
+                        .lastname("lastname1")
+                        .phoneNumber("(29)123-4567")
+                        .build())
                 .build();
 
         Optional<UserReadDto> actualResult = userService.getUserById(EXISTING_USER_ID);
@@ -86,6 +94,5 @@ class UserServiceIT extends IntegrationTestBase {
         assertThat(actualResult).isPresent();
 
         assertThat(actualResult).isEqualTo(userService.getUserById(1L));
-        assertThat(actualResult.get().getPassword()).isEqualTo(existingUser.get().getPassword());
     }
 }

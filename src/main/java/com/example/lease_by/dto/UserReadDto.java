@@ -10,7 +10,6 @@ public class UserReadDto {
     Long id;
     String email;
     String username;
-    String password;
     Role role;
     ProfileReadDto profileReadDto;
 }
