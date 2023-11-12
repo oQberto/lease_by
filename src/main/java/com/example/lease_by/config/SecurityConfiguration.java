@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -40,6 +41,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .sessionManagement(session -> session
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(URL_WHITE_LIST)
                         .permitAll()
@@ -57,6 +61,11 @@ public class SecurityConfiguration {
                         .logoutSuccessUrl("/login")
                         .deleteCookies("JSESSIONID"))
                 .build();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
