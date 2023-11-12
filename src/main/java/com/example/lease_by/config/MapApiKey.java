@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "maps.api.key.geocode")
-@PropertySource(value = "classpath:googleGeoApi.yml", factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "classpath:apiKeys.yml", factory = YamlPropertySourceFactory.class)
 public class MapApiKey {
     private String google;
     private String yandex;
