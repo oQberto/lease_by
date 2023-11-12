@@ -36,4 +36,4 @@ build/
 /src/main/resources/secrets.yml
 /qodana.yaml
 /src/main/java/com/example/lease_by/api/rest/googleGeoExample.json
-/src/main/resources/googleGeoApi.yml
+/src/main/resources/apiKeys.yml
