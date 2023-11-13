@@ -13,13 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class GeocodingServiceImpl implements GeocodingService {
-    private final static String GEO_STREET_PATTERN = "%s, %d, %s, Беларусь";
+    private static final String GEO_STREET_PATTERN = "%s, %d, %s, Беларусь";
+    private static final String GEO_CITY_CENTRE_PATTERN = "%s, Беларусь";
 
     private final AddressService addressService;
     private final GeoApiContext geoApiContext;
@@ -39,6 +41,18 @@ public class GeocodingServiceImpl implements GeocodingService {
                 .map(geocodingResult -> geocodingResult[0])
                 .map(geocodingMapper::mapToGeocodingDto)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Optional<GeocodingDto> getGeocodedCityCentre(String cityName) throws IOException, InterruptedException, ApiException {
+        return Optional.ofNullable(
+                        GeocodingApi.geocode(
+                                geoApiContext,
+                                String.format(
+                                        GEO_CITY_CENTRE_PATTERN,
+                                        cityName)
+                        ).await()[0])
+                .map(geocodingMapper::mapToGeocodingDto);
     }
 
     private GeocodingResult[] geocode(AddressDto addressDto) throws IOException, InterruptedException, ApiException {

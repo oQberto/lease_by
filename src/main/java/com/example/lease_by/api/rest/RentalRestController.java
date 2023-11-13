@@ -4,11 +4,14 @@ import com.example.lease_by.dto.GeocodingDto;
 import com.example.lease_by.service.GeocodingService;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
 
@@ -30,5 +33,12 @@ public class RentalRestController {
     @GetMapping("/geocode/{cityName}")
     public Set<GeocodingDto> geocode(@PathVariable("cityName") String cityName) {
         return geocodingService.getGeocodedData(cityName);
+    }
+
+    @SneakyThrows
+    @GetMapping("/geocode/city-centre/{cityName}")
+    public GeocodingDto getGeocodedCityCentre(@PathVariable("cityName") String cityName) {
+        return geocodingService.getGeocodedCityCentre(cityName)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }
