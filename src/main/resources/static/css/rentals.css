@@ -1,0 +1,15 @@
+.header {
+    height: 100px;
+}
+
+body {
+    justify-content: flex-start;
+}
+.map {
+    width: 1200px;
+    height: 1020px;
+    justify-content: flex-start;
+    position: absolute;
+    display: flex;
+    top: 100px;
+}
