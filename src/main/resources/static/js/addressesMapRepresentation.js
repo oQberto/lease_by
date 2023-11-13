@@ -17,20 +17,18 @@ function init() {
         preset: 'islands#invertedBlueClusterIcons',
     });
 
-    // Отправляем AJAX-запрос на сервер, чтобы получить данные геокодирования
     $.ajax({
         url: '/api/v1/rentals/geocode/' + cityName,
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            // Обработка данных, полученных от сервера
+
             data.forEach(function (point) {
                 var placemark = new ymaps.Placemark([point.latitude, point.longitude], {balloonContent: point.pointName});
 
                 placemark.events.add('click', function (e) {
                     $('#markerModal').modal('show');
                     $('#markerModalTitle').text(point.pointName);
-                    // Можете добавить вывод других данных, если необходимо
                 });
 
                 clusterer.add(placemark);
