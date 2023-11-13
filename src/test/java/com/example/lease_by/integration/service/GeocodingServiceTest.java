@@ -4,12 +4,15 @@ import com.example.lease_by.dto.GeocodingDto;
 import com.example.lease_by.integration.IntegrationTestBase;
 import com.example.lease_by.service.GeocodingService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @RequiredArgsConstructor
 public class GeocodingServiceTest extends IntegrationTestBase {
@@ -41,5 +44,22 @@ public class GeocodingServiceTest extends IntegrationTestBase {
 
         assertThat(actualResult).hasSize(13);
         assertThat(actualResultPointNames).contains(POINT_NAMES);
+    }
+
+    @Test
+    @SneakyThrows
+    void getGeocodedCityCentre_whenCityIsValid_shouldReturnGeocodedData() {
+        Optional<GeocodingDto> actualResult = geocodingService.getGeocodedCityCentre(CITY_NAME);
+        assertThat(actualResult).isPresent();
+
+        assertAll(() -> {
+            GeocodingDto geocodingDto = actualResult.get();
+
+            assertThat(geocodingDto.getLatitude()).isEqualTo(53.9006011);
+            assertThat(geocodingDto.getLongitude()).isEqualTo(27.558972);
+            assertThat(geocodingDto.getPointName()).isEqualTo("Minsk, Belarus");
+        });
+
+
     }
 }
