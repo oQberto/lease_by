@@ -1,5 +1,6 @@
 package com.example.lease_by.api.controller;
 
+import com.example.lease_by.config.MapApiKey;
 import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
 import com.example.lease_by.model.entity.enums.*;
@@ -26,6 +27,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/rentals")
 public class RentalController {
+    private final MapApiKey mapApiKey;
     private final RentalService rentalService;
     private final ImageService imageService;
 
@@ -33,6 +35,27 @@ public class RentalController {
     @GetMapping("/image/{image}")
     public Resource getFile(@PathVariable("image") String image) {
         return imageService.getImage(image);
+    }
+
+    @GetMapping("/account/{username}")
+    @PreAuthorize("isAuthenticated()")
+    public String getUserRentals(Model model,
+                                 @PathVariable("username") String username) {
+        List<RentalReadDto> rentalsByUsername = rentalService.getRentalsByUsername(username);
+        model.addAttribute("userRentals", rentalsByUsername);
+
+        return "user/profile/listings";
+    }
+
+    @GetMapping("/rental-details/{id}")
+    public String getRentalDetails(Model model,
+                                   @PathVariable("id") Long rentalId) {
+        return rentalService.getRentalById(rentalId)
+                .map(rental -> {
+                    model.addAttribute("rental", rental);
+                    return "rental/rentalInfo";
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/rental")
@@ -79,6 +102,8 @@ public class RentalController {
     public String findRentals(Model model,
                               @PathVariable("cityName") String cityName) {
         List<RentalReadDto> rentals = rentalService.getAllRentalsByCityName(cityName);
+
+        model.addAttribute("yandexApiKey", mapApiKey.getYandex());
         model.addAttribute("rentals", rentals);
 
         return "rental/rentals";
@@ -92,19 +117,4 @@ public class RentalController {
 
         return "rental/rentals";
     }
-
-    @GetMapping("/{cityName}/{rentalId}")
-    public String findRentalById(Model model,
-                                 @PathVariable("cityName") String cityName,
-                                 @PathVariable("rentalId") Long rentalId) {
-        return rentalService.getRentalById(rentalId)
-                .map(rental -> {
-                    model.addAttribute("rental", rental);
-                    return "rental/rentalInfo";
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
-
-
-    //TODO: create separate tab to the user's rentals
 }
