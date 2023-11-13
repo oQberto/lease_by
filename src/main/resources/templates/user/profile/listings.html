@@ -19,35 +19,32 @@
         <div class="listing-nav-bar">
             <span>Listings</span>
             <form th:href="@{#}">
-            <button type="submit">Sort by</button>
+                <button type="submit">Sort by</button>
                 <label for="listing">
                     <select id="listing" name="listing">
-                        <option th:each="listingStatus: ${listingSatuses}" th:text="${listingStatus}">Status</option>
+                        <option th:each="listingStatus: ${listingStatuses}" th:text="${listingStatus}">Status</option>
                     </select>
                 </label>
             </form>
         </div>
 
         <div class="display-zone">
-            <p>
-                First, we enable an in-memory message broker to carry the messages back to the client on destinations prefixed with “/topic”.
-
-                We complete our simple configuration by designating the “/app” prefix to filter destinations targeting application annotated methods (via @MessageMapping).
-
-                The registerStompEndpoints method registers the “/chat” endpoint, enabling Spring’s STOMP support. Keep in mind that we are also adding an endpoint here that works without the SockJS for the sake of elasticity.
-
-                This endpoint, when prefixed with “/app”, is the endpoint that the ChatController.send() method is mapped to handle.
-
-                It also enables the SockJS fallback options so that alternative messaging options may be used if WebSockets are not available. This is useful since WebSocket is not supported in all browsers yet and may be precluded by restrictive network proxies.
-            </p>
-            <p>
-                Now that we’ve set up the project and configured the WebSocket capabilities, we need to create a message to send.
-
-                The endpoint will accept messages containing the sender name and a text in a STOMP message whose body is a JSON object.
-
-                The message might look like this:
-            </p>
+            <div th:each="userRental: ${userRentals}" class="users-listing" th:object="${userRental}">
+                <div class="listing-info">
+                    <div class="listing-info-text">
+                        <span th:text="*{addressDto.streetDto.name + ', ' + addressDto.cityReadDto.name + ', ' + addressDto.houseNo}"></span>
+                        <p th:text="*{'Status: ' + status.name().toLowerCase()}">Status</p>
+                        <p th:text="*{'Owner: ' + userReadDto.username}"></p>
+                        <p th:text="*{'Phone number: ' + userReadDto.profileReadDto.phoneNumber}"></p>
+                        <p th:text="*{'Price: ' + price}"></p>
+                    </div>
+                </div>
+                <div class="listing-details">
+                    <a th:href="@{/rentals/rental-details/{id}(id=${userRental.id})}">Rental info</a>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
 

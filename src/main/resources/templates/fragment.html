@@ -16,7 +16,7 @@
         <a href="#">About</a>
         <a th:href="@{/rentals/post-rental}">Post a rental</a>
         <a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>
-        <a sec:authorize="isAuthenticated()" th:href="@{/accounts/profile/16}"
+        <a sec:authorize="isAuthenticated()" th:href="@{'/rentals/account/' + ${#authentication.principal.username}}"
            th:text="${#authentication.principal.username}"></a>
         <a sec:authorize="isAuthenticated()" href="javascript: document.logoutForm.submit()" role="menuitem">Logout</a>
         <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
@@ -27,7 +27,7 @@
 
 <ul th:fragment="menu">
     <li>
-        <img th:src="@{/image/content/menuBar/city-building.webp}" alt="listings">
+        <img th:src="@{/image/content/menuBar/listings.webp}" alt="listings">
         <a href="">
             <span>Listings</span>
         </a>
