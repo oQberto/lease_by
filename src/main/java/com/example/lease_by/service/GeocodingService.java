@@ -11,5 +11,6 @@ public interface GeocodingService {
 
     Set<GeocodingDto> getGeocodedData(String cityName);
 
-    Optional<GeocodingDto> getGeocodedCityCentre(String cityName) throws IOException, InterruptedException, ApiException;
+    Optional<GeocodingDto> getGeocodedCityCentre(String cityName)
+            throws IOException, InterruptedException, ApiException;
 }
