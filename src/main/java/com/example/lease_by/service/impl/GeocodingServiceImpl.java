@@ -27,7 +27,7 @@ public class GeocodingServiceImpl implements GeocodingService {
     private final GeocodingMapper geocodingMapper;
 
     @Override
-    public Set<GeocodingDto> geocodedData(String cityName) {
+    public Set<GeocodingDto> getGeocodedData(String cityName) {
         return addressService.getAddressesBy(cityName).stream()
                 .map(address -> {
                     try {

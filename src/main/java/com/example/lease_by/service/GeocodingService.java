@@ -6,5 +6,5 @@ import java.util.Set;
 
 public interface GeocodingService {
 
-    Set<GeocodingDto> geocodedData(String cityName);
+    Set<GeocodingDto> getGeocodedData(String cityName);
 }

@@ -29,6 +29,6 @@ public class RentalRestController {
 
     @GetMapping("/geocode/{cityName}")
     public Set<GeocodingDto> geocode(@PathVariable("cityName") String cityName) {
-        return geocodingService.geocodedData(cityName);
+        return geocodingService.getGeocodedData(cityName);
     }
 }

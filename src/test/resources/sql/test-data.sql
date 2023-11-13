@@ -100,17 +100,15 @@ VALUES (1, 1, 1, 1),
        (14, 3, 14, 14),
        (15, 1, 1, 10),
        (16, 1, 1, 11),
-       (17, 1, 1, 12);
-
-INSERT INTO address(id, city_id, street_id, house_no)
-VALUES (20, 1, 34, 14),
-       (21, 1, 34, 12),
-       (22, 1, 35, 33),
-       (23, 1, 35, 31),
-       (24, 1, 36, 9),
-       (25, 1, 36, 37),
-       (26, 1, 37, 73),
-       (27, 1, 37, 66);
+       (17, 1, 1, 12),
+       (18, 1, 34, 14),
+       (19, 1, 34, 12),
+       (20, 1, 35, 33),
+       (21, 1, 35, 31),
+       (22, 1, 36, 9),
+       (23, 1, 36, 37),
+       (24, 1, 37, 73),
+       (25, 1, 37, 66);
 SELECT setval('address_id_seq', (SELECT max(id) FROM address));
 
 INSERT INTO rental (id, user_id, address_id, price, description, status)
@@ -131,14 +129,14 @@ VALUES (1, 1, 1, 100.0, null, 'DRAFT'),
        (15, 14, 15, 113.0, null, 'PENDING_CONFIRMATION'),
        (16, 14, 16, 113.0, null, 'ACTIVE'),
        (17, 14, 17, 113.0, null, 'DELETED'),
-       (18, 1, 20, 110.0, null, 'ACTIVE'),
-       (19, 1, 21, 100.0, null, 'ACTIVE'),
-       (20, 1, 22, 100.0, null, 'ACTIVE'),
-       (21, 1, 23, 100.0, null, 'ACTIVE'),
-       (22, 1, 24, 100.0, null, 'ACTIVE'),
-       (23, 1, 25, 100.0, null, 'ACTIVE'),
-       (24, 1, 26, 100.0, null, 'ACTIVE'),
-       (25, 1, 27, 100.0, null, 'ACTIVE');
+       (18, 1, 18, 110.0, null, 'ACTIVE'),
+       (19, 1, 19, 100.0, null, 'ACTIVE'),
+       (20, 1, 20, 100.0, null, 'ACTIVE'),
+       (21, 1, 21, 100.0, null, 'ACTIVE'),
+       (22, 1, 22, 100.0, null, 'ACTIVE'),
+       (23, 1, 23, 100.0, null, 'ACTIVE'),
+       (24, 1, 24, 100.0, null, 'ACTIVE'),
+       (25, 1, 25, 100.0, null, 'ACTIVE');
 SELECT setval('rental_id_seq', (SELECT max(id) FROM rental));
 
 INSERT INTO image (rental_id, path)
