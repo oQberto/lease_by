@@ -17,11 +17,11 @@ public interface RentalService {
 
     List<RentalReadDto> getRentalsByAddress(String address, Pageable pageable);
 
-    Optional<RentalReadDto> getRentalById(Long id);
+    List<RentalReadDto> getRentalsByUsername(String username);
 
     Set<String> getRentalsBy(String address, Pageable pageable);
 
+    Optional<RentalReadDto> getRentalById(Long id);
+
     Optional<RentalReadDto> createRental(RentalCreateEditDto dto, String userEmail);
-
-
 }

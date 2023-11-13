@@ -16,9 +16,11 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     List<Rental> findAllByAddress_CityName(String cityName);
 
-    Optional<Rental> findRentalById(Long id);
+    List<Rental> findRentalsByUser_Username(String username);
 
     Page<Rental> findRentalsByAddress_CityNameAndAddress_StreetName(String cityName, String streetName, Pageable pageable);
+
+    Optional<Rental> findRentalById(Long id);
 
     @Query("""
             select distinct concat(a.street.name, ', ', a.city.name)

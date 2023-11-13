@@ -70,9 +70,10 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Optional<RentalReadDto> getRentalById(Long id) {
-        return rentalRepository.findRentalById(id)
-                .map(rentalMapper::mapToRentalReadDto);
+    public List<RentalReadDto> getRentalsByUsername(String username) {
+        return rentalRepository.findRentalsByUser_Username(username).stream()
+                .map(rentalMapper::mapToRentalReadDto)
+                .toList();
     }
 
     @Override
@@ -80,6 +81,12 @@ public class RentalServiceImpl implements RentalService {
         return rentalRepository.findRentalsBy(address, pageable)
                 .stream()
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Optional<RentalReadDto> getRentalById(Long id) {
+        return rentalRepository.findRentalById(id)
+                .map(rentalMapper::mapToRentalReadDto);
     }
 
     @Override
