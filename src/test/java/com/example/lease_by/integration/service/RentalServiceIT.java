@@ -71,7 +71,7 @@ class RentalServiceIT extends IntegrationTestBase {
 
         assertAll(() -> {
             assertThat(noInfoRentals).hasSize(2);
-            assertThat(activeRentals).hasSize(7);
+            assertThat(activeRentals).hasSize(15);
             assertThat(blockedRentals).hasSize(2);
             assertThat(bookedRentals).hasSize(1);
             assertThat(pendingConfirmationRentals).hasSize(3);

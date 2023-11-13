@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +45,12 @@ public class AddressServiceImpl implements AddressService {
         return addressRepository
                 .findAddressByHouseNoAndCity_NameAndStreet_Name(houseNo, cityName, streetName)
                 .map(addressMapper::mapToAddressDto);
+    }
+
+    @Override
+    public Set<AddressDto> getAddressesBy(String cityName) {
+        return addressRepository.findAddressesByCity_Name(cityName).stream()
+                .map(addressMapper::mapToAddressDto)
+                .collect(toSet());
     }
 }
