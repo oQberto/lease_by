@@ -13,4 +13,6 @@ public interface GeocodingService {
 
     Optional<GeocodingDto> getGeocodedCityCentre(String cityName)
             throws IOException, InterruptedException, ApiException;
+
+    // TODO: делать геокодирование данных, полученных через строку поиска на главной странице
 }

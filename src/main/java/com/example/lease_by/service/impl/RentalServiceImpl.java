@@ -16,6 +16,7 @@ import com.example.lease_by.service.RentalService;
 import com.example.lease_by.service.exception.AddressCreationException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,10 +53,9 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<RentalReadDto> getAllRentalsByCityName(String cityNme) {
-        return rentalRepository.findAllByAddress_CityName(cityNme).stream()
-                .map(rentalMapper::mapToRentalReadDto)
-                .toList();
+    public Page<RentalReadDto> getAllRentalsByCityName(String cityNme, Pageable pageable) {
+        return rentalRepository.findAllByAddress_CityName(cityNme, pageable)
+                .map(rentalMapper::mapToRentalReadDto);
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     List<Rental> findRentalsByStatus(Status status);
 
-    List<Rental> findAllByAddress_CityName(String cityName);
+    Page<Rental> findAllByAddress_CityName(String cityName, Pageable pageable);
 
     List<Rental> findRentalsByUser_Username(String username);
 

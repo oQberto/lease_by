@@ -1,6 +1,7 @@
 package com.example.lease_by.api.controller;
 
 import com.example.lease_by.config.MapApiKey;
+import com.example.lease_by.dto.PageResponse;
 import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
 import com.example.lease_by.model.entity.enums.*;
@@ -8,7 +9,9 @@ import com.example.lease_by.service.ImageService;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -100,11 +103,12 @@ public class RentalController {
 
     @GetMapping("/{cityName}")
     public String findRentals(Model model,
-                              @PathVariable("cityName") String cityName) {
-        List<RentalReadDto> rentals = rentalService.getAllRentalsByCityName(cityName);
+                              @PathVariable("cityName") String cityName,
+                              Pageable pageable) {
+        Page<RentalReadDto> rentals = rentalService.getAllRentalsByCityName(cityName, pageable);
 
         model.addAttribute("yandexApiKey", mapApiKey.getYandex());
-        model.addAttribute("rentals", rentals);
+        model.addAttribute("rentals", PageResponse.of(rentals));
 
         return "rental/rentals";
     }

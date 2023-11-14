@@ -3,6 +3,7 @@ package com.example.lease_by.service;
 import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
 import com.example.lease_by.model.entity.enums.Status;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface RentalService {
 
     List<RentalReadDto> getRentalsByStatus(Status status);
 
-    List<RentalReadDto> getAllRentalsByCityName(String cityNme);
+    Page<RentalReadDto> getAllRentalsByCityName(String cityNme, Pageable pageable);
 
     List<RentalReadDto> getRentalsByAddress(String address, Pageable pageable);
 
