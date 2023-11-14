@@ -1,15 +1,75 @@
 .header {
-    height: 100px;
+    height: 11%;
 }
 
 body {
     justify-content: flex-start;
 }
+
+footer {
+    top: 100%;
+}
+
 .map {
-    width: 1200px;
-    height: 1020px;
+    width: 63%;
+    height: 90%;
     justify-content: flex-start;
     position: absolute;
     display: flex;
-    top: 100px;
+    top: 11%;
+}
+
+.rentals-work-zone {
+    background-color: darkorange;
+    width: 37%;
+    height: 90%;
+    left: 63%;
+    position: absolute;
+    top: 11%;
+}
+
+.rentals {
+    width: 100%;
+    height: 96%;
+    overflow-y: scroll;
+}
+
+.rental {
+    background-color: #644bff;
+    width: 100%;
+    height: 30%;
+    margin: 6px;
+}
+
+.pagination-bar {
+    background-color: aqua;
+    width: 100%;
+    top: 95%;
+    height: 5%;
+    position: absolute;
+    text-align: center;
+}
+
+.pagination-bar-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-bar-btn form {
+    margin: 5px;
+}
+
+.pagination-bar-btn form button {
+    width: 190px;
+    border: none;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #42404000;
+    border-radius: 12px;
 }

@@ -5,7 +5,8 @@
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script th:src="'https://api-maps.yandex.ru/2.1/?apikey=' + ${yandexApiKey} + '&lang=ru_RU'" type="text/javascript"></script>
+    <script th:src="'https://api-maps.yandex.ru/2.1/?apikey=' + ${yandexApiKey} + '&lang=ru_RU'"
+            type="text/javascript"></script>
     <script src="https://search-maps.yandex.ru/v2/1/" type="text/javascript"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -19,38 +20,61 @@
 <body>
 <div th:insert="~{fragment::header}"></div>
 
-<div class="map" id="map"></div>
+<div>
+    <div class="map" id="map"></div>
 
-<script type="text/javascript" src="/js/addressesMapRepresentation.js"></script>
+    <script type="text/javascript" src="/js/addressesMapRepresentation.js"></script>
 
-<!-- Модальное окно Bootstrap -->
-<div class="modal fade" id="markerModal" tabindex="-1" role="dialog" aria-labelledby="markerModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="markerModalTitle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="markerModalDetails"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+    <!-- Модальное окно Bootstrap -->
+    <div class="modal fade" id="markerModal" tabindex="-1" role="dialog" aria-labelledby="markerModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="markerModalTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="markerModalDetails"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!--<div>-->
-<!--    <div th:each="rental: ${rentals}">-->
-<!--        <p th:text="${rental.addressDto.streetDto.name}">Rental</p>-->
-<!--        <p th:text="${rental.amenities}">Rental</p>-->
-<!--        <p th:text="${rental.features}">Rental</p>-->
-<!--        <a th:href="@{/rentals/rental-details/{id}(id=${rental.id})}">Rental info</a>-->
-<!--    </div>-->
-<!--</div>-->
+    <div class="rentals-work-zone">
+        <div class="rentals">
+            <div class="rental" th:each="rental: ${rentals.content}">
+                <p th:text="${rental.addressDto.streetDto.name}">Rental</p>
+                <p th:text="${rental.amenities}">Rental</p>
+                <p th:text="${rental.features}">Rental</p>
+                <a th:href="@{/rentals/rental-details/{id}(id=${rental.id})}">Rental info</a>
+            </div>
+        </div>
+
+        <div class="pagination-bar">
+            <div class="pagination-bar-btn" th:object="${rentals.metadata}">
+                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
+                    <button type="submit">Prev
+                        <input type="hidden" name="page"
+                               th:value="*{page - 1 < 0} ? 0 : *{page - 1}">
+                    </button>
+                </form>
+                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
+                    <button type="submit">Next
+                        <input type="hidden" name="page"
+                               th:value="*{page + 1 >= totalPages} ? *{page} : *{page + 1}">
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div th:insert="~{fragment::footer}"></div>
 </body>
