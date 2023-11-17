@@ -28,6 +28,7 @@ public class RentalCreateEditDto {
     ParkingType parkingType; // rentalDetails
 
     String description; // rental
+    String introImage; //rental
     BigDecimal price; // rental
 
     UserReadDto userReadDto; // rental

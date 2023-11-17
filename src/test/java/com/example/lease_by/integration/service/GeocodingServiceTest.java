@@ -30,7 +30,7 @@ public class GeocodingServiceTest extends IntegrationTestBase {
             "vulica Družnaja 10, Baraŭliany 223053, Belarus",
             "vulica Družnaja 12, Baraŭliany 223053, Belarus",
             "vul. Lidskaja 12, Minsk 220055, Belarus",
-            "vulica Niomanskaja 66, Minsk, Belarus"
+            "vulica Niomanskaja 66, Minsk 220063, Belarus"
     };
 
     private final GeocodingService geocodingService;

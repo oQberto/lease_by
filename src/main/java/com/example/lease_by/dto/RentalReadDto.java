@@ -19,6 +19,7 @@ public class RentalReadDto {
     AddressDto addressDto;
     Status status;
     String description;
+    String introImage;
     RentalDetailsDto rentalDetailsDto;
 
     @Builder.Default

@@ -47,6 +47,9 @@ public class Rental extends AuditingEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "intro_image")
+    private String introImage;
+
     @Column(name = "status")
     @Enumerated(STRING)
     private Status status;
