@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -104,7 +105,7 @@ public class RentalController {
     @GetMapping("/{cityName}")
     public String findRentals(Model model,
                               @PathVariable("cityName") String cityName,
-                              Pageable pageable) {
+                              @PageableDefault(size = 5) Pageable pageable) {
         Page<RentalReadDto> rentals = rentalService.getAllRentalsByCityName(cityName, pageable);
 
         model.addAttribute("yandexApiKey", mapApiKey.getYandex());

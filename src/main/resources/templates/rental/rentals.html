@@ -13,9 +13,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/rentals.css}" type="text/css">
+
 </head>
 <body>
 <div th:insert="~{fragment::header}"></div>
@@ -49,10 +51,25 @@
     <div class="rentals-work-zone">
         <div class="rentals">
             <div class="rental" th:each="rental: ${rentals.content}">
-                <p th:text="${rental.addressDto.streetDto.name}">Rental</p>
-                <p th:text="${rental.amenities}">Rental</p>
-                <p th:text="${rental.features}">Rental</p>
-                <a th:href="@{/rentals/rental-details/{id}(id=${rental.id})}">Rental info</a>
+
+                <div class="rental-image-slider">
+                    <img th:src="@{/image/rental/intro/{image}(image=${rental.introImage})}" alt="Intro">
+                </div>
+
+                <div class="rental-summary">
+                    <div class="summary-info">
+                        <p th:text="${rental.addressDto.streetDto.name} + ' ' + ${rental.addressDto.houseNo}">Street
+                            name</p>
+                        <p th:text="'Owner: ' + ${rental.userReadDto.email}">Owner email</p>
+                        <p th:text="'Owner phone number: ' + ${rental.userReadDto.profileReadDto.phoneNumber}">Owner
+                            phone number</p>
+                    </div>
+                    <div class="rental-details-btn">
+                        <a th:href="@{/rentals/rental-details/{id}(id=${rental.id})}">
+                            <span>Rental info</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -60,12 +77,14 @@
             <div class="pagination-bar-btn" th:object="${rentals.metadata}">
                 <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
                     <button type="submit">Prev
+<!--                        <input type="hidden" name="size" th:value="10">-->
                         <input type="hidden" name="page"
                                th:value="*{page - 1 < 0} ? 0 : *{page - 1}">
                     </button>
                 </form>
                 <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
                     <button type="submit">Next
+<!--                        <input type="hidden" name="size" th:value="10">-->
                         <input type="hidden" name="page"
                                th:value="*{page + 1 >= totalPages} ? *{page} : *{page + 1}">
                     </button>
