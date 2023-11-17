@@ -50,6 +50,12 @@ public class Rental extends AuditingEntity {
     @Column(name = "intro_image")
     private String introImage;
 
+    @Column(name = "bedrooms")
+    private Integer countOfBedrooms;
+
+    @Column(name = "property_size")
+    private BigDecimal propertySize;
+
     @Column(name = "status")
     @Enumerated(STRING)
     private Status status;

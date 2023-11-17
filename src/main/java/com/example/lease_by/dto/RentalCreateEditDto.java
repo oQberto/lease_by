@@ -29,7 +29,9 @@ public class RentalCreateEditDto {
 
     String description; // rental
     String introImage; //rental
+    Integer countOfBedrooms; //rental
     BigDecimal price; // rental
+    BigDecimal propertySize; //rental
 
     UserReadDto userReadDto; // rental
 

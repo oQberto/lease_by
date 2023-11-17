@@ -20,6 +20,8 @@ public class RentalReadDto {
     Status status;
     String description;
     String introImage;
+    Integer countOfBedrooms;
+    BigDecimal propertySize;
     RentalDetailsDto rentalDetailsDto;
 
     @Builder.Default
