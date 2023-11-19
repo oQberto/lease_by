@@ -1,6 +1,10 @@
 package com.example.lease_by.api.controller;
 
+import com.example.lease_by.api.controller.util.PageName.City;
+import com.example.lease_by.api.controller.util.PageName.Rental;
+import com.example.lease_by.api.controller.util.PageName.User;
 import com.example.lease_by.config.MapApiKey;
+import com.example.lease_by.dto.filter.RentalFilter;
 import com.example.lease_by.dto.pagination.PageResponse;
 import com.example.lease_by.dto.rental.RentalCreateEditDto;
 import com.example.lease_by.dto.rental.RentalReadDto;
@@ -28,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.example.lease_by.api.controller.util.UrlName.RentalController.*;
+import static java.util.Objects.nonNull;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,7 +55,7 @@ public class RentalController {
         List<RentalReadDto> rentalsByUsername = rentalService.getRentalsByUsername(username);
         model.addAttribute("userRentals", rentalsByUsername);
 
-        return "user/profile/listings";
+        return User.Profile.LISTINGS;
     }
 
     @GetMapping(RENTAL_DETAILS_BY_RENTAL_ID)
@@ -59,7 +64,7 @@ public class RentalController {
         return rentalService.getRentalById(rentalId)
                 .map(rental -> {
                     model.addAttribute("rental", rental);
-                    return "rental/rentalInfo";
+                    return Rental.RENTAL_INFO;
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -86,7 +91,7 @@ public class RentalController {
                 "features", List.of(Feature.values()),
                 "amenities", List.of(Amenities.values())
         ));
-        return "rental/postRental";
+        return Rental.POST_RENTAL;
     }
 
     @PostMapping(POST_RENTAL)
@@ -97,11 +102,11 @@ public class RentalController {
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("rental", rentalCreateEditDto);
-            return "redirect:/rentals/post-rental";
+            return "redirect:" + Rental.POST_RENTAL;
         }
 
         rentalService.createRental(rentalCreateEditDto, userDetails.getUsername());
-        return "city/cities";
+        return City.CITIES;
     }
 
     @GetMapping(RENTALS_BY_CITY_NAME)
@@ -113,7 +118,7 @@ public class RentalController {
         model.addAttribute("yandexApiKey", mapApiKey.getYandex());
         model.addAttribute("rentals", PageResponse.of(rentals));
 
-        return "rental/rentals";
+        return Rental.RENTALS;
     }
 
     @GetMapping(RENTALS_BY_ADDRESS)
@@ -122,6 +127,22 @@ public class RentalController {
         List<RentalReadDto> rentals = rentalService.getRentalsByAddress(address, PageRequest.of(0, 10));
         model.addAttribute("rentals", rentals);
 
-        return "rental/rentals";
+        return Rental.RENTALS;
+    }
+
+    @GetMapping(FILTERED_RENTALS)
+    public String findRentalsByFilter(Model model,
+                                      @PathVariable("cityName") String cityName,
+                                      @ModelAttribute("rentalFilter") RentalFilter rentalFilter,
+                                      @PageableDefault(size = 5) Pageable pageable,
+                                      RedirectAttributes redirectAttributes) {
+        if (nonNull(rentalFilter)) {
+            redirectAttributes.addFlashAttribute("rentalFilter", rentalFilter);
+        }
+
+        Page<RentalReadDto> filteredRentals = rentalService.getFilteredRentals(rentalFilter, pageable);
+        model.addAttribute("filteredRentals", PageResponse.of(filteredRentals));
+
+        return Rental.RENTALS;
     }
 }

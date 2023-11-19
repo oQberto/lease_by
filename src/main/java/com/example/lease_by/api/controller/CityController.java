@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+import static com.example.lease_by.api.controller.util.PageName.City;
 import static com.example.lease_by.api.controller.util.UrlName.CityController.CITIES;
 
 @Controller
@@ -23,6 +24,6 @@ public class CityController {
         List<CityReadDto> cities = cityService.findAll();
         model.addAttribute("cities", cities);
 
-        return "city/cities";
+        return City.CITIES;
     }
 }

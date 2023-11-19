@@ -29,5 +29,6 @@ public interface UrlName {
         String POST_RENTAL = "/post-rental";
         String RENTALS_BY_CITY_NAME = "/{cityName}";
         String RENTALS_BY_ADDRESS = "/address/{address}";
+        String FILTERED_RENTALS = RENTALS_BY_CITY_NAME + "/filtered";
     }
 }
