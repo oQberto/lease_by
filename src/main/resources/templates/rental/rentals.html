@@ -2,57 +2,110 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Lease.by</title>
+    <link rel="shortcut icon" th:href="@{/image/content/logo/logo-title.webp}" type="image/x-icon">
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script th:src="'https://api-maps.yandex.ru/2.1/?apikey=' + ${yandexApiKey} + '&lang=ru_RU'"
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU"
             type="text/javascript"></script>
     <script src="https://search-maps.yandex.ru/v2/1/" type="text/javascript"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+    <script src="/js/filterBar.js"></script>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/rentals.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/sortingBar.css}" type="text/css">
 
 </head>
 <body>
-<div th:insert="~{fragment::header}"></div>
+<div th:insert="~{fragment :: header}"></div>
 
 <div>
-    <div class="sorting-bar">
-<!--        TODO: create UI for sorting bar-->
-    </div>
-
     <div class="map" id="map"></div>
-
     <script type="text/javascript" src="/js/addressesMapRepresentation.js"></script>
 
-    <!-- Модальное окно Bootstrap -->
-    <div class="modal fade" id="markerModal" tabindex="-1" role="dialog" aria-labelledby="markerModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="markerModalTitle"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="markerModalDetails"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                </div>
+    <div class="rentals-work-zone">
+        <div class="filter-zone">
+            <div class="filter-bar">
+                <a class="filter-dropdown">
+                    <span class="filter-dropdown-text">Filter rentals</span>
+                </a>
+            </div>
+
+            <div class="edit-filter-modal hidden">
+                <form th:action="@{/rentals/{cityName}/filtered(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
+                    <div class="choose-zone">
+                        <p>Property type: </p>
+                        <label th:each="propertyType: ${propertyTypes}" th:for="${propertyType}">
+                            <input th:id="${propertyType}" type="radio" name="propertyType" th:value="${propertyType}">
+                            <span th:text="${propertyType}"></span>
+                        </label>
+                    </div>
+
+                    <div class="choose-zone">
+                        <p>Furnished: </p>
+                        <label th:each="furnished: ${furnished}" th:for="${furnished}">
+                            <input th:id="${furnished}" type="radio" name="furnished" th:value="${furnished}">
+                            <span th:text="${furnished}"></span>
+                        </label>
+                    </div>
+
+                    <div class="choose-zone">
+                        <p>House category: </p>
+                        <label th:each="category: ${categories}" th:for="${category}">
+                            <input th:id="${category}" type="checkbox" name="categories" th:value="${category}">
+                            <span th:text="${category}"></span>
+                        </label>
+                    </div>
+
+                    <div class="choose-zone">
+                        <p>Utilities included: </p>
+                        <label th:each="utility: ${utilities}" th:for="${utility}">
+                            <input th:id="${utility}" type="checkbox" name="utilities" th:value="${utility}">
+                            <span th:text="${utility}"></span>
+                        </label>
+                    </div>
+
+                    <div class="choose-zone">
+                        <p>Bedrooms: </p>
+                        <label th:each="number: ${bedrooms}" th:for="${number}">
+                            <input th:id="${number}" type="radio" name="countOfBedrooms" th:value="${number}">
+                            <span th:text="${number}"></span>
+                        </label>
+                    </div>
+
+                    <div class="choose-zone">
+                        <p>Pet friendly: </p>
+                        <label for="yes">
+                            <input id="yes" type="radio" name="petFriendly" value="true">
+                            <span>Yes</span>
+                        </label>
+                        <label for="no">
+                            <input id="no" type="radio" name="petFriendly" value="false">
+                            <span>No</span>
+                        </label>
+                    </div>
+
+                    <label for="priceFrom">Price from: </label>
+                    <input id="priceFrom" type="text" name="priceFrom"><br>
+                    <label for="priceTo">Price to: </label>
+                    <input id="priceTo" type="text" name="priceTo"><br>
+                    <label for="yearBuilt"></label>
+                    <input id="yearBuilt" type="date" name="yearBuilt">
+                    <input type="hidden" name="cityName" th:value="${rentals.content.get(0).addressDto.cityReadDto.name}">
+                    <button class="apply-button">Filter</button>
+                </form>
+                <button class="text-button">Cancel</button>
             </div>
         </div>
-    </div>
 
-    <div class="rentals-work-zone">
         <div class="rentals">
             <div class="rental" th:each="rental: ${rentals.content}">
 
@@ -81,24 +134,21 @@
             <div class="pagination-bar-btn" th:object="${rentals.metadata}">
                 <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
                     <button type="submit">Prev
-<!--                        <input type="hidden" name="size" th:value="10">-->
                         <input type="hidden" name="page"
                                th:value="*{page - 1 < 0} ? 0 : *{page - 1}">
                     </button>
                 </form>
                 <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
                     <button type="submit">Next
-<!--                        <input type="hidden" name="size" th:value="10">-->
                         <input type="hidden" name="page"
                                th:value="*{page + 1 >= totalPages} ? *{page} : *{page + 1}">
                     </button>
                 </form>
             </div>
         </div>
-
     </div>
 </div>
 
-<div th:insert="~{fragment::footer}"></div>
+<div th:insert="~{fragment :: footer}"></div>
 </body>
 </html>

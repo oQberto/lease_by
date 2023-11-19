@@ -2,6 +2,7 @@ package com.example.lease_by.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
+@FieldNameConstants
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

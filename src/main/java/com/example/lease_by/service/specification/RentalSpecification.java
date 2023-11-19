@@ -16,8 +16,10 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static com.example.lease_by.dto.filter.RentalFilter.Fields.*;
-import static com.example.lease_by.model.entity.Rental.Fields.price;
-import static com.example.lease_by.model.entity.Rental.Fields.rentalDetails;
+import static com.example.lease_by.model.entity.Address.Fields.city;
+import static com.example.lease_by.model.entity.City.Fields.name;
+import static com.example.lease_by.model.entity.Rental.Fields.countOfBedrooms;
+import static com.example.lease_by.model.entity.Rental.Fields.*;
 import static com.example.lease_by.service.specification.RentalSpecification.FilterFields.*;
 import static java.util.Objects.isNull;
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -28,14 +30,23 @@ public class RentalSpecification {
     @NotNull
     public static Specification<Rental> filterBy(RentalFilter rentalFilter) {
         return where(hasPropertyType(rentalFilter.getPropertyType()))
+                .and(hasCityName(rentalFilter.getCityName()))
                 .and(hasPropertyType(rentalFilter.getPropertyType()))
                 .and(hasBedrooms(rentalFilter.getCountOfBedrooms()))
                 .and(hasFurnished(rentalFilter.getFurnished()))
                 .and(yearBuiltGreaterThan(rentalFilter.getYearBuilt()))
                 .and(hasPrice(rentalFilter.getPriceFrom(), rentalFilter.getPriceTo()))
-                .and(isPetFriendly(rentalFilter.isPetFriendly()))
+                .and(isPetFriendly(rentalFilter.getPetFriendly()))
                 .and(hasCategories(rentalFilter.getCategories()))
                 .and(hasUtilities(rentalFilter.getUtilities()));
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    private static Specification<Rental> hasCityName(String cityName) {
+        return (root, query, cb) -> isNull(cityName)
+        ? cb.conjunction() :
+         cb.equal(root.get(ADDRESS).get(CITY).get(CITY_NAME), cityName);
     }
 
     @NotNull
@@ -80,8 +91,8 @@ public class RentalSpecification {
 
     @NotNull
     @Contract(pure = true)
-    private static Specification<Rental> isPetFriendly(boolean isPetFriendly) {
-        return (root, query, cb) -> isPetFriendly
+    private static Specification<Rental> isPetFriendly(Boolean isPetFriendly) {
+        return (root, query, cb) -> isNull(isPetFriendly)
                 ? cb.isTrue(root.get(RENTAL_DETAILS).get(PET_FRIENDLY))
                 : cb.isFalse(root.get(RENTAL_DETAILS).get(PET_FRIENDLY));
     }
@@ -103,7 +114,10 @@ public class RentalSpecification {
     }
 
     protected interface FilterFields {
+        String CITY = city;
         String PRICE = price;
+        String CITY_NAME = name;
+        String ADDRESS = address;
         String UTILITIES = utilities;
         String FURNISHED = furnished;
         String YEAR_BUILT = yearBuilt;

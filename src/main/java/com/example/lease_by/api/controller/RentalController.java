@@ -115,8 +115,15 @@ public class RentalController {
                               @PageableDefault(size = 5) Pageable pageable) {
         Page<RentalReadDto> rentals = rentalService.getAllRentalsByCityName(cityName, pageable);
 
-        model.addAttribute("yandexApiKey", mapApiKey.getYandex());
         model.addAttribute("rentals", PageResponse.of(rentals));
+        model.addAttribute("yandexApiKey", mapApiKey.getYandex());
+        model.addAllAttributes(Map.of(
+                "propertyTypes", List.of(PropertyType.values()),
+                "utilities", List.of(Utility.values()),
+                "categories", List.of(Category.values()),
+                "furnished", List.of(Furnished.values()),
+                "bedrooms", List.of(1, 2, 3, 4)
+        ));
 
         return Rental.RENTALS;
     }
@@ -132,8 +139,8 @@ public class RentalController {
 
     @GetMapping(FILTERED_RENTALS)
     public String findRentalsByFilter(Model model,
+                                      RentalFilter rentalFilter,
                                       @PathVariable("cityName") String cityName,
-                                      @ModelAttribute("rentalFilter") RentalFilter rentalFilter,
                                       @PageableDefault(size = 5) Pageable pageable,
                                       RedirectAttributes redirectAttributes) {
         if (nonNull(rentalFilter)) {

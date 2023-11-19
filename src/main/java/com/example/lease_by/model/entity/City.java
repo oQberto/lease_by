@@ -8,10 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldNameConstants;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
+@FieldNameConstants
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

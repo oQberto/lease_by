@@ -6,6 +6,27 @@
 </head>
 <body>
 <div th:fragment="~{fragment::header}"></div>
+
+<form action="#">
+    <label>Prop type:
+        <input type="text" name="search">
+        <input type="text" name="search">
+        <select multiple="multiple">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+        </select>
+    </label>
+    <div th:each="utility: ${rental.features}">
+        <label th:for="${utility}">
+            <input th:id="${utility}" type="checkbox" name="utilities" th:value="${utility}"
+                   th:text="${utility}">
+        </label>
+    </div>
+    <button type="submit">Search</button>
+</form>
+
 <div>
     <p th:text="${rental.features}"></p>
     Hi from rental info!
