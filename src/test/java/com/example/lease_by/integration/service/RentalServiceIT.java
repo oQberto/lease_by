@@ -85,6 +85,8 @@ class RentalServiceIT extends IntegrationTestBase {
                 .propertyType(PropertyType.HOUSE)
                 .address("Дружная Улица, Minsk")
                 .houseNo(10)
+                .countOfBedrooms(1)
+                .propertySize(BigDecimal.valueOf(38.2))
                 .yearBuilt(LocalDate.now())
                 .petFriendly(true)
                 .furnished(Furnished.NO_FURNITURE)
@@ -117,7 +119,9 @@ class RentalServiceIT extends IntegrationTestBase {
                         Rental.builder()
                                 .id(15L)
                                 .price(new BigDecimal("113.0"))
-                                .status(Status.NO_INFO)
+                                .propertySize(BigDecimal.valueOf(0.00))
+                                .countOfBedrooms(1)
+                                .status(Status.PENDING_CONFIRMATION)
                                 .build()
                 ))
                 .build();
@@ -125,7 +129,7 @@ class RentalServiceIT extends IntegrationTestBase {
 
     private RentalDetailsDto getRentalDetailsDto() {
         return RentalDetailsDto.builder()
-                .id(15L)
+                .id(25L)
                 .propertyType(PropertyType.HOUSE)
                 .parkingType(ParkingType.NO_PARKING)
                 .furnished(Furnished.NO_FURNITURE)

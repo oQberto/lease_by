@@ -7,15 +7,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import static com.example.lease_by.api.controller.util.UrlName.LoginController.LOGIN;
+
 @Controller
 public class LoginController {
 
-    @GetMapping("/login")
+    @GetMapping(LOGIN)
     public String loginPage() {
         return "/user/login";
     }
 
-    @PostMapping("/login")
+    @PostMapping(LOGIN)
     public String login(Model model,
                         @ModelAttribute("login") LoginDto loginDto) {
         return "redirect:/login";

@@ -24,21 +24,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+import static com.example.lease_by.api.controller.util.UrlName.AccountController.*;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/accounts")
+@RequestMapping(ACCOUNTS)
 public class AccountController {
     private final UserService userService;
     private final ProfileService profileService;
 
-    @GetMapping("/registration")
+    @GetMapping(REGISTRATION)
     public String registration(Model model,
                                @ModelAttribute("user") UserCreateDto userCreateDto) {
         model.addAttribute("user", userCreateDto);
         return "user/registration";
     }
 
-    @PostMapping("/register")
+    @PostMapping(REGISTER)
     public String registerUser(@ModelAttribute("user") @Validated({Default.class, CreateAction.class}) UserCreateDto userCreateDto,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -55,7 +57,7 @@ public class AccountController {
         return "redirect:/cities";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(ACCOUNT_BY_USER_ID)
     public String getUserAccount(Model model,
                                  @PathVariable("id") Long id) {
         return userService.getUserById(id)
@@ -66,7 +68,7 @@ public class AccountController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/profile/{userId}")
+    @GetMapping(PROFILE_BY_USER_ID)
     @PreAuthorize("isAuthenticated()")
     public String getUserProfile(Model model,
                                  @PathVariable("userId") Long id) {
@@ -78,7 +80,7 @@ public class AccountController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/{id}/update")
+    @PostMapping(UPDATE_ACCOUNT_BY_USER_ID)
     @PreAuthorize("isAuthenticated()")
     public String updateUser(@PathVariable("id") Long id,
                              @ModelAttribute("updatedUser") @Validated({Default.class, UpdateAction.class}) UserCreateDto updatedUser) {
@@ -87,7 +89,7 @@ public class AccountController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/profile/{id}/update")
+    @PostMapping(UPDATE_PROFILE_BY_USER_ID)
     @PreAuthorize("isAuthenticated()")
     public String updateUserProfile(@PathVariable("id") Long id,
                                     @ModelAttribute("updatedProfile") ProfileCreateDto updatedProfile) {

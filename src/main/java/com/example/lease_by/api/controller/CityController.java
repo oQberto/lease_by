@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+import static com.example.lease_by.api.controller.util.UrlName.CityController.CITIES;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/cities")
+@RequestMapping(CITIES)
 public class CityController {
     private final CityService cityService;
 

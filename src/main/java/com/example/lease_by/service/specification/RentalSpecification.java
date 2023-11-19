@@ -1,4 +1,4 @@
-package com.example.lease_by.service.specification.util;
+package com.example.lease_by.service.specification;
 
 import com.example.lease_by.dto.filter.RentalFilter;
 import com.example.lease_by.model.entity.RentalDetails;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static com.example.lease_by.dto.filter.RentalFilter.Fields.*;
-import static com.example.lease_by.service.specification.util.RentalSpecification.FilterFields.*;
+import static com.example.lease_by.service.specification.RentalSpecification.FilterFields.*;
 import static java.util.Objects.isNull;
 import static org.springframework.data.jpa.domain.Specification.where;
 

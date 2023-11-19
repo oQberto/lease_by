@@ -10,15 +10,17 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @IT
 @Sql("classpath:sql/test-data.sql")
 public class IntegrationTestBase {
-    private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15.4");
+    private static final String IMAGE_VERSION = "postgres:15.4";
+    private static final String PROPERTY_NAME = "spring.datasource.url";
+    private static final PostgreSQLContainer<?> CONTAINER = new PostgreSQLContainer<>(IMAGE_VERSION);
 
     @BeforeAll
     static void runContainer() {
-        container.start();
+        CONTAINER.start();
     }
 
     @DynamicPropertySource
     static void postgresProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add(PROPERTY_NAME, CONTAINER::getJdbcUrl);
     }
 }

@@ -27,21 +27,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.lease_by.api.controller.util.UrlName.RentalController.*;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/rentals")
+@RequestMapping(RENTALS)
 public class RentalController {
     private final MapApiKey mapApiKey;
     private final RentalService rentalService;
     private final ImageService imageService;
 
     @ResponseBody
-    @GetMapping("/image/{image}")
+    @GetMapping(IMAGE_BY_PATH)
     public Resource getFile(@PathVariable("image") String image) {
         return imageService.getImage(image);
     }
 
-    @GetMapping("/account/{username}")
+    @GetMapping(RENTALS_BY_USERNAME)
     @PreAuthorize("isAuthenticated()")
     public String getUserRentals(Model model,
                                  @PathVariable("username") String username) {
@@ -51,7 +53,7 @@ public class RentalController {
         return "user/profile/listings";
     }
 
-    @GetMapping("/rental-details/{id}")
+    @GetMapping(RENTAL_DETAILS_BY_RENTAL_ID)
     public String getRentalDetails(Model model,
                                    @PathVariable("id") Long rentalId) {
         return rentalService.getRentalById(rentalId)
@@ -62,7 +64,7 @@ public class RentalController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/rental")
+    @GetMapping(RENTAL)
     public String getRentalsByStatus(Model model,
                                      @RequestParam("status") String status) {
         List<RentalReadDto> rentalsByStatus = rentalService.getRentalsByStatus(Status.valueOf(status.toUpperCase()));
@@ -71,7 +73,7 @@ public class RentalController {
         return "rental/profileRentals";
     }
 
-    @GetMapping("/post-rental")
+    @GetMapping(POST_RENTAL)
     public String postRental(Model model,
                              @ModelAttribute("rental") RentalCreateEditDto rentalCreateEditDto) {
         model.addAllAttributes(Map.of(
@@ -87,7 +89,7 @@ public class RentalController {
         return "rental/postRental";
     }
 
-    @PostMapping("/post-rental")
+    @PostMapping(POST_RENTAL)
     @PreAuthorize("isAuthenticated()")
     public String createRental(@AuthenticationPrincipal UserDetails userDetails,
                                @ModelAttribute("rental") RentalCreateEditDto rentalCreateEditDto,
@@ -102,7 +104,7 @@ public class RentalController {
         return "city/cities";
     }
 
-    @GetMapping("/{cityName}")
+    @GetMapping(RENTALS_BY_CITY_NAME)
     public String findRentals(Model model,
                               @PathVariable("cityName") String cityName,
                               @PageableDefault(size = 5) Pageable pageable) {
@@ -114,7 +116,7 @@ public class RentalController {
         return "rental/rentals";
     }
 
-    @GetMapping("/address/{address}")
+    @GetMapping(RENTALS_BY_ADDRESS)
     public String findRentalsByAddress(Model model,
                                        @PathVariable("address") String address) {
         List<RentalReadDto> rentals = rentalService.getRentalsByAddress(address, PageRequest.of(0, 10));
