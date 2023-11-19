@@ -5,6 +5,7 @@ import com.example.lease_by.model.entity.enums.Feature;
 import com.example.lease_by.model.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
@@ -17,6 +18,7 @@ import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
+@FieldNameConstants
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

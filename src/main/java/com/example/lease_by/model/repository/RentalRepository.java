@@ -5,12 +5,13 @@ import com.example.lease_by.model.entity.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface RentalRepository extends JpaRepository<Rental, Long> {
+public interface RentalRepository extends JpaRepository<Rental, Long>, JpaSpecificationExecutor<Rental> {
 
     List<Rental> findRentalsByStatus(Status status);
 
@@ -19,6 +20,8 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
     List<Rental> findRentalsByUser_Username(String username);
 
     Page<Rental> findRentalsByAddress_CityNameAndAddress_StreetName(String cityName, String streetName, Pageable pageable);
+
+//    Page<Rental> findRentals(Specification<Rental> specification, Pageable pageable);
 
     Optional<Rental> findRentalById(Long id);
 

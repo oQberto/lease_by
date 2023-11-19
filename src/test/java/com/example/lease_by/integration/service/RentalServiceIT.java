@@ -12,6 +12,8 @@ import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.example.lease_by.integration.service.util.TestEntityBuilder.*;
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -30,13 +34,34 @@ class RentalServiceIT extends IntegrationTestBase {
     private final ProfileMapper profileMapper;
 
     @Test
-    @Disabled
-    void getAllRentalsByCityName() {
-    }
+    void getFilteredRentals() {
+        var rentalFilter = buildRentalFilter(
+                PropertyType.HOUSE,
+                null,
+                LocalDate.of(2023, 1, 1),
+                1,
+                BigDecimal.valueOf(0.00),
+                BigDecimal.valueOf(150.00),
+                true,
+                Set.of(),
+                Set.of()
+        );
+        var pageRequest = PageRequest.of(0, 3);
 
-    @Test
-    @Disabled
-    void getRentalById() {
+        Page<RentalReadDto> actualResult = rentalService.getFilteredRentals(rentalFilter, pageRequest);
+        Set<Long> rentalIds = actualResult.stream()
+                .map(RentalReadDto::getId)
+                .collect(toSet());
+        Set<Long> rentalDetailsIds = actualResult.stream()
+                .map(RentalReadDto::getRentalDetailsDto)
+                .map(RentalDetailsDto::getId)
+                .collect(toSet());
+
+        assertAll(() -> {
+            assertThat(actualResult).hasSize(3);
+            assertThat(rentalIds).contains(14L, 19L, 21L);
+            assertThat(rentalIds).isEqualTo(rentalDetailsIds);
+        });
     }
 
     @Test
@@ -140,30 +165,5 @@ class RentalServiceIT extends IntegrationTestBase {
                 .utilities(Set.of(Utility.CABLE, Utility.ELECTRICITY))
                 .categories(Set.of(Category.SUBLET, Category.SENIOR_HOUSING))
                 .build();
-    }
-
-    private User buildUser(Long id, String email, String username,
-                           String password, Role role) {
-        return User.builder()
-                .id(id)
-                .email(email)
-                .username(username)
-                .password(password)
-                .role(role)
-                .build();
-    }
-
-    private Profile buildProfile(Long id, String avatar, String firstName,
-                                 String lastname, String phoneNumber, User user) {
-        Profile profile = Profile.builder()
-                .id(id)
-                .avatar(avatar)
-                .firstname(firstName)
-                .lastname(lastname)
-                .phoneNumber(phoneNumber)
-                .build();
-        profile.setUser(user);
-
-        return profile;
     }
 }

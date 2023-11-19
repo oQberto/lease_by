@@ -2,6 +2,7 @@ package com.example.lease_by.service.impl;
 
 import com.example.lease_by.dto.RentalCreateEditDto;
 import com.example.lease_by.dto.RentalReadDto;
+import com.example.lease_by.dto.filter.RentalFilter;
 import com.example.lease_by.mapper.AddressMapper;
 import com.example.lease_by.mapper.RentalDetailsMapper;
 import com.example.lease_by.mapper.RentalMapper;
@@ -29,6 +30,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.example.lease_by.service.specification.RentalSpecification.filterBy;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -55,6 +58,12 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public Page<RentalReadDto> getAllRentalsByCityName(String cityNme, Pageable pageable) {
         return rentalRepository.findAllByAddress_CityName(cityNme, pageable)
+                .map(rentalMapper::mapToRentalReadDto);
+    }
+
+    @Override
+    public Page<RentalReadDto> getFilteredRentals(RentalFilter rentalFilter, Pageable pageable) {
+        return rentalRepository.findAll(filterBy(rentalFilter), pageable)
                 .map(rentalMapper::mapToRentalReadDto);
     }
 
