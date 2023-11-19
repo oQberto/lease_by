@@ -27,6 +27,13 @@ footer {
     top: 11%;
 }
 
+.filter-zone {
+    width: 100%;
+    height: 6%;
+    background: linear-gradient(rgba(0, 0, 0, .9), rgba(0, 0, 0, .9));
+    color: white;
+}
+
 .rental-image-slider {
     height: 60%;
     width: 100%;
@@ -40,7 +47,7 @@ footer {
 
 .rentals {
     width: 100%;
-    height: 96%;
+    height: 88%;
     overflow-y: scroll;
 }
 
@@ -94,10 +101,10 @@ footer {
 }
 
 .pagination-bar {
-    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7));
+    background: linear-gradient(rgba(0, 0, 0, .9), rgba(0, 0, 0, .9));
     width: 100%;
-    top: 95%;
-    height: 5%;
+    top: 92%;
+    height: 7%;
     position: absolute;
     text-align: center;
 }
@@ -105,6 +112,8 @@ footer {
 .pagination-bar-btn {
     display: flex;
     justify-content: center;
+    top: 8%;
+    position: relative;
 }
 
 .pagination-bar-btn form {
