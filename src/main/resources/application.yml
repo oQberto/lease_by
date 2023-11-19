@@ -24,6 +24,9 @@ spring:
               - openid
               - email
               - profile
+  mvc:
+    format:
+      date: iso
 logging:
   level:
     root: info
