@@ -1,6 +1,6 @@
 package com.example.lease_by.service;
 
-import com.example.lease_by.dto.GeocodingDto;
+import com.example.lease_by.dto.address.GeocodingDto;
 import com.google.maps.errors.ApiException;
 
 import java.io.IOException;

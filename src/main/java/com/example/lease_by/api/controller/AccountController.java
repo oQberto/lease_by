@@ -1,7 +1,7 @@
 package com.example.lease_by.api.controller;
 
-import com.example.lease_by.dto.ProfileCreateDto;
-import com.example.lease_by.dto.UserCreateDto;
+import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.UserCreateDto;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;

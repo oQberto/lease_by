@@ -9,8 +9,8 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.example.lease_by.dto.ProfileCreateDto.Fields.avatar;
-import static com.example.lease_by.dto.UserCreateDto.Fields.*;
+import static com.example.lease_by.dto.account.ProfileCreateDto.Fields.avatar;
+import static com.example.lease_by.dto.account.UserCreateDto.Fields.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

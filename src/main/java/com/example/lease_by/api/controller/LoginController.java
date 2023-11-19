@@ -1,6 +1,6 @@
 package com.example.lease_by.api.controller;
 
-import com.example.lease_by.dto.LoginDto;
+import com.example.lease_by.dto.account.LoginDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

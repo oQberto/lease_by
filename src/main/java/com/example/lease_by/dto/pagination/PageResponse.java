@@ -1,4 +1,4 @@
-package com.example.lease_by.dto;
+package com.example.lease_by.dto.pagination;
 
 import lombok.Value;
 import org.springframework.data.domain.Page;

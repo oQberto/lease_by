@@ -1,7 +1,7 @@
 package com.example.lease_by.service.impl;
 
-import com.example.lease_by.dto.AddressDto;
-import com.example.lease_by.dto.RentalCreateEditDto;
+import com.example.lease_by.dto.address.AddressDto;
+import com.example.lease_by.dto.rental.RentalCreateEditDto;
 import com.example.lease_by.mapper.AddressMapper;
 import com.example.lease_by.model.repository.AddressRepository;
 import com.example.lease_by.service.AddressService;

@@ -1,9 +1,9 @@
 package com.example.lease_by.api.controller;
 
 import com.example.lease_by.config.MapApiKey;
-import com.example.lease_by.dto.PageResponse;
-import com.example.lease_by.dto.RentalCreateEditDto;
-import com.example.lease_by.dto.RentalReadDto;
+import com.example.lease_by.dto.pagination.PageResponse;
+import com.example.lease_by.dto.rental.RentalCreateEditDto;
+import com.example.lease_by.dto.rental.RentalReadDto;
 import com.example.lease_by.model.entity.enums.*;
 import com.example.lease_by.service.ImageService;
 import com.example.lease_by.service.RentalService;

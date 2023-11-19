@@ -1,7 +1,7 @@
 package com.example.lease_by.service;
 
-import com.example.lease_by.dto.AddressDto;
-import com.example.lease_by.dto.RentalCreateEditDto;
+import com.example.lease_by.dto.address.AddressDto;
+import com.example.lease_by.dto.rental.RentalCreateEditDto;
 
 import java.util.Optional;
 import java.util.Set;

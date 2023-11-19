@@ -1,6 +1,6 @@
 package com.example.lease_by.mapper;
 
-import com.example.lease_by.dto.GeocodingDto;
+import com.example.lease_by.dto.address.GeocodingDto;
 import com.google.maps.model.GeocodingResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,7 +1,7 @@
 package com.example.lease_by.service.impl;
 
-import com.example.lease_by.dto.AddressDto;
-import com.example.lease_by.dto.GeocodingDto;
+import com.example.lease_by.dto.address.AddressDto;
+import com.example.lease_by.dto.address.GeocodingDto;
 import com.example.lease_by.mapper.GeocodingMapper;
 import com.example.lease_by.service.AddressService;
 import com.example.lease_by.service.GeocodingService;

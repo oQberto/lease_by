@@ -1,4 +1,4 @@
-package com.example.lease_by.dto;
+package com.example.lease_by.dto.address.street;
 
 import lombok.Builder;
 import lombok.Value;

@@ -1,6 +1,6 @@
 package com.example.lease_by.api.controller;
 
-import com.example.lease_by.dto.CityReadDto;
+import com.example.lease_by.dto.address.city.CityReadDto;
 import com.example.lease_by.service.CityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

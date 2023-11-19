@@ -1,9 +1,9 @@
 package com.example.lease_by.integration.service;
 
-import com.example.lease_by.dto.ProfileCreateDto;
-import com.example.lease_by.dto.ProfileReadDto;
-import com.example.lease_by.dto.UserCreateDto;
-import com.example.lease_by.dto.UserReadDto;
+import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.ProfileReadDto;
+import com.example.lease_by.dto.account.UserCreateDto;
+import com.example.lease_by.dto.account.UserReadDto;
 import com.example.lease_by.integration.IntegrationTestBase;
 import com.example.lease_by.mapper.ProfileMapper;
 import com.example.lease_by.model.entity.enums.Role;

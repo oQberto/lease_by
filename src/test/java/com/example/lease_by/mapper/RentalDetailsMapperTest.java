@@ -1,7 +1,7 @@
 package com.example.lease_by.mapper;
 
-import com.example.lease_by.dto.RentalCreateEditDto;
-import com.example.lease_by.dto.RentalDetailsDto;
+import com.example.lease_by.dto.rental.RentalCreateEditDto;
+import com.example.lease_by.dto.rental.RentalDetailsDto;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.RentalDetails;
 import com.example.lease_by.model.entity.enums.*;

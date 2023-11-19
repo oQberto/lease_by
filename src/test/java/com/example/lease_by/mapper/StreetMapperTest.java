@@ -1,6 +1,6 @@
 package com.example.lease_by.mapper;
 
-import com.example.lease_by.dto.StreetDto;
+import com.example.lease_by.dto.address.street.StreetDto;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.Street;
 import lombok.RequiredArgsConstructor;

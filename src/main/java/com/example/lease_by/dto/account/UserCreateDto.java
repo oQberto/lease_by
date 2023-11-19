@@ -1,4 +1,4 @@
-package com.example.lease_by.dto;
+package com.example.lease_by.dto.account;
 
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.vaidation.group.CreateAction;

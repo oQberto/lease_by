@@ -1,7 +1,7 @@
 package com.example.lease_by.service;
 
-import com.example.lease_by.dto.ProfileCreateDto;
-import com.example.lease_by.dto.ProfileReadDto;
+import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.ProfileReadDto;
 import com.example.lease_by.model.entity.Profile;
 
 import java.util.Optional;

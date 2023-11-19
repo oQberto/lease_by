@@ -1,6 +1,6 @@
 package com.example.lease_by.api.rest;
 
-import com.example.lease_by.dto.GeocodingDto;
+import com.example.lease_by.dto.address.GeocodingDto;
 import com.example.lease_by.service.GeocodingService;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;

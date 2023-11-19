@@ -1,7 +1,7 @@
 package com.example.lease_by.mapper;
 
-import com.example.lease_by.dto.ProfileCreateDto;
-import com.example.lease_by.dto.ProfileReadDto;
+import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.ProfileReadDto;
 import com.example.lease_by.model.entity.Profile;
 import org.mapstruct.*;
 import org.springframework.stereotype.Component;

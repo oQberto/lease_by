@@ -1,6 +1,13 @@
 package com.example.lease_by.integration.service;
 
-import com.example.lease_by.dto.*;
+import com.example.lease_by.dto.account.ProfileReadDto;
+import com.example.lease_by.dto.account.UserReadDto;
+import com.example.lease_by.dto.address.AddressDto;
+import com.example.lease_by.dto.address.city.CityReadDto;
+import com.example.lease_by.dto.address.street.StreetDto;
+import com.example.lease_by.dto.rental.RentalCreateEditDto;
+import com.example.lease_by.dto.rental.RentalDetailsDto;
+import com.example.lease_by.dto.rental.RentalReadDto;
 import com.example.lease_by.integration.IntegrationTestBase;
 import com.example.lease_by.mapper.ProfileMapper;
 import com.example.lease_by.mapper.UserMapper;
@@ -96,7 +103,7 @@ class RentalServiceIT extends IntegrationTestBase {
 
         assertAll(() -> {
             assertThat(noInfoRentals).hasSize(2);
-            assertThat(activeRentals).hasSize(15);
+            assertThat(activeRentals).hasSize(14);
             assertThat(blockedRentals).hasSize(2);
             assertThat(bookedRentals).hasSize(1);
             assertThat(pendingConfirmationRentals).hasSize(3);

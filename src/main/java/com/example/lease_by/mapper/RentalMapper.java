@@ -1,7 +1,7 @@
 package com.example.lease_by.mapper;
 
-import com.example.lease_by.dto.RentalCreateEditDto;
-import com.example.lease_by.dto.RentalReadDto;
+import com.example.lease_by.dto.rental.RentalCreateEditDto;
+import com.example.lease_by.dto.rental.RentalReadDto;
 import com.example.lease_by.model.entity.Rental;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

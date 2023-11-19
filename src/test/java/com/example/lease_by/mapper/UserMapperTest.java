@@ -1,7 +1,7 @@
 package com.example.lease_by.mapper;
 
-import com.example.lease_by.dto.UserCreateDto;
-import com.example.lease_by.dto.UserReadDto;
+import com.example.lease_by.dto.account.UserCreateDto;
+import com.example.lease_by.dto.account.UserReadDto;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.User;
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,7 @@
-package com.example.lease_by.dto;
+package com.example.lease_by.dto.address;
 
+import com.example.lease_by.dto.address.city.CityReadDto;
+import com.example.lease_by.dto.address.street.StreetDto;
 import com.example.lease_by.model.entity.Rental;
 import lombok.Builder;
 import lombok.Value;

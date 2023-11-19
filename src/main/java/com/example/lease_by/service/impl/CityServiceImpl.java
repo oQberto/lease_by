@@ -1,6 +1,6 @@
 package com.example.lease_by.service.impl;
 
-import com.example.lease_by.dto.CityReadDto;
+import com.example.lease_by.dto.address.city.CityReadDto;
 import com.example.lease_by.mapper.CityMapper;
 import com.example.lease_by.model.repository.CityRepository;
 import com.example.lease_by.service.CityService;

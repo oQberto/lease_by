@@ -1,6 +1,11 @@
 package com.example.lease_by.mapper;
 
-import com.example.lease_by.dto.*;
+import com.example.lease_by.dto.account.UserReadDto;
+import com.example.lease_by.dto.address.AddressDto;
+import com.example.lease_by.dto.address.city.CityReadDto;
+import com.example.lease_by.dto.address.street.StreetDto;
+import com.example.lease_by.dto.rental.RentalDetailsDto;
+import com.example.lease_by.dto.rental.RentalReadDto;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.*;
 import com.example.lease_by.model.entity.enums.*;

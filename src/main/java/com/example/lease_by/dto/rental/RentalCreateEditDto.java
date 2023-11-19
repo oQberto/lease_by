@@ -1,5 +1,6 @@
-package com.example.lease_by.dto;
+package com.example.lease_by.dto.rental;
 
+import com.example.lease_by.dto.account.UserReadDto;
 import com.example.lease_by.model.entity.enums.*;
 import lombok.Builder;
 import lombok.Value;
