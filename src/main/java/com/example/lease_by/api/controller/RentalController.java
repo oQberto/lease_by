@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.example.lease_by.api.controller.util.UrlName.RentalController.*;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Controller
@@ -111,12 +112,15 @@ public class RentalController {
 
     @GetMapping(RENTALS_BY_CITY_NAME)
     public String findRentals(Model model,
+                              RentalFilter rentalFilter,
+                              RedirectAttributes redirectAttributes,
                               @PathVariable("cityName") String cityName,
                               @PageableDefault(size = 5) Pageable pageable) {
-        Page<RentalReadDto> rentals = rentalService.getAllRentalsByCityName(cityName, pageable);
+        Page<RentalReadDto> rentals = isNull(rentalFilter)
+                ? rentalService.getAllRentalsByCityName(cityName, pageable)
+                : rentalService.getFilteredRentals(rentalFilter, pageable);
 
         model.addAttribute("rentals", PageResponse.of(rentals));
-        model.addAttribute("yandexApiKey", mapApiKey.getYandex());
         model.addAllAttributes(Map.of(
                 "propertyTypes", List.of(PropertyType.values()),
                 "utilities", List.of(Utility.values()),
@@ -124,7 +128,7 @@ public class RentalController {
                 "furnished", List.of(Furnished.values()),
                 "bedrooms", List.of(1, 2, 3, 4)
         ));
-
+        redirectAttributes.addFlashAttribute("rentalFilter", rentalFilter);
         return Rental.RENTALS;
     }
 
@@ -139,7 +143,7 @@ public class RentalController {
 
     @GetMapping(FILTERED_RENTALS)
     public String findRentalsByFilter(Model model,
-                                      RentalFilter rentalFilter,
+                                      @ModelAttribute("rentalFilter") RentalFilter rentalFilter,
                                       @PathVariable("cityName") String cityName,
                                       @PageableDefault(size = 5) Pageable pageable,
                                       RedirectAttributes redirectAttributes) {
@@ -148,7 +152,7 @@ public class RentalController {
         }
 
         Page<RentalReadDto> filteredRentals = rentalService.getFilteredRentals(rentalFilter, pageable);
-        model.addAttribute("filteredRentals", PageResponse.of(filteredRentals));
+        model.addAttribute("rentals", PageResponse.of(filteredRentals));
 
         return Rental.RENTALS;
     }

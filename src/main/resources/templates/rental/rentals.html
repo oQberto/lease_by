@@ -40,11 +40,11 @@
             </div>
 
             <div class="edit-filter-modal hidden">
-                <form th:action="@{/rentals/{cityName}/filtered(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
+                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
                     <div class="choose-zone">
                         <p>Property type: </p>
                         <label th:each="propertyType: ${propertyTypes}" th:for="${propertyType}">
-                            <input th:id="${propertyType}" type="radio" name="propertyType" th:value="${propertyType}">
+                            <input th:id="${propertyType}" type="radio" name="propertyType" th:checked="${rentalFilter.propertyType}" th:value="${propertyType}">
                             <span th:text="${propertyType}"></span>
                         </label>
                     </div>
@@ -52,7 +52,7 @@
                     <div class="choose-zone">
                         <p>Furnished: </p>
                         <label th:each="furnished: ${furnished}" th:for="${furnished}">
-                            <input th:id="${furnished}" type="radio" name="furnished" th:value="${furnished}">
+                            <input th:id="${furnished}" type="radio" name="furnished" th:checked="${rentalFilter.furnished}" th:value="${furnished}">
                             <span th:text="${furnished}"></span>
                         </label>
                     </div>

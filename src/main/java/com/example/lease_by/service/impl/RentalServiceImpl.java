@@ -15,6 +15,7 @@ import com.example.lease_by.model.repository.RentalRepository;
 import com.example.lease_by.service.AddressService;
 import com.example.lease_by.service.RentalService;
 import com.example.lease_by.service.exception.AddressCreationException;
+import com.example.lease_by.service.specification.RentalPredicate;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,8 +30,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static com.example.lease_by.service.specification.RentalSpecification.filterBy;
 
 @Service
 @RequiredArgsConstructor
@@ -63,7 +62,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public Page<RentalReadDto> getFilteredRentals(RentalFilter rentalFilter, Pageable pageable) {
-        return rentalRepository.findAll(filterBy(rentalFilter), pageable)
+        return rentalRepository.findAll(RentalPredicate.filterBy(rentalFilter), pageable)
                 .map(rentalMapper::mapToRentalReadDto);
     }
 

@@ -29,8 +29,7 @@ public class RentalSpecification {
 
     @NotNull
     public static Specification<Rental> filterBy(RentalFilter rentalFilter) {
-        return where(hasPropertyType(rentalFilter.getPropertyType()))
-                .and(hasCityName(rentalFilter.getCityName()))
+        return where(hasCityName(rentalFilter.getCityName()))
                 .and(hasPropertyType(rentalFilter.getPropertyType()))
                 .and(hasBedrooms(rentalFilter.getCountOfBedrooms()))
                 .and(hasFurnished(rentalFilter.getFurnished()))
@@ -45,8 +44,8 @@ public class RentalSpecification {
     @Contract(pure = true)
     private static Specification<Rental> hasCityName(String cityName) {
         return (root, query, cb) -> isNull(cityName)
-        ? cb.conjunction() :
-         cb.equal(root.get(ADDRESS).get(CITY).get(CITY_NAME), cityName);
+                ? cb.conjunction()
+                : cb.equal(root.get(ADDRESS).get(CITY).get(CITY_NAME), cityName);
     }
 
     @NotNull
@@ -93,8 +92,8 @@ public class RentalSpecification {
     @Contract(pure = true)
     private static Specification<Rental> isPetFriendly(Boolean isPetFriendly) {
         return (root, query, cb) -> isNull(isPetFriendly)
-                ? cb.isTrue(root.get(RENTAL_DETAILS).get(PET_FRIENDLY))
-                : cb.isFalse(root.get(RENTAL_DETAILS).get(PET_FRIENDLY));
+                ? cb.isTrue(root.join(RENTAL_DETAILS).get(PET_FRIENDLY))
+                : cb.isFalse(root.join(RENTAL_DETAILS).get(PET_FRIENDLY));
     }
 
     @NotNull
@@ -102,7 +101,7 @@ public class RentalSpecification {
     private static Specification<Rental> hasCategories(Set<Category> categories) {
         return (root, query, cb) -> isNull(categories) || categories.isEmpty()
                 ? cb.conjunction()
-                : cb.equal(root.get(RENTAL_DETAILS).get(CATEGORIES), categories);
+                : cb.equal(root.join(RENTAL_DETAILS).get(CATEGORIES), categories);
     }
 
     @NotNull
@@ -110,7 +109,7 @@ public class RentalSpecification {
     private static Specification<Rental> hasUtilities(Set<Utility> utilities) {
         return (root, query, cb) -> isNull(utilities) || utilities.isEmpty()
                 ? cb.conjunction()
-                : cb.equal(root.get(RENTAL_DETAILS).get(UTILITIES), utilities);
+                : cb.equal(root.join(RENTAL_DETAILS).get(UTILITIES), utilities);
     }
 
     protected interface FilterFields {
