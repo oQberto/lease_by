@@ -1,4 +1,4 @@
-package com.example.lease_by.service.specification;
+package com.example.lease_by.service.predicate;
 
 import com.example.lease_by.dto.filter.RentalFilter;
 import com.example.lease_by.model.querydsl.QPredicate;

@@ -15,7 +15,7 @@ import com.example.lease_by.model.repository.RentalRepository;
 import com.example.lease_by.service.AddressService;
 import com.example.lease_by.service.RentalService;
 import com.example.lease_by.service.exception.AddressCreationException;
-import com.example.lease_by.service.specification.RentalPredicate;
+import com.example.lease_by.service.predicate.RentalPredicate;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

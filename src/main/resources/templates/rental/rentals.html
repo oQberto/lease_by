@@ -40,11 +40,11 @@
             </div>
 
             <div class="edit-filter-modal hidden">
-                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
+                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})} ">
                     <div class="choose-zone">
                         <p>Property type: </p>
                         <label th:each="propertyType: ${propertyTypes}" th:for="${propertyType}">
-                            <input th:id="${propertyType}" type="radio" name="propertyType" th:checked="${rentalFilter.propertyType}" th:value="${propertyType}">
+                            <input th:id="${propertyType}" type="radio" name="propertyType" th:checked="${filter.propertyType}" th:value="${propertyType}">
                             <span th:text="${propertyType}"></span>
                         </label>
                     </div>
@@ -52,7 +52,7 @@
                     <div class="choose-zone">
                         <p>Furnished: </p>
                         <label th:each="furnished: ${furnished}" th:for="${furnished}">
-                            <input th:id="${furnished}" type="radio" name="furnished" th:checked="${rentalFilter.furnished}" th:value="${furnished}">
+                            <input th:id="${furnished}" type="radio" name="furnished" th:checked="${filter.furnished}" th:value="${furnished}">
                             <span th:text="${furnished}"></span>
                         </label>
                     </div>
@@ -96,7 +96,7 @@
                     <label for="priceFrom">Price from: </label>
                     <input id="priceFrom" type="text" name="priceFrom"><br>
                     <label for="priceTo">Price to: </label>
-                    <input id="priceTo" type="text" name="priceTo"><br>
+                    <input id="priceTo" type="text" name="priceTo" th:value="${filter.priceTo}"><br>
                     <label for="yearBuilt"></label>
                     <input id="yearBuilt" type="date" name="yearBuilt">
                     <input type="hidden" name="cityName" th:value="${rentals.content.get(0).addressDto.cityReadDto.name}">
@@ -132,7 +132,7 @@
 
         <div class="pagination-bar">
             <div class="pagination-bar-btn" th:object="${rentals.metadata}">
-                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
+                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}" method="get">
                     <button type="submit">Prev
                         <input type="hidden" name="page"
                                th:value="*{page - 1 < 0} ? 0 : *{page - 1}">
