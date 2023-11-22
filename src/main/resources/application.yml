@@ -27,8 +27,10 @@ spring:
               - email
               - profile
   mail:
-    host: smtp.gmail.com
-    port: 587
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
     default-encoding: UTF-8
     properties:
       mail:
@@ -38,6 +40,9 @@ spring:
           auth: true
           starttls:
             enable: true
+            required: true
+    verify:
+      host: ${VERIFY_EMAIL_HOST}
   mvc:
     format:
       date: iso
