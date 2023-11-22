@@ -61,8 +61,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Page<RentalReadDto> getFilteredRentals(RentalFilter rentalFilter, Pageable pageable) {
-        return rentalRepository.findAll(RentalPredicate.filterBy(rentalFilter), pageable)
+    public Page<RentalReadDto> getFilteredRentals(String cityName, RentalFilter rentalFilter, Pageable pageable) {
+        return rentalRepository.findAll(RentalPredicate.filterBy(cityName, rentalFilter), pageable)
                 .map(rentalMapper::mapToRentalReadDto);
     }
 

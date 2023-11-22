@@ -3,17 +3,14 @@ package com.example.lease_by.api.controller;
 import com.example.lease_by.api.controller.util.PageName.City;
 import com.example.lease_by.api.controller.util.PageName.Rental;
 import com.example.lease_by.api.controller.util.PageName.User;
-import com.example.lease_by.config.MapApiKey;
 import com.example.lease_by.dto.filter.RentalFilter;
 import com.example.lease_by.dto.pagination.PageResponse;
 import com.example.lease_by.dto.rental.RentalCreateEditDto;
-import com.example.lease_by.dto.rental.RentalReadDto;
 import com.example.lease_by.model.entity.enums.*;
 import com.example.lease_by.service.ImageService;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -38,7 +35,6 @@ import static java.util.Objects.isNull;
 @RequiredArgsConstructor
 @RequestMapping(RENTALS)
 public class RentalController {
-    private final MapApiKey mapApiKey;
     private final RentalService rentalService;
     private final ImageService imageService;
 
@@ -52,7 +48,7 @@ public class RentalController {
     @PreAuthorize("isAuthenticated()")
     public String getUserRentals(Model model,
                                  @PathVariable("username") String username) {
-        List<RentalReadDto> rentalsByUsername = rentalService.getRentalsByUsername(username);
+        var rentalsByUsername = rentalService.getRentalsByUsername(username);
         model.addAttribute("userRentals", rentalsByUsername);
 
         return User.Profile.LISTINGS;
@@ -72,7 +68,7 @@ public class RentalController {
     @GetMapping(RENTAL)
     public String getRentalsByStatus(Model model,
                                      @RequestParam("status") String status) {
-        List<RentalReadDto> rentalsByStatus = rentalService.getRentalsByStatus(Status.valueOf(status.toUpperCase()));
+        var rentalsByStatus = rentalService.getRentalsByStatus(Status.valueOf(status.toUpperCase()));
         model.addAttribute("rentalsByStatus", rentalsByStatus);
 
         return "rental/profileRentals";
@@ -111,12 +107,12 @@ public class RentalController {
 
     @GetMapping(RENTALS_BY_CITY_NAME)
     public String findRentals(Model model,
-                              @ModelAttribute("filter") RentalFilter rentalFilter,
                               @PathVariable("cityName") String cityName,
                               @PageableDefault(size = 5) Pageable pageable) {
-        Page<RentalReadDto> rentals = isNull(rentalFilter)
+        var rentalFilter = (RentalFilter) model.getAttribute("filter");
+        var rentals = isNull(rentalFilter)
                 ? rentalService.getAllRentalsByCityName(cityName, pageable)
-                : rentalService.getFilteredRentals(rentalFilter, pageable);
+                : rentalService.getFilteredRentals(cityName, rentalFilter, pageable);
 
         model.addAttribute("rentals", PageResponse.of(rentals));
         model.addAllAttributes(Map.of(
@@ -133,24 +129,9 @@ public class RentalController {
     @GetMapping(RENTALS_BY_ADDRESS)
     public String findRentalsByAddress(Model model,
                                        @PathVariable("address") String address) {
-        List<RentalReadDto> rentals = rentalService.getRentalsByAddress(address, PageRequest.of(0, 10));
+        var rentals = rentalService.getRentalsByAddress(address, PageRequest.of(0, 10));
         model.addAttribute("rentals", rentals);
 
         return Rental.RENTALS;
-    }
-
-    @GetMapping(FILTERED_RENTALS)
-    public String findRentalsByFilter(Model model,
-                                      @ModelAttribute("rentalFilter") RentalFilter rentalFilter,
-                                      @PathVariable("cityName") String cityName,
-                                      @PageableDefault(size = 5) Pageable pageable,
-                                      RedirectAttributes redirectAttributes) {
-
-
-        Page<RentalReadDto> filteredRentals = rentalService.getFilteredRentals(rentalFilter, pageable);
-        model.addAttribute("rentals", PageResponse.of(filteredRentals));
-        redirectAttributes.addFlashAttribute("rentalFilter", rentalFilter);
-
-        return "redirect:" + RENTALS + RENTALS_BY_CITY_NAME;
     }
 }

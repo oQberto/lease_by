@@ -55,7 +55,7 @@ class RentalServiceIT extends IntegrationTestBase {
         );
         var pageRequest = PageRequest.of(0, 3);
 
-        Page<RentalReadDto> actualResult = rentalService.getFilteredRentals(rentalFilter, pageRequest);
+        Page<RentalReadDto> actualResult = rentalService.getFilteredRentals("", rentalFilter, pageRequest);
         Set<Long> rentalIds = actualResult.stream()
                 .map(RentalReadDto::getId)
                 .collect(toSet());

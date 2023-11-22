@@ -17,7 +17,7 @@ public interface RentalService {
 
     Page<RentalReadDto> getAllRentalsByCityName(String cityNme, Pageable pageable);
 
-    Page<RentalReadDto> getFilteredRentals(RentalFilter rentalFilter, Pageable pageable);
+    Page<RentalReadDto> getFilteredRentals(String cityName, RentalFilter rentalFilter, Pageable pageable);
 
     List<RentalReadDto> getRentalsByAddress(String address, Pageable pageable);
 

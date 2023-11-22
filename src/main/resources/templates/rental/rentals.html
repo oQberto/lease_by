@@ -40,11 +40,11 @@
             </div>
 
             <div class="edit-filter-modal hidden">
-                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})} ">
+                <form class="filterForm" th:action="@{/api/v1/rentals/redirect-filter}">
                     <div class="choose-zone">
                         <p>Property type: </p>
                         <label th:each="propertyType: ${propertyTypes}" th:for="${propertyType}">
-                            <input th:id="${propertyType}" type="radio" name="propertyType" th:checked="${filter.propertyType}" th:value="${propertyType}">
+                            <input th:id="${propertyType}" type="radio" name="propertyType" th:value="${propertyType}">
                             <span th:text="${propertyType}"></span>
                         </label>
                     </div>
@@ -52,7 +52,7 @@
                     <div class="choose-zone">
                         <p>Furnished: </p>
                         <label th:each="furnished: ${furnished}" th:for="${furnished}">
-                            <input th:id="${furnished}" type="radio" name="furnished" th:checked="${filter.furnished}" th:value="${furnished}">
+                            <input th:id="${furnished}" type="radio" name="furnished" th:value="${furnished}">
                             <span th:text="${furnished}"></span>
                         </label>
                     </div>
@@ -96,15 +96,20 @@
                     <label for="priceFrom">Price from: </label>
                     <input id="priceFrom" type="text" name="priceFrom"><br>
                     <label for="priceTo">Price to: </label>
-                    <input id="priceTo" type="text" name="priceTo" th:value="${filter.priceTo}"><br>
+                    <input id="priceTo" type="text" name="priceTo"><br>
                     <label for="yearBuilt"></label>
                     <input id="yearBuilt" type="date" name="yearBuilt">
-                    <input type="hidden" name="cityName" th:value="${rentals.content.get(0).addressDto.cityReadDto.name}">
-                    <button class="apply-button">Filter</button>
+                    <input id="cityName" type="hidden" name="cityName" th:value="${cityName}">
+                    <script src="/js/setCityName.js"></script>
+                    <button class="apply-button" type="submit">Filter</button>
                 </form>
-                <button class="text-button">Cancel</button>
+                <button id="cancelButton" class="text-button">Cancel</button>
+                <button id="clearButton" class="text-button">Clear filters</button>
+                <script src="/js/cleanFilterFromStorage.js"></script>
             </div>
         </div>
+
+        <script src="/js/rentalFilterBuilder.js"></script>
 
         <div class="rentals">
             <div class="rental" th:each="rental: ${rentals.content}">
@@ -132,19 +137,19 @@
 
         <div class="pagination-bar">
             <div class="pagination-bar-btn" th:object="${rentals.metadata}">
-                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}" method="get">
-                    <button type="submit">Prev
-                        <input type="hidden" name="page"
-                               th:value="*{page - 1 < 0} ? 0 : *{page - 1}">
-                    </button>
+                <form id="prevForm" th:action="@{/api/v1/rentals/redirect-filter}" method="get">
+                    <button type="button" onclick="submitForm('prev')">Prev</button>
+                    <input type="hidden" name="page" th:value="*{page - 1 < 0} ? 0 : *{page - 1}">
+                    <input th:if="${filter != null && filter.cityName == null}" type="hidden" name="cityName">
                 </form>
-                <form th:action="@{/rentals/{cityName}(cityName=${rentals.content.get(0).addressDto.cityReadDto.name})}">
-                    <button type="submit">Next
-                        <input type="hidden" name="page"
-                               th:value="*{page + 1 >= totalPages} ? *{page} : *{page + 1}">
-                    </button>
+
+                <form id="nextForm" th:action="@{/api/v1/rentals/redirect-filter}" method="get">
+                    <button type="button" onclick="submitForm('next')">Next</button>
+                    <input type="hidden" name="page" th:value="*{page + 1 >= totalPages} ? *{page} : *{page + 1}">
+                    <input th:if="${filter != null && filter.cityName == null}" type="hidden" name="cityName">
                 </form>
             </div>
+            <script src="/js/paginationButtonsFilter.js"></script>
         </div>
     </div>
 </div>

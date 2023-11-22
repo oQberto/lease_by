@@ -11,9 +11,9 @@ import static com.example.lease_by.model.entity.QRental.rental;
 @UtilityClass
 public class RentalPredicate {
 
-    public static Predicate filterBy(RentalFilter rentalFilter) {
+    public static Predicate filterBy(String cityName, RentalFilter rentalFilter) {
         return QPredicate.builder()
-                .add(rentalFilter.getCityName(), rental.address.city.name::containsIgnoreCase)
+                .add(cityName, rental.address.city.name::containsIgnoreCase)
                 .add(rentalFilter.getPropertyType(), rental.rentalDetails.propertyType::eq)
                 .add(rentalFilter.getFurnished(), rental.rentalDetails.furnished::eq)
                 .add(rentalFilter.getYearBuilt(), rental.rentalDetails.yearBuilt::after)

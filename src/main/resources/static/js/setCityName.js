@@ -1,0 +1,1 @@
+document.getElementById('cityName').value = new URL(window.location.href).pathname.split('/').pop();
