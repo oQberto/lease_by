@@ -2,38 +2,125 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Lease.by</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU"
+            type="text/javascript"></script>
+    <script src="https://search-maps.yandex.ru/v2/1/" type="text/javascript"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/rental-info.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/imageSlider.css}" type="text/css">
 </head>
 <body>
-<div th:fragment="~{fragment::header}"></div>
+<div th:insert="~{fragment :: header}"></div>
 
-<form action="#">
-    <label>Prop type:
-        <input type="text" name="search">
-        <input type="text" name="search">
-        <select multiple="multiple">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-        </select>
-    </label>
-    <div th:each="utility: ${rental.features}">
-        <label th:for="${utility}">
-            <input th:id="${utility}" type="checkbox" name="utilities" th:value="${utility}"
-                   th:text="${utility}">
-        </label>
-    </div>
-    <button type="submit">Search</button>
-</form>
+<div class="rental-info">
+    <div class="rental-info-header"></div>
 
-<div>
-    <p th:text="${rental.features}"></p>
-    Hi from rental info!
-    <div th:each="imageEntry: ${rental.images}">
-        <img th:src="@{/rentals/image/{image}(image=${imageEntry})}" alt="Image">
+    <div class="rental-info-body">
+        <div class="image-slider">
+            <div class="mySlides fade" th:each="imagePath: ${rental.images}" >
+                <img th:src="@{/image/rental/{path}(path=${imagePath})}" style="width:100%" alt="image">
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+
+        <script src="/js/imageSlider.js"></script>
+
+        <div class="rental-representation">
+            <span class="rental-details">Rental details</span>
+
+            <div class="rental-details-header" th:object="${rental}">
+                <img src="/image/content/icon/rentalDetails/best-price.webp" alt="price">
+                <span class="price" th:text="*{price}"></span>
+                <img src="/image/content/icon/rentalDetails/house.webp" alt="size">
+                <span class="property-size" th:text="*{propertySize}"></span>
+                <img src="/image/content/icon/rentalDetails/bedroom.webp" alt="bedroom">
+                <span class="bedrooms" th:text="*{countOfBedrooms}"></span>
+            </div>
+
+            <div class="address-info" th:object="${rental.addressDto}">
+                <span class="street-name" th:text="*{streetDto.name + ', '}"></span>
+                <span class="city-name" th:text="*{cityReadDto.name + ', '}"></span>
+                <span class="house-no" th:text="*{houseNo}"></span>
+            </div>
+
+            <div class="rental-important-info" th:object="${rental.rentalDetailsDto}">
+                <span class="property-type" th:text="'Property type: ' + *{propertyType}"></span>
+                <span class="lease-term" th:text="'Lease term: ' +  *{leaseTerm}"></span>
+                <span class="short-term" th:text="'Short term: ' + *{shortTerm}"></span>
+                <span class="pet-friendly" th:text="'Pet friendly: ' + *{petFriendly}"></span>
+                <span class="year-built" th:text="'Year built: ' + *{yearBuilt}"></span>
+            </div>
+
+            <div class="additional-info" th:object="${rental}">
+                <div class="amenities">
+                    <h3>Amenities: </h3>
+                    <span th:each="amenity: *{amenities}" th:text="${amenity}"></span>
+                </div>
+                <div class="features">
+                    <h3>Features: </h3>
+                    <span th:each="feature: *{features}" th:text="${feature}"></span>
+                </div>
+                <div class="categories">
+                    <h3>Categories: </h3>
+                    <span th:each="category: *{rentalDetailsDto.categories}" th:text="${category}"></span>
+                </div>
+                <div class="utilities">
+                    <h3>Utilities: </h3>
+                    <span th:each="utility: *{rentalDetailsDto.utilities}" th:text="${utility}"></span>
+                </div>
+                <div class="furnished">
+                    <h3>Furnished: </h3>
+                    <span th:text="*{rentalDetailsDto.furnished}"></span>
+                </div>
+                <div class="parking-type">
+                    <h3>Parking type: </h3>
+                    <span th:text="*{rentalDetailsDto.parkingType}"></span>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="rental-info-footer">
+        <div class="map" id="map"></div>
+        <script type="text/javascript" src="/js/addressesMapRepresentation.js"></script>
+
+        <div class="email-send-form">
+            <span>Email sender form</span>
+            <form th:action="@{/api/v1/email/send}">
+                <p>Name:</p>
+                <label for="senderName">
+                    <input id="senderName" type="text" name="senderName" required>
+                </label>
+                <p>Phone number:</p>
+                <label for="phoneNumber">
+                    <input id="phoneNumber" type="text" name="phoneNumber">
+                </label>
+                <p>Email:</p>
+                <label for="senderEmail">
+                    <input id="senderEmail" type="email" name="senderEmail" required>
+                </label>
+                <p>Message:</p>
+                <label for="message">
+                    <input id="message" type="text" name="message">
+                </label><br>
+                <input type="hidden" name="receiver" th:value="${rental.userReadDto.email}">
+                <button type="submit">Contact</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 
+<div th:insert="~{fragment :: footer}"></div>
 </body>
 </html>

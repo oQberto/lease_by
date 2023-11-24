@@ -1,0 +1,169 @@
+.header {
+    height: 10%;
+}
+
+footer {
+    top: 1330px;
+}
+
+.rental-info {
+    width: 92%;
+    height: 65rem;
+    display: block;
+    top: 13%;
+    position: absolute;
+    border-radius: 15px;
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7));
+    border: 2px solid rgba(255, 255, 255, .5);
+    overflow-y: scroll;
+}
+
+.rental-info-header {
+}
+
+.rental-info-body {
+    height: 60%;
+    display: flex;
+
+}
+
+.rental-representation {
+    color: white;
+    width: 44%;
+    height: 60%;
+    left: 56%;
+    position: absolute;
+    overflow-y: scroll;
+    border: 7px solid rgba(255, 255, 255, .1);
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #42404000;
+    border-radius: 12px;
+}
+
+.rental-details {
+    font-size: 30px;
+    position: relative;
+    left: 35%;
+}
+
+.rental-details-header {
+    position: relative;
+    left: 28%;
+}
+
+.rental-details-header span {
+    margin-right: 60px;
+}
+
+.address-info {
+    position: relative;
+    left: 35%;
+    font-size: 20px;
+}
+
+.rental-important-info {
+    display: grid;
+}
+
+.additional-info {
+
+}
+
+.additional-info span {
+    display: inline-block;
+    border-radius: 99rem;
+    font-weight: 600;
+    background: #3cb6d3;
+    border: 0.1rem solid #cbd4d6;
+    color: #364143;
+    margin: 0.5rem;
+    height: 50px;
+    text-align: center;
+    width: 38%;
+    break-inside: avoid;
+    flex-basis: 48%;
+    box-sizing: border-box;
+}
+
+.address-info div {
+    column-count: 2;
+    column-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.additional-info span {
+
+}
+
+.rental-info-footer {
+    height: 49%;
+    display: flex;
+}
+
+.map {
+    width: 48%;
+    height: 90%;
+    position: relative;
+    left: 5%;
+    top: 5%;
+}
+
+
+.email-send-form {
+    color: white;
+    width: 19%;
+    height: 85%;
+    left: 21%;
+    position: relative;
+    top: 5%;
+    border-radius: 15px;
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7));
+    border: 2px solid rgba(255, 255, 255, .5);
+}
+
+.email-send-form span {
+    left: 5%;
+    position: relative;
+}
+
+.email-send-form form {
+    position: relative;
+    left: 5%;
+}
+
+.email-send-form label {
+
+}
+
+.email-send-form input {
+    position: relative;
+    height: 30px;
+    width: 280px;
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+}
+
+.email-send-form button {
+    background-color: #3cb6d3;
+    height: 50px;
+    width: 100px;
+    font-size: 20px;
+    margin: 10px;
+    position: relative;
+    left: 54%;
+    border-radius: 10px;
+    border: none;
+}
+
+#message {
+    height: 100px;
+}
