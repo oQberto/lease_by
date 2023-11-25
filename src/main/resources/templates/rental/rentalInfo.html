@@ -16,6 +16,7 @@
     <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/rental-info.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/imageSlider.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/succesWindow.css}" type="text/css">
 </head>
 <body>
 <div th:insert="~{fragment :: header}"></div>
@@ -25,7 +26,7 @@
 
     <div class="rental-info-body">
         <div class="image-slider">
-            <div class="mySlides fade" th:each="imagePath: ${rental.images}" >
+            <div class="mySlides fade" th:each="imagePath: ${rental.images}">
                 <img th:src="@{/image/rental/{path}(path=${imagePath})}" style="width:100%" alt="image">
             </div>
 
@@ -95,8 +96,8 @@
         <script type="text/javascript" src="/js/addressesMapRepresentation.js"></script>
 
         <div class="email-send-form">
-            <span>Email sender form</span>
-            <form th:action="@{/api/v1/email/send}">
+            <span>Contact the owner</span>
+            <form id="emailForm" th:action="@{/api/v1/email/send}" method="post">
                 <p>Name:</p>
                 <label for="senderName">
                     <input id="senderName" type="text" name="senderName" required>
@@ -113,9 +114,17 @@
                 <label for="message">
                     <input id="message" type="text" name="message">
                 </label><br>
-                <input type="hidden" name="receiver" th:value="${rental.userReadDto.email}">
-                <button type="submit">Contact</button>
+                <input type="hidden" name="receiverEmail" th:value="${rental.userReadDto.email}">
+                <input type="hidden" name="receiverName" th:value="${rental.userReadDto.username}">
+                <button type="button" onclick="sendEmail()">Contact</button>
+                <script src="/js/sendMail.js"></script>
             </form>
+            <div id="overlay"></div>
+
+            <div id="popup">
+                <p>Email sent successfully! The owner will contact you soon!</p>
+                <button id="okButton" onclick="closePopup()">OK</button>
+            </div>
         </div>
     </div>
 
