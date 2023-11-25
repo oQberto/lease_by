@@ -6,4 +6,5 @@ public interface EmailService {
 
     void sendSimpleEmailMessage(EmailContent emailContent);
 
+    void sendPasswordResetMessage(EmailContent emailContent);
 }

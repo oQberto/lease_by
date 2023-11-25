@@ -27,7 +27,7 @@ public class PasswordToken {
     private String token;
 
     @Column(name = "expire_date")
-    private LocalDate localDate;
+    private LocalDate expireDate;
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")

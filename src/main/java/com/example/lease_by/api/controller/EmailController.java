@@ -22,4 +22,11 @@ public class EmailController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/account/reset-password")
+    public ResponseEntity<String> resetPassword(@ModelAttribute EmailContent emailContent) {
+        emailService.sendPasswordResetMessage(emailContent);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -1,10 +1,12 @@
 package com.example.lease_by.api.controller;
 
+import com.example.lease_by.api.controller.exception.PasswordTokenException;
 import com.example.lease_by.dto.account.ProfileCreateDto;
 import com.example.lease_by.dto.account.UserCreateDto;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
+import com.example.lease_by.vaidation.PasswordTokenValidation;
 import com.example.lease_by.vaidation.group.CreateAction;
 import com.example.lease_by.vaidation.group.UpdateAction;
 import jakarta.validation.groups.Default;
@@ -25,6 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 import static com.example.lease_by.api.controller.util.UrlName.AccountController.*;
+import static com.example.lease_by.vaidation.enums.PasswordTokenVerification.EXPIRED;
+import static com.example.lease_by.vaidation.enums.PasswordTokenVerification.INVALID;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,6 +36,7 @@ import static com.example.lease_by.api.controller.util.UrlName.AccountController
 public class AccountController {
     private final UserService userService;
     private final ProfileService profileService;
+    private final PasswordTokenValidation passwordTokenValidation;
 
     @GetMapping(REGISTRATION)
     public String registration(Model model,
@@ -55,6 +60,18 @@ public class AccountController {
 
         userService.createUser(userCreateDto);
         return "redirect:/cities";
+    }
+
+    @PostMapping("/user/change-password")
+    public String showChangePassword(Model model,
+                                     @RequestParam("token") String token) {
+        var passwordTokenVerification = passwordTokenValidation.validatePasswordToken(token);
+
+        if (passwordTokenVerification.equals(INVALID) || passwordTokenVerification.equals(EXPIRED)) {
+            throw new PasswordTokenException("You have an invalid or expired token. Request another token.");
+        } else {
+            return "user/changePassword";
+        }
     }
 
     @GetMapping(ACCOUNT_BY_USER_ID)
