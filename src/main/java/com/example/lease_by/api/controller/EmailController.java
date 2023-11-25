@@ -18,7 +18,7 @@ public class EmailController {
 
     @PostMapping("/send")
     public ResponseEntity<String> sendMessage(@ModelAttribute EmailContent emailContent) {
-        emailService.sendEmailMessage(emailContent);
+        emailService.sendSimpleEmailMessage(emailContent);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
