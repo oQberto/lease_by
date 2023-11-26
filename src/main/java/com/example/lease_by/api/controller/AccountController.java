@@ -62,6 +62,11 @@ public class AccountController {
         return "redirect:/cities";
     }
 
+    @GetMapping("/forgot-password")
+    public String forgotPassword() {
+        return "user/forgotPassword";
+    }
+
     @PostMapping("/user/change-password")
     public String showChangePassword(Model model,
                                      @RequestParam("token") String token) {

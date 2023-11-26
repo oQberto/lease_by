@@ -27,6 +27,7 @@ public class SecurityConfiguration {
     private static final String[] URL_WHITE_LIST = {
             "/login",
             "/accounts/registration",
+            "/accounts/forgot-password",
             "/accounts/register",
             "/accounts/profile/**",
             "/cities",
