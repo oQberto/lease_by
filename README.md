@@ -29,6 +29,7 @@ This project is your personal key to the world of housing rentals. Using cutting
 
 - **Testing:**
     - JUnit 5: a framework for writing and running tests.
+    - Testcontainers: lightweight, throwaway instances of common databases or external services for testing.
 
 - **External Services:**
     - Google Geocoding API: for geocoding apartment addresses.
