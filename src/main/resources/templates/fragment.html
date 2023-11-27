@@ -28,7 +28,7 @@
 <ul th:fragment="menu">
     <li>
         <img th:src="@{/image/content/menuBar/listings.webp}" alt="listings">
-        <a href="">
+        <a th:href="@{/rentals/account/{username}(username=${userRentals != null ? userRentals.get(0).getUserReadDto().getUsername() : user.username})}">
             <span>Listings</span>
         </a>
     </li>
