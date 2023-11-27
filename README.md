@@ -4,7 +4,7 @@
 
 # Welcome to the World of Apartment Rentals: Comfort, Security, and Convenience 🏠
 
-This project is your personal key to the world of housing rentals. Using cutting-edge technologies and a modern approach, we've created a platform that combines ease of use, security, and functionality. Read on to learn more about the technologies, features, and our future plans.
+This project is your personal key to the world of housing rentals. Using cutting-edge technologies and a modern approach, I've created a platform that combines ease of use, security, and functionality. Read on to learn more about the technologies, features, and my future plans.
 
 ## Tech Stack and Toolkit ✨
 
