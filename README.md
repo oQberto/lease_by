@@ -51,3 +51,7 @@ This project is your personal key to the world of housing rentals. Using cutting
 - Adding a rental offer to favorites.
 - Ability to report poor rental offers.
 - Chat between landlords and tenants.
+
+## License
+
+This project is licensed under the terms of the MIT License.
