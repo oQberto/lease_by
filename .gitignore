@@ -37,5 +37,3 @@ build/
 /qodana.yaml
 /src/main/java/com/example/lease_by/api/rest/googleGeoExample.json
 /src/main/resources/apiKeys.yml
-/src/main/resources/application-dev.yml
-/src/test/resources/application-test.yml
