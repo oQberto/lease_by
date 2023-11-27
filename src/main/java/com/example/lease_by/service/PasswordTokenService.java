@@ -8,4 +8,6 @@ public interface PasswordTokenService {
     void createPasswordToken(UserReadDto userReadDto);
 
     PasswordToken findPasswordTokenBy(String userEmail);
+
+    void removeUsedToken(String userEmail);
 }

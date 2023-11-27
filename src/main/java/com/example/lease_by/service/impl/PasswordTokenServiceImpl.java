@@ -37,4 +37,12 @@ public class PasswordTokenServiceImpl implements PasswordTokenService {
         return passwordTokenRepository.findByUserEmail(userEmail)
                 .orElseThrow(() -> new EntityNotFoundException("Token with user's email: " + userEmail + " not found!"));
     }
+
+    @Override
+    @Transactional
+    public void removeUsedToken(String userEmail) {
+        PasswordToken passwordToken = passwordTokenRepository.findByUserEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Token with user's email: " + userEmail + " not found!"));
+        passwordTokenRepository.delete(passwordToken);
+    }
 }

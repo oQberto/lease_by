@@ -1,5 +1,6 @@
 package com.example.lease_by.service;
 
+import com.example.lease_by.dto.account.PasswordDto;
 import com.example.lease_by.dto.account.UserCreateDto;
 import com.example.lease_by.dto.account.UserReadDto;
 
@@ -16,4 +17,6 @@ public interface UserService {
     UserReadDto createUser(UserCreateDto dto);
 
     Optional<UserReadDto> updateUser(Long id, UserCreateDto userCreateDto);
+
+    void saveUserPassword(PasswordDto passwordDto);
 }

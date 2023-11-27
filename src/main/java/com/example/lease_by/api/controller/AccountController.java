@@ -1,6 +1,8 @@
 package com.example.lease_by.api.controller;
 
 import com.example.lease_by.api.controller.exception.PasswordTokenException;
+import com.example.lease_by.api.controller.util.PageName.User;
+import com.example.lease_by.dto.account.PasswordDto;
 import com.example.lease_by.dto.account.ProfileCreateDto;
 import com.example.lease_by.dto.account.UserCreateDto;
 import com.example.lease_by.model.entity.enums.Role;
@@ -27,6 +29,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 import static com.example.lease_by.api.controller.util.UrlName.AccountController.*;
+import static com.example.lease_by.api.controller.util.UrlName.CityController.CITIES;
+import static com.example.lease_by.api.controller.util.UrlName.LoginController.LOGIN;
 import static com.example.lease_by.vaidation.enums.PasswordTokenVerification.EXPIRED;
 import static com.example.lease_by.vaidation.enums.PasswordTokenVerification.INVALID;
 
@@ -37,13 +41,6 @@ public class AccountController {
     private final UserService userService;
     private final ProfileService profileService;
     private final PasswordTokenValidation passwordTokenValidation;
-
-    @GetMapping(REGISTRATION)
-    public String registration(Model model,
-                               @ModelAttribute("user") UserCreateDto userCreateDto) {
-        model.addAttribute("user", userCreateDto);
-        return "user/registration";
-    }
 
     @PostMapping(REGISTER)
     public String registerUser(@ModelAttribute("user") @Validated({Default.class, CreateAction.class}) UserCreateDto userCreateDto,
@@ -59,23 +56,43 @@ public class AccountController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         userService.createUser(userCreateDto);
-        return "redirect:/cities";
+        return "redirect:" + CITIES;
     }
 
-    @GetMapping("/forgot-password")
+    @GetMapping(FORGOT_PASSWORD)
     public String forgotPassword() {
-        return "user/forgotPassword";
+        return User.FORGOT_PASSWORD;
     }
 
-    @PostMapping("/user/change-password")
+    @GetMapping(CHANGE_PASSWORD)
     public String showChangePassword(Model model,
-                                     @RequestParam("token") String token) {
+                                     @RequestParam("token") String token,
+                                     @RequestParam("username") String username) {
+        isTokenValid(token);
+
+        model.addAttribute("token", token);
+        model.addAttribute("username", username);
+
+        return User.CHANGE_PASSWORD;
+
+    }
+
+    @PostMapping(CHANGE_PASSWORD)
+    public String savePassword(@ModelAttribute PasswordDto passwordDto) {
+        isTokenValid(passwordDto.getToken());
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(passwordDto, null, List.of(Role.values()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        userService.saveUserPassword(passwordDto);
+        return "redirect:" + LOGIN;
+    }
+
+    private void isTokenValid(String token) {
         var passwordTokenVerification = passwordTokenValidation.validatePasswordToken(token);
 
         if (passwordTokenVerification.equals(INVALID) || passwordTokenVerification.equals(EXPIRED)) {
             throw new PasswordTokenException("You have an invalid or expired token. Request another token.");
-        } else {
-            return "user/changePassword";
         }
     }
 
@@ -119,6 +136,4 @@ public class AccountController {
                 .map(it -> "redirect:/accounts/profile/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
-
-    //TODO: create separate tab to the user's rentals
 }

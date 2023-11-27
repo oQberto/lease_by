@@ -4,10 +4,11 @@ public interface UrlName {
 
     interface AccountController {
         String ACCOUNTS = "/accounts";
-        String REGISTRATION = "/registration";
         String REGISTER = "/register";
         String ACCOUNT_BY_USER_ID = "/{id}";
+        String FORGOT_PASSWORD = "/forgot-password";
         String PROFILE_BY_USER_ID = "/profile/{userId}";
+        String CHANGE_PASSWORD = "/user/change-password";
         String UPDATE_ACCOUNT_BY_USER_ID = "/{id}/update";
         String UPDATE_PROFILE_BY_USER_ID = "/profile/{id}/update";
     }

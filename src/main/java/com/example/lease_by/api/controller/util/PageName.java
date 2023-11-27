@@ -18,7 +18,8 @@ public interface PageName {
     interface User {
         String ACCOUNT_INFO = USER + "accountInfo";
         String LOGIN = USER + "login";
-
+        String FORGOT_PASSWORD = USER + "forgotPassword";
+        String CHANGE_PASSWORD = USER + "changePassword";
 
         String PROFILE = USER + "profile/";
         interface Profile {

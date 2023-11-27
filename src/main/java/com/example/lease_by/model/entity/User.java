@@ -39,4 +39,7 @@ public class User extends AuditingEntity {
 
     @OneToOne(mappedBy = "user", fetch = LAZY)
     private Profile profile;
+
+    @OneToOne(mappedBy = "user", fetch = LAZY)
+    private PasswordToken passwordToken;
 }

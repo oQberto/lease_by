@@ -1,15 +1,19 @@
 package com.example.lease_by.service.impl;
 
+import com.example.lease_by.dto.account.PasswordDto;
 import com.example.lease_by.dto.account.UserCreateDto;
 import com.example.lease_by.dto.account.UserReadDto;
 import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
 import com.example.lease_by.model.entity.User;
 import com.example.lease_by.model.repository.UserRepository;
+import com.example.lease_by.service.PasswordTokenService;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
+import com.example.lease_by.service.exception.PasswordNotMatchException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ProfileService profileService;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordTokenService passwordTokenService;
+
     private final UserMapper userMapper;
 
     @Override
@@ -66,5 +73,23 @@ public class UserServiceImpl implements UserService {
                     return userMapper.mapToUserReadDto(userRepository.saveAndFlush(updatedUser));
                 })
                 .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));
+    }
+
+    @Override
+    @Transactional
+    public void saveUserPassword(PasswordDto passwordDto) {
+        if (passwordDto.getPassword().equals(passwordDto.getConfirmPassword())) {
+            userRepository.findUserBy(passwordDto.getToken())
+                    .ifPresent(user -> {
+                        user.setPassword(passwordEncoder.encode(
+                                passwordDto.getPassword()
+                        ));
+                        userRepository.save(user);
+                    });
+        } else {
+            throw new PasswordNotMatchException("Passwords don't match");
+        }
+
+        passwordTokenService.removeUsedToken(passwordDto.getUsername());
     }
 }

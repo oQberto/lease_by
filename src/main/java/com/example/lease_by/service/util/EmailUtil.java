@@ -11,7 +11,7 @@ public class EmailUtil {
     private static final String EMAIL_MESSAGE = "Hi %s, %s has been interests in your lease. Contact with him.\n Phone number: %s \n Email: %s";
     private static final String PASSWORD_RESET_MESSAGE = """
             Hi! This is your link for password reset: \n
-            http://localhost:8080/accounts/user/change-password?token=%s
+            http://localhost:8080/accounts/user/change-password?token=%s&username=%s
             """;
 
     public static SimpleMailMessage buildSimpleMessage(EmailContent emailContent) {
@@ -38,7 +38,8 @@ public class EmailUtil {
         message.setTo(emailContent.getReceiverEmail());
         message.setText(String.format(
                 PASSWORD_RESET_MESSAGE,
-                token
+                token,
+                emailContent.getReceiverEmail()
         ));
 
         return message;
