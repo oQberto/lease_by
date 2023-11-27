@@ -40,7 +40,7 @@
     </li>
     <li>
         <img th:src="@{/image/content/menuBar/user-profile.webp}" alt="userProfile">
-        <a href="#">
+        <a th:href="@{/accounts/{id}(id=${userRentals != null ? userRentals.get(0).getUserReadDto().getId() : user.id})}">
             <span>Account</span>
         </a>
     </li>

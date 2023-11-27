@@ -2,6 +2,7 @@ package com.example.lease_by.service.impl;
 
 import com.example.lease_by.dto.account.PasswordDto;
 import com.example.lease_by.dto.account.UserCreateDto;
+import com.example.lease_by.dto.account.UserEditDto;
 import com.example.lease_by.dto.account.UserReadDto;
 import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
@@ -66,10 +67,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Optional<UserReadDto> updateUser(Long id, UserCreateDto userCreateDto) {
+    public Optional<UserReadDto> updateUser(Long id, UserEditDto userEditDto) {
         return Optional.ofNullable(userRepository.findUserById(id)
                 .map(user -> {
-                    User updatedUser = userMapper.updateUser(userCreateDto, user);
+                    User updatedUser = userMapper.updateUser(userEditDto, user);
                     return userMapper.mapToUserReadDto(userRepository.saveAndFlush(updatedUser));
                 })
                 .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));

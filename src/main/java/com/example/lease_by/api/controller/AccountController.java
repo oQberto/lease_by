@@ -5,6 +5,7 @@ import com.example.lease_by.api.controller.util.PageName.User;
 import com.example.lease_by.dto.account.PasswordDto;
 import com.example.lease_by.dto.account.ProfileCreateDto;
 import com.example.lease_by.dto.account.UserCreateDto;
+import com.example.lease_by.dto.account.UserEditDto;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
@@ -102,7 +103,7 @@ public class AccountController {
         return userService.getUserById(id)
                 .map(user -> {
                     model.addAttribute("user", user);
-                    return "user/accountInfo";
+                    return "user/profile/account";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -122,8 +123,8 @@ public class AccountController {
     @PostMapping(UPDATE_ACCOUNT_BY_USER_ID)
     @PreAuthorize("isAuthenticated()")
     public String updateUser(@PathVariable("id") Long id,
-                             @ModelAttribute("updatedUser") @Validated({Default.class, UpdateAction.class}) UserCreateDto updatedUser) {
-        return userService.updateUser(id, updatedUser)
+                             @ModelAttribute("updatedUser") @Validated({Default.class, UpdateAction.class}) UserEditDto userEditDto) {
+        return userService.updateUser(id, userEditDto)
                 .map(it -> "redirect:/accounts/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
