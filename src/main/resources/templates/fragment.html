@@ -28,7 +28,7 @@
 <ul th:fragment="menu">
     <li>
         <img th:src="@{/image/content/menuBar/listings.webp}" alt="listings">
-        <a th:href="@{/rentals/account/{username}(username=${userRentals != null ? userRentals.get(0).getUserReadDto().getUsername() : user.username})}">
+        <a th:href="@{/rentals/account/{username}(username=${#authentication.principal.username})}">
             <span>Listings</span>
         </a>
     </li>
@@ -40,7 +40,7 @@
     </li>
     <li>
         <img th:src="@{/image/content/menuBar/user-profile.webp}" alt="userProfile">
-        <a th:href="@{/accounts/{id}(id=${userRentals != null ? userRentals.get(0).getUserReadDto().getId() : user.id})}">
+        <a th:href="@{/accounts/{username}(username=${#authentication.principal.username})}">
             <span>Account</span>
         </a>
     </li>

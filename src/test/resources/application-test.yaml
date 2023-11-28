@@ -7,3 +7,9 @@ spring:
       hibernate:
         hbm2ddl:
           auto: update
+  mail:
+    username: user
+    password: admin
+    host: 127.0.0.1
+    port: 3025
+    protocol: smtp

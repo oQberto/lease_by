@@ -1,6 +1,7 @@
 package com.example.lease_by.mapper;
 
 import com.example.lease_by.dto.account.UserCreateDto;
+import com.example.lease_by.dto.account.UserEditDto;
 import com.example.lease_by.dto.account.UserReadDto;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.User;
@@ -20,11 +21,14 @@ class UserMapperTest {
         User expectedResult = User.builder()
                 .id(1L)
                 .email("dummy@gmail.com")
-                .password("dummy")
+                .username("dummy")
+                .build();
+        var userEditDto = UserEditDto.builder()
+                .email("dummy@gmail.com")
                 .username("dummy")
                 .build();
 
-        User actualResult = userReadMapper.updateUser(getUserCreateDto(), getUser());
+        User actualResult = userReadMapper.updateUser(userEditDto, getUser());
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }

@@ -1,6 +1,6 @@
 package com.example.lease_by.integration.service;
 
-import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.ProfileEditDto;
 import com.example.lease_by.dto.account.ProfileReadDto;
 import com.example.lease_by.dto.account.UserCreateDto;
 import com.example.lease_by.integration.IntegrationTestBase;
@@ -103,8 +103,7 @@ class ProfileServiceIT extends IntegrationTestBase {
         var existingProfile = profileService.getProfileById(1L);
         assertThat(existingProfile).isPresent();
 
-        var profileCreateDto = ProfileCreateDto.builder()
-                .avatar("newAvatar")
+        var profileCreateDto = ProfileEditDto.builder()
                 .firstname("newFirstName")
                 .lastname("newLastName")
                 .build();

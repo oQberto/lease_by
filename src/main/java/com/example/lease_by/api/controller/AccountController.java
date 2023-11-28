@@ -3,7 +3,7 @@ package com.example.lease_by.api.controller;
 import com.example.lease_by.api.controller.exception.PasswordTokenException;
 import com.example.lease_by.api.controller.util.PageName.User;
 import com.example.lease_by.dto.account.PasswordDto;
-import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.ProfileEditDto;
 import com.example.lease_by.dto.account.UserCreateDto;
 import com.example.lease_by.dto.account.UserEditDto;
 import com.example.lease_by.model.entity.enums.Role;
@@ -97,11 +97,11 @@ public class AccountController {
         }
     }
 
-    @GetMapping(ACCOUNT_BY_USER_ID)
+    @GetMapping(ACCOUNT_BY_USERNAME)
     @PreAuthorize("isAuthenticated()")
     public String getUserAccount(Model model,
-                                 @PathVariable("id") Long id) {
-        return userService.getUserById(id)
+                                 @PathVariable("username") String username) {
+        return userService.getUserByUsername(username)
                 .map(user -> {
                     model.addAttribute("user", user);
                     return "user/profile/account";
@@ -109,14 +109,14 @@ public class AccountController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(PROFILE_BY_USER_ID)
+    @GetMapping(PROFILE_BY_USER)
     @PreAuthorize("isAuthenticated()")
     public String getUserProfile(Model model,
-                                 @PathVariable("userId") Long id) {
+                                 @PathVariable("profileId") Long id) {
         return profileService.getProfileByUserId(id)
                 .map(profile -> {
                     model.addAttribute("profile", profile);
-                    return "user/profile/listings";
+                    return "user/profile/accountProfile";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -133,8 +133,8 @@ public class AccountController {
     @PostMapping(UPDATE_PROFILE_BY_USER_ID)
     @PreAuthorize("isAuthenticated()")
     public String updateUserProfile(@PathVariable("id") Long id,
-                                    @ModelAttribute("updatedProfile") ProfileCreateDto updatedProfile) {
-        return profileService.updateProfile(id, updatedProfile)
+                                    @ModelAttribute("updatedProfile") ProfileEditDto profileEditDto) {
+        return profileService.updateProfile(id, profileEditDto)
                 .map(it -> "redirect:/accounts/profile/{id}")
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }

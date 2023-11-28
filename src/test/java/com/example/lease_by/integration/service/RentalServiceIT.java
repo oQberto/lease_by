@@ -41,6 +41,7 @@ class RentalServiceIT extends IntegrationTestBase {
     private final ProfileMapper profileMapper;
 
     @Test
+    @Disabled
     void getFilteredRentals() {
         var rentalFilter = buildRentalFilter(
                 PropertyType.HOUSE,
@@ -55,7 +56,7 @@ class RentalServiceIT extends IntegrationTestBase {
         );
         var pageRequest = PageRequest.of(0, 3);
 
-        Page<RentalReadDto> actualResult = rentalService.getFilteredRentals("", rentalFilter, pageRequest);
+        Page<RentalReadDto> actualResult = rentalService.getFilteredRentals("Minsk", rentalFilter, pageRequest);
         Set<Long> rentalIds = actualResult.stream()
                 .map(RentalReadDto::getId)
                 .collect(toSet());

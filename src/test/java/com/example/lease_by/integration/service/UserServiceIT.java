@@ -1,9 +1,6 @@
 package com.example.lease_by.integration.service;
 
-import com.example.lease_by.dto.account.ProfileCreateDto;
-import com.example.lease_by.dto.account.ProfileReadDto;
-import com.example.lease_by.dto.account.UserCreateDto;
-import com.example.lease_by.dto.account.UserReadDto;
+import com.example.lease_by.dto.account.*;
 import com.example.lease_by.integration.IntegrationTestBase;
 import com.example.lease_by.mapper.ProfileMapper;
 import com.example.lease_by.model.entity.enums.Role;
@@ -85,12 +82,12 @@ class UserServiceIT extends IntegrationTestBase {
         var existingUser = userService.getUserById(1L);
         assertThat(existingUser).isPresent();
 
-        var userCreateDto = UserCreateDto.builder()
+        var userEditDto = UserEditDto.builder()
                 .email("newMail@gmail.com")
                 .username("newUserName")
                 .build();
 
-        Optional<UserReadDto> actualResult = userService.updateUser(1L, userCreateDto);
+        Optional<UserReadDto> actualResult = userService.updateUser(1L, userEditDto);
         assertThat(actualResult).isPresent();
 
         assertThat(actualResult).isEqualTo(userService.getUserById(1L));

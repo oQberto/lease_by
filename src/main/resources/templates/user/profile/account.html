@@ -18,12 +18,12 @@
     <div class="work-zone">
         <div class="listing-nav-bar">
             <span>Account settings</span>
-            <a href="#">Profile settings</a>
+            <a th:href="@{/accounts/profile/{profileId}(profileId=${user.profileReadDto.id})}">Profile settings</a>
         </div>
 
         <div class="display-zone">
             <div class="update">
-                <p>Update account info</p>
+                <p>Account info</p>
                 <form th:action="@{/accounts/{id}/update(id=${user.id})}" method="post">
                     <label for="email">Email: </label>
                     <input id="email" type="email" name="email" th:value="${user.email}">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="update">
-                <p>Update password</p>
+                <p>Password</p>
                 <form th:action="@{/accounts/{id}/update-password(id=${user.id})}" method="post">
                     <label for="oldPassword">Old password: </label>
                     <input id="oldPassword" type="password" name="oldPassword" required>

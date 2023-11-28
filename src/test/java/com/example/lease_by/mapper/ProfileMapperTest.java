@@ -1,6 +1,7 @@
 package com.example.lease_by.mapper;
 
 import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.ProfileEditDto;
 import com.example.lease_by.dto.account.ProfileReadDto;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.Profile;
@@ -45,8 +46,7 @@ class ProfileMapperTest {
 
     @Test
     void updateProfile() {
-        ProfileCreateDto profileCreateDto = ProfileCreateDto.builder()
-                .avatar("newAvatar")
+        ProfileEditDto profileCreateDto = ProfileEditDto.builder()
                 .firstname("newFirstName")
                 .lastname("newLastName")
                 .build();
@@ -57,7 +57,6 @@ class ProfileMapperTest {
 
         Profile updatedProfile = profileMapper.updateProfile(profileCreateDto, profile);
         assertThat(updatedProfile.getId()).isEqualTo(profileReadDto.get().getId());
-        assertThat(updatedProfile.getAvatar()).isEqualTo(profileCreateDto.getAvatar());
         assertThat(updatedProfile.getFirstname()).isEqualTo(profileCreateDto.getFirstname());
         assertThat(updatedProfile.getLastname()).isEqualTo(profileCreateDto.getLastname());
         assertThat(updatedProfile.getPhoneNumber()).isEqualTo(profileReadDto.get().getPhoneNumber());
