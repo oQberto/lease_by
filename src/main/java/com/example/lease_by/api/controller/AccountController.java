@@ -98,6 +98,7 @@ public class AccountController {
     }
 
     @GetMapping(ACCOUNT_BY_USER_ID)
+    @PreAuthorize("isAuthenticated()")
     public String getUserAccount(Model model,
                                  @PathVariable("id") Long id) {
         return userService.getUserById(id)

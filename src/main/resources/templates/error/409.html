@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Lease.by</title>
+    <link rel="shortcut icon" th:href="@{/image/content/logo/logo-title.webp}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+
+<div>
+    <p th:text="${error}"></p>
+    <a sec:authorize="isAuthenticated()"
+       th:href="@{'/rentals/account/' + ${#authentication.principal.username}}"
+       style="
+       display: flex;
+       justify-content: center;
+       text-align: center;
+       width: 12rem;
+       background-color: #3cb6d3;
+       height: 3rem;
+       border-radius: 10px;
+       text-decoration: none;
+       color: white;
+       left: 34%;
+       position: relative;
+       margin-top: 25px;">
+        <span style="
+       top: 19%;
+       position: relative;">Go back to account</span>
+    </a>
+</div>
+
+<div th:insert="~{fragment :: footer}"></div>
+</body>
+</html>

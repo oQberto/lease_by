@@ -12,6 +12,7 @@ import com.example.lease_by.service.PasswordTokenService;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
 import com.example.lease_by.service.exception.PasswordNotMatchException;
+import com.example.lease_by.service.exception.UserUpdateException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,12 +69,25 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Optional<UserReadDto> updateUser(Long id, UserEditDto userEditDto) {
+        isUserExists(userEditDto);
+
         return Optional.ofNullable(userRepository.findUserById(id)
                 .map(user -> {
                     User updatedUser = userMapper.updateUser(userEditDto, user);
                     return userMapper.mapToUserReadDto(userRepository.saveAndFlush(updatedUser));
                 })
                 .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));
+    }
+
+    private void isUserExists(UserEditDto userEditDto) {
+        var userByEmail = userRepository.findUserByEmail(userEditDto.getEmail());
+        var userByUsername = userRepository.findUserByUsername(userEditDto.getUsername());
+
+        if (userByEmail.isPresent()) {
+            throw new UserUpdateException("User with email: " + userEditDto.getEmail() + " already exists!");
+        } else if (userByUsername.isPresent()) {
+            throw new UserUpdateException("User with username: " + userEditDto.getUsername() + " already exists!");
+        }
     }
 
     @Override
