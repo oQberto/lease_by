@@ -1,6 +1,6 @@
 package com.example.lease_by.api.handler;
 
-import com.example.lease_by.service.exception.UserUpdateException;
+import com.example.lease_by.service.exception.UserCredentialsUpdateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -13,13 +13,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice(basePackages = "com.example.lease_by.api.controller")
 public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(UserUpdateException.class)
+    @ExceptionHandler(UserCredentialsUpdateException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String userCredentialsUpdateException(Model model,
-                                                 UserUpdateException userUpdateException) {
-        log.info("Failed to update user", userUpdateException);
+                                                 UserCredentialsUpdateException exception) {
+        log.info("Failed to update user", exception);
 
-        model.addAttribute("error", userUpdateException.getMessage());
+        model.addAttribute("error", exception.getMessage());
 
         return "error/409.html";
     }

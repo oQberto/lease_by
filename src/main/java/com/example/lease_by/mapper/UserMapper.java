@@ -29,7 +29,9 @@ public abstract class UserMapper {
     @Mappings({
             @Mapping(target = "id", ignore = true),
             @Mapping(target = "role", ignore = true),
-            @Mapping(target = "profile", ignore = true)
+            @Mapping(target = "profile", ignore = true),
+            @Mapping(target = "email", source = "userEditDto.email", conditionExpression = "java(!userEditDto.getEmail().isEmpty())"),
+            @Mapping(target = "username", source = "userEditDto.username", conditionExpression = "java(!userEditDto.getUsername().isEmpty())")
     })
     @BeanMapping(nullValuePropertyMappingStrategy = IGNORE)
     public abstract User updateUser(UserEditDto userEditDto,

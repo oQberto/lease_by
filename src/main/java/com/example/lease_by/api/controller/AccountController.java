@@ -2,10 +2,7 @@ package com.example.lease_by.api.controller;
 
 import com.example.lease_by.api.controller.exception.PasswordTokenException;
 import com.example.lease_by.api.controller.util.PageName.User;
-import com.example.lease_by.dto.account.PasswordDto;
-import com.example.lease_by.dto.account.ProfileEditDto;
-import com.example.lease_by.dto.account.UserCreateDto;
-import com.example.lease_by.dto.account.UserEditDto;
+import com.example.lease_by.dto.account.*;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
@@ -97,13 +94,31 @@ public class AccountController {
         }
     }
 
+    @PostMapping("/{id}/update-password")
+    @PreAuthorize("isAuthenticated()")
+    public String updatePassword(@PathVariable("id") Long id,
+                                 @ModelAttribute PasswordEditDto passwordEditDto) {
+        return userService.updatePassword(id, passwordEditDto)
+                .map(it -> {
+                    var username = userService
+                            .getUserById(id)
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
+                            .getUsername();
+
+                    return "redirect:/accounts/" + username;
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
     @GetMapping(ACCOUNT_BY_USERNAME)
     @PreAuthorize("isAuthenticated()")
     public String getUserAccount(Model model,
-                                 @PathVariable("username") String username) {
+                                 @PathVariable("username") String username,
+                                 RedirectAttributes redirectAttributes) {
         return userService.getUserByUsername(username)
                 .map(user -> {
                     model.addAttribute("user", user);
+                    redirectAttributes.addFlashAttribute("username", username);
                     return "user/profile/account";
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -126,7 +141,14 @@ public class AccountController {
     public String updateUser(@PathVariable("id") Long id,
                              @ModelAttribute("updatedUser") @Validated({Default.class, UpdateAction.class}) UserEditDto userEditDto) {
         return userService.updateUser(id, userEditDto)
-                .map(it -> "redirect:/accounts/{id}")
+                .map(it -> {
+                    var username = userService
+                            .getUserById(id)
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
+                            .getUsername();
+
+                    return "redirect:/accounts/" + username;
+                })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 

@@ -1,9 +1,6 @@
 package com.example.lease_by.service.impl;
 
-import com.example.lease_by.dto.account.PasswordDto;
-import com.example.lease_by.dto.account.UserCreateDto;
-import com.example.lease_by.dto.account.UserEditDto;
-import com.example.lease_by.dto.account.UserReadDto;
+import com.example.lease_by.dto.account.*;
 import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
 import com.example.lease_by.model.entity.User;
@@ -12,6 +9,7 @@ import com.example.lease_by.service.PasswordTokenService;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
 import com.example.lease_by.service.exception.PasswordNotMatchException;
+import com.example.lease_by.service.exception.PasswordUpdateException;
 import com.example.lease_by.service.exception.UserUpdateException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -87,6 +85,40 @@ public class UserServiceImpl implements UserService {
             throw new UserUpdateException("User with email: " + userEditDto.getEmail() + " already exists!");
         } else if (userByUsername.isPresent()) {
             throw new UserUpdateException("User with username: " + userEditDto.getUsername() + " already exists!");
+        }
+    }
+
+    @Override
+    @Transactional
+    public Optional<UserReadDto> updatePassword(Long id, PasswordEditDto passwordEditDto) {
+        checkIfNewAndConfirmPasswordsMatches(
+                passwordEditDto.getNewPassword(),
+                passwordEditDto.getConfirmPassword()
+        );
+
+        return Optional.ofNullable(userRepository.findUserById(id)
+                .map(user -> {
+                    checkIfValidOldPassword(passwordEditDto, user);
+
+                    user.setPassword(passwordEncoder.encode(
+                            passwordEditDto.getNewPassword()
+                    ));
+
+                    return userRepository.saveAndFlush(user);
+                })
+                .map(userMapper::mapToUserReadDto)
+                .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));
+    }
+
+    public static void checkIfNewAndConfirmPasswordsMatches(String password1, String password2) {
+        if (!password1.equals(password2)) {
+            throw new PasswordUpdateException("New and confirm password don't match!");
+        }
+    }
+
+    private void checkIfValidOldPassword(PasswordEditDto passwordEditDto, User user) {
+        if (!passwordEncoder.matches(passwordEditDto.getOldPassword(), user.getPassword())) {
+            throw new PasswordUpdateException("Incorrect old password!");
         }
     }
 
