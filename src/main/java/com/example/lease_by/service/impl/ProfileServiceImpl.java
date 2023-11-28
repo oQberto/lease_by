@@ -1,6 +1,6 @@
 package com.example.lease_by.service.impl;
 
-import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.ProfileEditDto;
 import com.example.lease_by.dto.account.ProfileReadDto;
 import com.example.lease_by.mapper.ProfileMapper;
 import com.example.lease_by.model.entity.Profile;
@@ -42,12 +42,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Transactional
-    public Optional<ProfileReadDto> updateProfile(Long id, ProfileCreateDto profileCreateDto) {
+    public Optional<ProfileReadDto> updateProfile(Long id, ProfileEditDto profileEditDto) {
         return Optional.ofNullable(profileRepository.findById(id)
                 .map(profile -> {
-                    Profile updatedProfile = profileMapper.updateProfile(profileCreateDto, profile);
+                    Profile updatedProfile = profileMapper.updateProfile(profileEditDto, profile);
                     return profileMapper.mapToProfileReadDto(updatedProfile);
                 })
-                .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found")));
+                .orElseThrow(() -> new EntityNotFoundException("User's profile with id: " + id + " not found!")));
     }
 }

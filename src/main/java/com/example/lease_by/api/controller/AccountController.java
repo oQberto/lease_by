@@ -109,11 +109,11 @@ public class AccountController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(PROFILE_BY_USER)
+    @GetMapping(PROFILE_BY_ID)
     @PreAuthorize("isAuthenticated()")
     public String getUserProfile(Model model,
                                  @PathVariable("profileId") Long id) {
-        return profileService.getProfileByUserId(id)
+        return profileService.getProfileById(id)
                 .map(profile -> {
                     model.addAttribute("profile", profile);
                     return "user/profile/accountProfile";

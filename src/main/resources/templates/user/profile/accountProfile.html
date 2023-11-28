@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listings</title>
+    <link rel="shortcut icon" th:href="@{/image/content/logo/logo-title.webp}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/profile-listings.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/account.css}" type="text/css">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+
+<div class="profile-page">
+    <div class="menu" th:insert="~{fragment :: menu}"></div>
+
+    <div class="work-zone">
+        <div class="display-zone">
+            <div class="listing-nav-bar">
+                <span>Profile settings</span>
+                <a th:href="@{/accounts/{id}(id=${profile.userReadDto.username})}">Account settings</a>
+            </div>
+
+            <div class="update">
+                <p>Profile info</p>
+                <form th:action="@{/accounts/profile/{id}/update(id=${profile.id})}" method="post"
+                      th:object="${profile}">
+                    <label for="firstname">Firstname: </label>
+                    <input id="firstname" type="text" name="firstname" th:value="*{firstname}">
+                    <br>
+                    <label for="lastname">Lastname: </label>
+                    <input id="lastname" type="text" name="lastname" th:value="*{lastname}">
+                    <br>
+                    <label for="phoneNumber">Phone number: </label>
+                    <input id="phoneNumber" type="text" name="phoneNumber" th:value="*{phoneNumber}">
+                    <br>
+                    <button type="submit">Update profile info</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:insert="~{fragment :: footer}"></div>
+</body>
+</html>

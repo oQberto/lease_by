@@ -1,6 +1,7 @@
 package com.example.lease_by.mapper;
 
 import com.example.lease_by.dto.account.ProfileCreateDto;
+import com.example.lease_by.dto.account.ProfileEditDto;
 import com.example.lease_by.dto.account.ProfileReadDto;
 import com.example.lease_by.model.entity.Profile;
 import org.mapstruct.*;
@@ -30,6 +31,6 @@ public interface ProfileMapper {
             @Mapping(target = "user", ignore = true)
     })
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Profile updateProfile(ProfileCreateDto dto,
+    Profile updateProfile(ProfileEditDto dto,
                           @MappingTarget Profile profile);
 }
