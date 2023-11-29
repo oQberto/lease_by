@@ -22,8 +22,6 @@ public interface RentalRepository extends JpaRepository<Rental, Long>, JpaSpecif
 
     Page<Rental> findRentalsByAddress_CityNameAndAddress_StreetName(String cityName, String streetName, Pageable pageable);
 
-//    Page<Rental> findRentals(Specification<Rental> specification, Pageable pageable);
-
     Optional<Rental> findRentalById(Long id);
 
     @Query("""

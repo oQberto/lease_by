@@ -13,14 +13,17 @@ import com.example.lease_by.mapper.ProfileMapper;
 import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
 import com.example.lease_by.model.entity.Rental;
+import com.example.lease_by.model.entity.RentalDetails;
 import com.example.lease_by.model.entity.User;
 import com.example.lease_by.model.entity.enums.*;
+import com.example.lease_by.model.repository.RentalDetailsRepository;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.annotation.Rollback;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @RequiredArgsConstructor
 class RentalServiceIT extends IntegrationTestBase {
     private final RentalService rentalService;
+    private final RentalDetailsRepository rentalDetailsRepository;
 
     private final UserMapper userMapper;
     private final ProfileMapper profileMapper;
@@ -110,6 +114,22 @@ class RentalServiceIT extends IntegrationTestBase {
             assertThat(pendingConfirmationRentals).hasSize(3);
             assertThat(draftRentals).hasSize(1);
             assertThat(deletedRentals).hasSize(1);
+        });
+    }
+
+    @Test
+    @Rollback
+    void removeRental() {
+        Optional<RentalReadDto> deletableCandidate = rentalService.getRentalById(1L);
+        assertThat(deletableCandidate).isPresent();
+        Optional<RentalDetails> rentalDetails = rentalDetailsRepository.findById(deletableCandidate.get().getRentalDetailsDto().getId());
+        assertThat(rentalDetails).isPresent();
+
+        rentalService.removeRental(deletableCandidate.get());
+
+        assertAll(() -> {
+                assertThat(rentalService.getRentalById(deletableCandidate.get().getId())).isEmpty();
+                assertThat(rentalDetailsRepository.findById(rentalDetails.get().getId())).isEmpty();
         });
     }
 

@@ -112,7 +112,7 @@
         <script src="/js/rentalFilterBuilder.js"></script>
 
         <div class="rentals">
-            <div class="rental" th:each="rental: ${rentals.content}">
+            <div class="rental" th:each="rental: ${rentals != null ? rentals.content : rentalsByAddress.content}">
 
                 <div class="rental-image-slider">
                     <img th:src="@{/image/rental/intro/{image}(image=${rental.introImage})}" alt="Intro">

@@ -70,7 +70,7 @@ public class Rental extends AuditingEntity {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToOne(mappedBy = "rental", fetch = LAZY)
+    @OneToOne(mappedBy = "rental", fetch = LAZY, cascade = CascadeType.ALL)
     private RentalDetails rentalDetails;
 
     @Builder.Default

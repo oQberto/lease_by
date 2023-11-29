@@ -19,7 +19,7 @@ public interface RentalService {
 
     Page<RentalReadDto> getFilteredRentals(String cityName, RentalFilter rentalFilter, Pageable pageable);
 
-    List<RentalReadDto> getRentalsByAddress(String address, Pageable pageable);
+    Page<RentalReadDto> getRentalsByAddress(String address, Pageable pageable);
 
     List<RentalReadDto> getRentalsByUsername(String username);
 
@@ -28,4 +28,6 @@ public interface RentalService {
     Optional<RentalReadDto> getRentalById(Long id);
 
     Optional<RentalReadDto> createRental(RentalCreateEditDto dto, String userEmail);
+
+    void removeRental(RentalReadDto rentalReadDto);
 }

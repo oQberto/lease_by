@@ -67,14 +67,13 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<RentalReadDto> getRentalsByAddress(String address, Pageable pageable) {
+    public Page<RentalReadDto> getRentalsByAddress(String address, Pageable pageable) {
         return rentalRepository.findRentalsByAddress_CityNameAndAddress_StreetName(
                         address.split(", ")[1],
                         address.split(", ")[0],
                         pageable
                 )
-                .map(rentalMapper::mapToRentalReadDto)
-                .toList();
+                .map(rentalMapper::mapToRentalReadDto);
     }
 
     @Override
@@ -111,6 +110,14 @@ public class RentalServiceImpl implements RentalService {
                     return rental;
                 })
                 .map(rentalMapper::mapToRentalReadDto);
+    }
+
+    @Override
+    @Transactional
+    public void removeRental(RentalReadDto rentalReadDto) {
+        rentalRepository.delete(
+                rentalMapper.mapToRental(rentalReadDto)
+        );
     }
 
     private void setDependentEntitiesToRental(RentalCreateEditDto dto, String username, Rental rental) {

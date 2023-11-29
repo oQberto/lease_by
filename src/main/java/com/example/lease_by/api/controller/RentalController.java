@@ -11,7 +11,6 @@ import com.example.lease_by.service.ImageService;
 import com.example.lease_by.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -128,9 +127,10 @@ public class RentalController {
 
     @GetMapping(RENTALS_BY_ADDRESS)
     public String findRentalsByAddress(Model model,
-                                       @PathVariable("address") String address) {
-        var rentals = rentalService.getRentalsByAddress(address, PageRequest.of(0, 10));
-        model.addAttribute("rentals", rentals);
+                                       @PathVariable("address") String address,
+                                       @PageableDefault(size = 5) Pageable pageable) {
+        var rentals = rentalService.getRentalsByAddress(address, pageable);
+        model.addAttribute("rentalsByAddress", PageResponse.of(rentals));
 
         return Rental.RENTALS;
     }
