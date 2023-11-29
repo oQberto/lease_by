@@ -28,6 +28,4 @@ public interface RentalService {
     Optional<RentalReadDto> getRentalById(Long id);
 
     Optional<RentalReadDto> createRental(RentalCreateEditDto dto, String userEmail);
-
-    void removeRental(RentalReadDto rentalReadDto);
 }

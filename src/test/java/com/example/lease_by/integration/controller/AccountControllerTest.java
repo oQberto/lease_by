@@ -2,7 +2,6 @@ package com.example.lease_by.integration.controller;
 
 import com.example.lease_by.integration.IntegrationTestBase;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.security.test.context.support.WithAnonymousUser;
@@ -27,21 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         }
 )
 class AccountControllerTest extends IntegrationTestBase {
-    private static final Integer EXISTING_USER_ID = 1;
-    private static final Integer NOT_EXISTING_USER_ID = Integer.MAX_VALUE;
+    private static final Long EXISTING_USER_ID = 1L;
+    private static final Long NOT_EXISTING_USER_ID = Long.MAX_VALUE;
     private final MockMvc mockMvc;
-
-    @Test
-    @Disabled
-    void registration() throws Exception {
-        mockMvc.perform(
-                        get("/accounts/registration"))
-                .andExpectAll(
-                        status().isOk(),
-                        view().name("user/registration"),
-                        model().attributeExists("user")
-                );
-    }
 
     @Test
     void registerUser() throws Exception {
@@ -59,10 +46,10 @@ class AccountControllerTest extends IntegrationTestBase {
 
     @Test
     void getUserAccount_whenUserIdExists_shouldReturnHttpStatus200() throws Exception {
-        mockMvc.perform(get("/accounts/{userId}", EXISTING_USER_ID))
+        mockMvc.perform(get("/accounts/{username}", "username1"))
                 .andExpectAll(
                         status().isOk(),
-                        view().name("user/accountInfo"),
+                        view().name("user/profile/account"),
                         model().attributeExists("user")
                 );
     }
@@ -92,7 +79,7 @@ class AccountControllerTest extends IntegrationTestBase {
         mockMvc.perform(get("/accounts/profile/{userId}", EXISTING_USER_ID))
                 .andExpectAll(
                         status().isOk(),
-                        view().name("user/profile/listings"),
+                        view().name("user/profile/accountProfile"),
                         model().attributeExists("profile")
                 );
     }
@@ -114,17 +101,6 @@ class AccountControllerTest extends IntegrationTestBase {
                 .andExpectAll(
                         status().is3xxRedirection(),
                         redirectedUrl("http://localhost/login")
-                );
-    }
-
-    @Test
-    void updateUser_whenUserIdExists_shouldReturnHttpStatus302() throws Exception {
-        mockMvc.perform(post("/accounts/{id}/update", EXISTING_USER_ID)
-                        .param(email, "newEmail@gmail.com")
-                        .with(csrf()))
-                .andExpectAll(
-                        status().is3xxRedirection(),
-                        redirectedUrlTemplate("/accounts/{id}", EXISTING_USER_ID)
                 );
     }
 

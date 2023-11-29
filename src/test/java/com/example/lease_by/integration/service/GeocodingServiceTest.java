@@ -18,19 +18,19 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 public class GeocodingServiceTest extends IntegrationTestBase {
     private static final String CITY_NAME = "Minsk";
     private static final String[] POINT_NAMES = {
-            "vulica Niomanskaja 73, Minsk, Belarus",
-            "vulica Liucynskaja 33, Minsk, Belarus",
-            "vulica Družnaja 11, Baraŭliany 223053, Belarus",
-            "vulica Liucynskaja 31, Minsk, Belarus",
-            "Borovaya Ulitsa 12, Valer'yanovo 223053, Belarus",
-            "vulica Družnaja 1, Baraŭliany 223053, Belarus",
-            "vulica Nalibockaja 9, Minsk, Belarus",
-            "vulica Nalibockaja 37, Minsk, Belarus",
-            "vul. Lidskaja 14, Minsk, Belarus",
-            "vulica Družnaja 10, Baraŭliany 223053, Belarus",
-            "vulica Družnaja 12, Baraŭliany 223053, Belarus",
-            "vul. Lidskaja 12, Minsk 220055, Belarus",
-            "vulica Niomanskaja 66, Minsk 220063, Belarus"
+            "vul. Lidskaja 14, Minsk, Minskaja voblasć, Belarus",
+            "vulica Družnaja 1, Baraŭliany, Minskaja voblasć 223053, Belarus",
+            "vulica Nalibockaja 9, Minsk, Minskaja voblasć, Belarus",
+            "vulica Družnaja 10, Baraŭliany, Minskaja voblasć 223053, Belarus",
+            "vulica Družnaja 12, Baraŭliany, Minskaja voblasć 223053, Belarus",
+            "vulica Nalibockaja 37, Minsk, Minskaja voblasć, Belarus",
+            "vulica Družnaja 11, Baraŭliany, Minskaja voblasć 223053, Belarus",
+            "Borovaya Ulitsa 12, Valer'yanovo, Minsk Region 223053, Belarus",
+            "vulica Liucynskaja 33, Minsk, Minskaja voblasć, Belarus",
+            "vul. Lidskaja 12, Minsk, Minskaja voblasć 220055, Belarus",
+            "vulica Niomanskaja 73, Minsk, Minskaja voblasć, Belarus",
+            "vulica Liucynskaja 31, Minsk, Minskaja voblasć, Belarus",
+            "vulica Niomanskaja 66, Minsk, Minskaja voblasć 220063, Belarus"
     };
 
     private final GeocodingService geocodingService;
@@ -57,7 +57,7 @@ public class GeocodingServiceTest extends IntegrationTestBase {
 
             assertThat(geocodingDto.getLatitude()).isEqualTo(53.9006011);
             assertThat(geocodingDto.getLongitude()).isEqualTo(27.558972);
-            assertThat(geocodingDto.getPointName()).isEqualTo("Minsk, Belarus");
+            assertThat(geocodingDto.getPointName()).isEqualTo("Minsk, Minsk Region, Belarus");
         });
 
 

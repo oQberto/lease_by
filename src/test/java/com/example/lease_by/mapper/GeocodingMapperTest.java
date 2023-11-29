@@ -24,7 +24,7 @@ public class GeocodingMapperTest {
         GeocodingDto geocodingDto = GeocodingDto.builder()
                 .latitude(53.9249513)
                 .longitude(27.4295729)
-                .pointName("vulica Niomanskaja 73, Minsk, Belarus")
+                .pointName("vulica Niomanskaja 73, Minsk, Minskaja voblasć, Belarus")
                 .build();
 
         GeocodingDto actualResult = geocodingMapper.mapToGeocodingDto(

@@ -92,8 +92,9 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public Optional<RentalReadDto> getRentalById(Long id) {
-        return rentalRepository.findRentalById(id)
-                .map(rentalMapper::mapToRentalReadDto);
+        return Optional.ofNullable(rentalRepository.findRentalById(id)
+                .map(rentalMapper::mapToRentalReadDto)
+                .orElseThrow(() -> new EntityNotFoundException("Rental with id: " + id + " not found")));
     }
 
     @Override
@@ -110,14 +111,6 @@ public class RentalServiceImpl implements RentalService {
                     return rental;
                 })
                 .map(rentalMapper::mapToRentalReadDto);
-    }
-
-    @Override
-    @Transactional
-    public void removeRental(RentalReadDto rentalReadDto) {
-        rentalRepository.delete(
-                rentalMapper.mapToRental(rentalReadDto)
-        );
     }
 
     private void setDependentEntitiesToRental(RentalCreateEditDto dto, String username, Rental rental) {
