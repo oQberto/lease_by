@@ -1,0 +1,43 @@
+.header {
+    height: 10%;
+}
+
+.work-zone {
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7));
+    width: 60%;
+    height: 50rem;
+    border-radius: 35px;
+    overflow-y: scroll;
+    position: relative;
+    top: 6rem;
+    padding: 5rem;
+    color: white;
+}
+
+.work-zone input {
+    width: 40%;
+}
+
+.work-zone button {
+    width: 10rem;
+    height: 2rem;
+}
+
+.work-zone textarea {
+    width: 40%;
+    padding: 5px;
+    height: 9rem;
+}
+
+.description {
+    height: 10rem;
+}
+
+.description input {
+    height: 95%;
+}
+
+.photos input {
+    width: 40%;
+    color: black;
+}

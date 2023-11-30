@@ -2,21 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Post a rental</title>
+    <title>Lease.by. Post a rental</title>
+    <link rel="shortcut icon" th:href="@{/image/content/logo/logo-title.webp}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/footer.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/header.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/sortingBar.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/post-rental.css}" type="text/css">
 </head>
 <body>
-<div>
+<div th:insert="~{fragment :: header}"></div>
+
+<div class="work-zone">
     <form th:action="@{/rentals/post-rental}" enctype="multipart/form-data" method="post">
         <div id="group_1">
-            <div th:each="propertyType: ${propertyTypes}">
-                <label th:for="${propertyType}">
-                    <input th:id="${propertyType}" type="radio" name="propertyType" th:value="${propertyType}"
-                           th:text="${propertyType}">
+            <div class="choose-zone">
+                <p>Property type: </p>
+                <label th:each="propertyType: ${propertyTypes}" th:for="${propertyType}">
+                    <input th:id="${propertyType}" type="radio" name="propertyType" th:value="${propertyType}">
+                    <span th:text="${propertyType}"></span>
                 </label>
             </div>
+
             <label for="address">Address:
                 <input id="address" type="text" name="address">
             </label>
+            <br>
             <label for="houseNo">House number:
                 <input id="houseNo" type="text" name="houseNo">
             </label>
@@ -26,69 +36,79 @@
         <div id="group_2">
             <h2>Rental details</h2>
             <hr>
-            <h3>Utilities</h3>
-            <div th:each="utility: ${utilities}">
-                <label th:for="${utility}">
-                    <input th:id="${utility}" type="checkbox" name="utilities" th:value="${utility}"
-                           th:text="${utility}">
+            <div class="choose-zone">
+                <p>Utilities: </p>
+                <label th:each="utility: ${utilities}" th:for="${utility}">
+                    <input th:id="${utility}" type="checkbox" name="utilities" th:value="${utility}">
+                    <span th:text="${utility}"></span>
                 </label>
             </div>
             <hr>
-            <h3>Category</h3>
-            <div th:each="category: ${categories}">
-                <label th:for="${category}">
-                    <input th:id="${category}" type="checkbox" name="categories" th:value="${category}"
-                           th:text="${category}">
+
+            <div class="choose-zone">
+                <p>Category: </p>
+                <label th:each="category: ${categories}" th:for="${category}">
+                    <input th:id="${category}" type="checkbox" name="categories" th:value="${category}">
+                    <span th:text="${category}"></span>
                 </label>
             </div>
             <hr>
-            <h3>Furnished</h3>
-            <div th:each="furniture: ${furnished}">
-                <label th:for="${furniture}">
-                    <input th:id="${furniture}" type="radio" name="furnished" th:value="${furniture}"
-                           th:text="${furniture}">
+
+            <div class="choose-zone">
+                <p>Furnished: </p>
+                <label th:each="furniture: ${furnished}" th:for="${furniture}">
+                    <input th:id="${furniture}" type="radio" name="furnished" th:value="${furniture}">
+                    <span th:text="${furniture}"></span>
                 </label>
             </div>
             <hr>
+
             <div>
                 <label for="yearBuilt">Year built:
                     <input id="yearBuilt" type="date" name="yearBuilt">
                 </label>
             </div>
             <hr>
-            <div>
-                <h3>Pet friendly</h3>
+
+            <div class="choose-zone">
+                <p>Pet friendly</p>
                 <label for="petFriendlyTrue">
-                    <input id="petFriendlyTrue" type="radio" name="petFriendly" value="true">Yes
+                    <input id="petFriendlyTrue" type="radio" name="petFriendly" value="true">
+                    <span>Yes</span>
                 </label>
                 <label for="petFriendlyFalse">
-                    <input id="petFriendlyFalse" type="radio" name="petFriendly" value="false">No
+                    <input id="petFriendlyFalse" type="radio" name="petFriendly" value="false">
+                    <span>No</span>
                 </label>
             </div>
             <hr>
-            <div>
-                <h3>Short term</h3>
+
+            <div class="choose-zone">
+                <p>Short term</p>
                 <label for="shortTermTrue">
-                    <input id="shortTermTrue" type="radio" name="shortTerm" value="true">Yes
+                    <input id="shortTermTrue" type="radio" name="shortTerm" value="true">
+                    <span>Yes</span>
                 </label>
                 <label for="shortTermFalse">
-                    <input id="shortTermFalse" type="radio" name="shortTerm" value="false">No
+                    <input id="shortTermFalse" type="radio" name="shortTerm" value="false">
+                    <span>No</span>
                 </label>
             </div>
             <hr>
-            <h3>Lease term</h3>
-            <div th:each="leaseTerm: ${leaseTerms}">
-                <label th:for="${leaseTerm}">
-                    <input th:id="${leaseTerm}" type="radio" name="leaseTerm" th:value="${leaseTerm}"
-                           th:text="${leaseTerm}">
+
+            <div class="choose-zone">
+                <p>Lease term</p>
+                <label th:each="leaseTerm: ${leaseTerms}" th:for="${leaseTerm}">
+                    <input th:id="${leaseTerm}" type="radio" name="leaseTerm" th:value="${leaseTerm}">
+                    <span th:text="${leaseTerm}"></span>
                 </label>
             </div>
             <hr>
-            <h3>Parking type</h3>
-            <div th:each="parkingType: ${parkingTypes}">
-                <label th:for="${parkingType}">
-                    <input th:id="${parkingType}" type="radio" name="parkingType" th:value="${parkingType}"
-                           th:text="${parkingType}">
+            <div class="choose-zone">
+                <p>Parking type</p>
+                <label th:each="parkingType: ${parkingTypes}" th:for="${parkingType}">
+                    <input th:id="${parkingType}" type="radio" name="parkingType" th:value="${parkingType}">
+                    <span th:text="${parkingType}"></span>
                 </label>
             </div>
         </div>
@@ -103,45 +123,55 @@
                     <input id="price" type="text" name="price">
                 </label>
             </div>
-            <div>
-                <label for="countOfBedrooms">countOfBedrooms:
-                    <input id="countOfBedrooms" type="text" name="countOfBedrooms">
+            <div class="choose-zone">
+                <p>Bedrooms: </p>
+                <label th:each="number: ${bedrooms}" th:for="${number}">
+                    <input th:id="${number}" type="radio" name="countOfBedrooms" th:value="${number}">
+                    <span th:text="${number}"></span>
                 </label>
             </div>
+            <br>
             <div>
                 <label for="propertySize">propertySize:
                     <input id="propertySize" type="text" name="propertySize">
                 </label>
             </div>
             <hr>
-            <label for="photos">Add photos:
-                <input id="photos" type="file" multiple="multiple" name="images">
-            </label>
+            <br>
+            <div class="photos">
+                <label for="photos">Add photos:
+                    <input id="photos" type="file" multiple="multiple" name="images">
+                </label>
+            </div>
         </div>
         <hr>
-        <div>
+        <div class="description">
             <label for="description">Description:
-                <input id="description" type="text" name="description">
+                <textarea id="description" name="description" rows="4" cols="50"></textarea>
             </label>
         </div>
         <hr>
-        <h3>Features</h3>
-        <div th:each="feature: ${features}">
-            <label th:for="${feature}">
-                <input th:id="${feature}" type="checkbox" name="features" th:value="${feature}"
-                       th:text="${feature}">
+
+        <div class="choose-zone">
+            <p>Features</p>
+            <label th:each="feature: ${features}" th:for="${feature}">
+                <input th:id="${feature}" type="checkbox" name="features" th:value="${feature}">
+                <span th:text="${feature}"></span>
             </label>
         </div>
         <hr>
-        <h3>Amenities</h3>
-        <div th:each="amenity: ${amenities}">
-            <label th:for="${amenity}">
-                <input th:id="${amenity}" type="checkbox" name="amenities" th:value="${amenity}"
-                       th:text="${amenity}">
+
+        <div class="choose-zone">
+            <p>Amenities</p>
+            <label th:each="amenity: ${amenities}" th:for="${amenity}">
+                <input th:id="${amenity}" type="checkbox" name="amenities" th:value="${amenity}">
+                <span th:text="${amenity}"></span>
             </label>
         </div>
-        <button type="submit">Post</button>
+        <button class="apply-button" type="submit">Post</button>
     </form>
 </div>
+
+<div th:insert="~{fragment :: footer}"></div>
 </body>
 </html>

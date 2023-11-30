@@ -14,10 +14,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleResponseStatusException(EntityNotFoundException exception, Model model) {
         log.error("Failed to return response", exception);
         model.addAttribute("error", exception.getMessage());
-        return "error/500.html";
+        return "error/404.html";
     }
 }

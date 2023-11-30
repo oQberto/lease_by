@@ -8,7 +8,7 @@ import org.springframework.mail.SimpleMailMessage;
 public class EmailUtil {
     private static final String EMAIL_THEME = "There's been interest in your lease.";
     private static final String EMAIL_THEME_RESET_PASSWORD = "Reset your password on \"Lease.by\".";
-    private static final String EMAIL_MESSAGE = "Hi %s, %s has been interests in your lease. Contact with him.\n Phone number: %s \n Email: %s";
+    private static final String EMAIL_MESSAGE = "Hi %s, %s has been interested in your lease. Contact him.\n Phone number: %s \n Email: %s";
     private static final String PASSWORD_RESET_MESSAGE = """
             Hi! This is your link for password reset: \n
             http://localhost:8080/accounts/user/change-password?token=%s&username=%s

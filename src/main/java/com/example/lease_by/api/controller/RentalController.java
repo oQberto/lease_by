@@ -84,7 +84,8 @@ public class RentalController {
                 "parkingTypes", List.of(ParkingType.values()),
                 "furnished", List.of(Furnished.values()),
                 "features", List.of(Feature.values()),
-                "amenities", List.of(Amenities.values())
+                "amenities", List.of(Amenities.values()),
+                "bedrooms", List.of(1, 2, 3 ,4)
         ));
         return Rental.POST_RENTAL;
     }
@@ -130,7 +131,7 @@ public class RentalController {
                                        @PathVariable("address") String address,
                                        @PageableDefault(size = 5) Pageable pageable) {
         var rentals = rentalService.getRentalsByAddress(address, pageable);
-        model.addAttribute("rentalsByAddress", PageResponse.of(rentals));
+        model.addAttribute("rentals", PageResponse.of(rentals));
 
         return Rental.RENTALS;
     }

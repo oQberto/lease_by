@@ -59,7 +59,7 @@ class AccountControllerTest extends IntegrationTestBase {
         mockMvc.perform(get("/accounts/{userId}", NOT_EXISTING_USER_ID))
                 .andExpectAll(
                         status().is5xxServerError(),
-                        view().name("error/500.html"),
+                        view().name("error/404.html"),
                         model().attributeExists("error")
                 );
     }
@@ -89,7 +89,7 @@ class AccountControllerTest extends IntegrationTestBase {
         mockMvc.perform(get("/accounts/profile/{userId}", NOT_EXISTING_USER_ID))
                 .andExpectAll(
                         status().is5xxServerError(),
-                        view().name("error/500.html"),
+                        view().name("error/404.html"),
                         model().attributeExists("error")
                 );
     }
@@ -111,7 +111,7 @@ class AccountControllerTest extends IntegrationTestBase {
                         .with(csrf()))
                 .andExpectAll(
                         status().is5xxServerError(),
-                        view().name("error/500.html"),
+                        view().name("error/404.html"),
                         model().attributeExists("error")
                 );
     }
@@ -146,7 +146,7 @@ class AccountControllerTest extends IntegrationTestBase {
                         .with(csrf()))
                 .andExpectAll(
                         status().is5xxServerError(),
-                        view().name("error/500.html"),
+                        view().name("error/404.html"),
                         model().attributeExists("error")
                 );
     }
