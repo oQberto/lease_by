@@ -6,8 +6,8 @@ import com.example.lease_by.dto.account.UserReadDto;
 import com.example.lease_by.mapper.annotation.MapperTest;
 import com.example.lease_by.model.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RequiredArgsConstructor
 class UserMapperTest {
     private final UserMapper userReadMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Test
     void updateUser() {
@@ -38,19 +39,6 @@ class UserMapperTest {
         UserReadDto actualResult = userReadMapper.mapToUserReadDto(getUser());
 
         assertThat(actualResult).isEqualTo(getUserReadDto());
-    }
-
-    @Test
-    @Disabled
-    void mapToUserFromUserCreateDto() {
-        User expectedResult = User.builder()
-                .email("dummy@gmail.com")
-                .username("dummy")
-                .build();
-
-        User actualResult = userReadMapper.mapToUser(getUserCreateDto());
-
-        assertThat(actualResult).isEqualTo(expectedResult);
     }
 
     @Test
