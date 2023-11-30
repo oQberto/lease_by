@@ -42,6 +42,10 @@ spring:
   mvc:
     format:
       date: iso
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 15MB
 logging:
   level:
     root: info

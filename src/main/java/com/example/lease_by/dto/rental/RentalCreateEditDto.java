@@ -17,38 +17,38 @@ import java.util.Set;
 @FieldNameConstants
 public class RentalCreateEditDto {
 
-    PropertyType propertyType; // rentalDetails
-    String address; //address
-    Integer houseNo; //address
+    PropertyType propertyType;
+    String address;
+    Integer houseNo;
 
-    LocalDate yearBuilt; // rentalDetails
-    Boolean petFriendly; // rentalDetails
-    Furnished furnished; // rentalDetails
-    Boolean shortTerm; // rentalDetails
-    LeaseTerm leaseTerm; // rentalDetails
-    ParkingType parkingType; // rentalDetails
+    LocalDate yearBuilt;
+    Boolean petFriendly;
+    Furnished furnished;
+    Boolean shortTerm;
+    LeaseTerm leaseTerm;
+    ParkingType parkingType;
 
-    String description; // rental
-    String introImage; //rental
-    Integer countOfBedrooms; //rental
-    BigDecimal price; // rental
-    BigDecimal propertySize; //rental
+    String description;
+    String introImage;
+    Integer countOfBedrooms;
+    BigDecimal price;
+    BigDecimal propertySize;
 
-    UserReadDto userReadDto; // rental
-
-    @Builder.Default
-    Set<Utility> utilities = new HashSet<>(); // rentalDetails
+    UserReadDto userReadDto;
 
     @Builder.Default
-    Set<Category> categories = new HashSet<>(); // rentalDetails
+    Set<Utility> utilities = new HashSet<>();
 
     @Builder.Default
-    Set<MultipartFile> images = new HashSet<>(); // rental
+    Set<Category> categories = new HashSet<>();
 
     @Builder.Default
-    Set<Feature> features = new HashSet<>(); // rental
+    Set<MultipartFile> images = new HashSet<>();
 
     @Builder.Default
-    Set<Amenities> amenities = new HashSet<>(); // rental
+    Set<Feature> features = new HashSet<>();
+
+    @Builder.Default
+    Set<Amenities> amenities = new HashSet<>();
 
 }
