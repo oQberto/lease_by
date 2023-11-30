@@ -54,6 +54,7 @@ public class RentalController {
     }
 
     @GetMapping(RENTAL_DETAILS_BY_RENTAL_ID)
+    @PreAuthorize("isAuthenticated()")
     public String getRentalDetails(Model model,
                                    @PathVariable("id") Long rentalId) {
         return rentalService.getRentalById(rentalId)
@@ -74,6 +75,7 @@ public class RentalController {
     }
 
     @GetMapping(POST_RENTAL)
+    @PreAuthorize("isAuthenticated()")
     public String postRental(Model model,
                              @ModelAttribute("rental") RentalCreateEditDto rentalCreateEditDto) {
         model.addAllAttributes(Map.of(

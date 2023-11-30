@@ -1,5 +1,6 @@
 package com.example.lease_by.api.handler;
 
+import com.example.lease_by.api.controller.exception.LoginException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,23 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleResponseStatusException(EntityNotFoundException exception, Model model) {
+    public String handleResponseStatusException(Model model,
+                                                EntityNotFoundException exception) {
         log.error("Failed to return response", exception);
+
         model.addAttribute("error", exception.getMessage());
+
         return "error/404.html";
+    }
+
+    @ExceptionHandler(LoginException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public String handleLoginException(Model model,
+                                       LoginException exception) {
+        log.error("User has already logged in", exception);
+
+        model.addAttribute("error", exception.getMessage());
+
+        return "error/403.html";
     }
 }

@@ -26,13 +26,11 @@ import java.util.Set;
 public class SecurityConfiguration {
     private static final String[] URL_WHITE_LIST = {
             "/login",
-            "/accounts/registration",
             "/accounts/forgot-password",
             "/accounts/register",
             "/accounts/user/**",
-            "/accounts/profile/**",
-            "/cities",
             "/rentals/**",
+            "/cities",
             "/api/v1/**",
             "/css/**",
             "/image/**",
@@ -60,7 +58,7 @@ public class SecurityConfiguration {
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService())))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/cities")
                         .deleteCookies("JSESSIONID"))
                 .build();
     }
