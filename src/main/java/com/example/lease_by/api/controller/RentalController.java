@@ -52,7 +52,6 @@ public class RentalController {
     }
 
     @GetMapping(RENTAL_DETAILS_BY_RENTAL_ID)
-    @PreAuthorize("isAuthenticated()")
     public String getRentalDetails(Model model,
                                    @PathVariable("id") Long rentalId) {
         return rentalService.getRentalById(rentalId)
