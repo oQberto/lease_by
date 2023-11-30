@@ -55,6 +55,16 @@ public class GeocodingServiceImpl implements GeocodingService {
                 .map(geocodingMapper::mapToGeocodingDto);
     }
 
+    @Override
+    public Optional<GeocodingDto> getGeocodedAddress(String address) throws IOException, InterruptedException, ApiException {
+        return Optional.ofNullable(
+                        GeocodingApi.geocode(
+                                geoApiContext,
+                                address
+                        ).await()[0])
+                .map(geocodingMapper::mapToGeocodingDto);
+    }
+
     private GeocodingResult[] geocode(AddressDto addressDto) throws IOException, InterruptedException, ApiException {
         return GeocodingApi.geocode(
                 geoApiContext,

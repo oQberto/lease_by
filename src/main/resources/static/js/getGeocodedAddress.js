@@ -1,18 +1,18 @@
-const houseNo = document.getElementById('houseNo');
-const streetName = document.getElementById('streetName');
-const cityName = document.getElementById('cityName');
+const houseNo = document.getElementById('houseNo').textContent;
+const streetName = document.getElementById('streetName').textContent;
+const cityName = document.getElementById('cityName').textContent;
 
 ymaps.ready(init);
 
 function init() {
     $.ajax({
-        url: '/api/v1/rentals/geocode/city-centre/' + cityName,
+        url: '/api/v1/rentals/geocode/rental-address/' + streetName + ', ' + cityName + ' ' + houseNo,
         type: 'GET',
         dataType: 'json',
-        success: function (cityCentre) {
+        success: function (rentalCentre) {
             var myMap = new ymaps.Map("map", {
-                center: [cityCentre.latitude, cityCentre.longitude],
-                zoom: 12,
+                center: [rentalCentre.latitude, rentalCentre.longitude],
+                zoom: 14,
                 controls: ['trafficControl']
             });
 
@@ -23,7 +23,7 @@ function init() {
             });
 
             $.ajax({
-                url: '/api/v1/rentals/geocode/' + cityName + '/' + streetName + '/' + houseNo,
+                url: '/api/v1/rentals/geocode/rental-address/' + streetName + ', ' + cityName + ' ' + houseNo,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -31,7 +31,7 @@ function init() {
 
                     placemark.events.add('click', function (e) {
                         $('#markerModal').modal('show');
-                        $('#markerModalTitle').text(point.pointName);
+                        $('#markerModalTitle').text(data.pointName);
                     });
 
                     clusterer.add(placemark);

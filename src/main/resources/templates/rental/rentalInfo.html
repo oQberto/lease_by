@@ -49,9 +49,9 @@
             </div>
 
             <div class="address-info" th:object="${rental.addressDto}">
-                <span class="street-name" th:text="*{streetDto.name + ', '}"></span>
-                <span class="city-name" th:text="*{cityReadDto.name + ', '}"></span>
-                <span class="house-no" th:text="*{houseNo}"></span>
+                <span id="streetName" class="street-name" th:text="*{streetDto.name + ', '}"></span>
+                <span id="cityName" class="city-name" th:text="*{cityReadDto.name + ', '}"></span>
+                <span id="houseNo" class="house-no" th:text="*{houseNo}"></span>
             </div>
 
             <div class="rental-important-info" th:object="${rental.rentalDetailsDto}">
@@ -93,7 +93,7 @@
 
     <div class="rental-info-footer">
         <div class="map" id="map"></div>
-        <script type="text/javascript" src="/js/addressesMapRepresentation.js"></script>
+        <script type="text/javascript" src="/js/getGeocodedAddress.js"></script>
 
         <div class="email-send-form">
             <span>Contact the owner</span>

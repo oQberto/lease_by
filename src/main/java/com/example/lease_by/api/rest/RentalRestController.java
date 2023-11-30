@@ -46,6 +46,13 @@ public class RentalRestController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @SneakyThrows
+    @GetMapping("/geocode/rental-address/{address}")
+    public GeocodingDto getGeocodedAddress(@PathVariable("address") String address) {
+        return geocodingService.getGeocodedAddress(address)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
     @GetMapping("/redirect-filter")
     public RedirectView redirectFilter(RedirectAttributes redirectAttributes,
                                        @ModelAttribute RentalFilter rentalFilter,
