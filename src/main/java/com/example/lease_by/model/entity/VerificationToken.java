@@ -16,8 +16,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "password_token")
-public class PasswordToken {
+@Table(name = "verification_token")
+public class VerificationToken {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

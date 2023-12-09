@@ -1,13 +1,13 @@
 package com.example.lease_by.service;
 
 import com.example.lease_by.dto.account.UserReadDto;
-import com.example.lease_by.model.entity.PasswordToken;
+import com.example.lease_by.model.entity.VerificationToken;
 
-public interface PasswordTokenService {
+public interface VerificationTokenService {
 
     void createPasswordToken(UserReadDto userReadDto);
 
-    PasswordToken findPasswordTokenBy(String userEmail);
+    VerificationToken findPasswordTokenBy(String userEmail);
 
     void removeUsedToken(String userEmail);
 }

@@ -2,8 +2,8 @@ package com.example.lease_by.service.impl;
 
 import com.example.lease_by.dto.email.EmailContent;
 import com.example.lease_by.service.EmailService;
-import com.example.lease_by.service.PasswordTokenService;
 import com.example.lease_by.service.UserService;
+import com.example.lease_by.service.VerificationTokenService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +17,7 @@ import static com.example.lease_by.service.util.EmailUtil.buildSimpleMessage;
 public class EmailServiceImpl implements EmailService {
     private final UserService userService;
     private final JavaMailSender javaMailSender;
-    private final PasswordTokenService passwordTokenService;
+    private final VerificationTokenService verificationTokenService;
 
     @Override
     @Async
@@ -30,11 +30,11 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Async
     public void sendPasswordResetMessage(EmailContent emailContent) {
-        passwordTokenService.createPasswordToken(userService
+        verificationTokenService.createPasswordToken(userService
                 .getUserByEmail(emailContent.getReceiverEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User with email: " + emailContent.getReceiverEmail() + " not found!"))
         );
-        String token = passwordTokenService
+        String token = verificationTokenService
                 .findPasswordTokenBy(emailContent.getReceiverEmail())
                 .getToken();
 

@@ -5,9 +5,9 @@ import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
 import com.example.lease_by.model.entity.User;
 import com.example.lease_by.model.repository.UserRepository;
-import com.example.lease_by.service.PasswordTokenService;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
+import com.example.lease_by.service.VerificationTokenService;
 import com.example.lease_by.service.exception.PasswordNotMatchException;
 import com.example.lease_by.service.exception.PasswordUpdateException;
 import com.example.lease_by.service.exception.UserUpdateException;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ProfileService profileService;
     private final PasswordEncoder passwordEncoder;
-    private final PasswordTokenService passwordTokenService;
+    private final VerificationTokenService verificationTokenService;
 
     private final UserMapper userMapper;
 
@@ -137,6 +137,6 @@ public class UserServiceImpl implements UserService {
             throw new PasswordNotMatchException("Passwords don't match");
         }
 
-        passwordTokenService.removeUsedToken(passwordDto.getUsername());
+        verificationTokenService.removeUsedToken(passwordDto.getUsername());
     }
 }

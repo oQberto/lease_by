@@ -2,9 +2,9 @@ package com.example.lease_by.service.impl;
 
 import com.example.lease_by.dto.account.UserReadDto;
 import com.example.lease_by.mapper.UserMapper;
-import com.example.lease_by.model.entity.PasswordToken;
-import com.example.lease_by.model.repository.PasswordTokenRepository;
-import com.example.lease_by.service.PasswordTokenService;
+import com.example.lease_by.model.entity.VerificationToken;
+import com.example.lease_by.model.repository.VerificationTokenRepository;
+import com.example.lease_by.service.VerificationTokenService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,33 +16,33 @@ import static com.example.lease_by.service.util.PasswordTokenUtil.createToken;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class PasswordTokenServiceImpl implements PasswordTokenService {
-    private final PasswordTokenRepository passwordTokenRepository;
+public class VerificationTokenServiceImpl implements VerificationTokenService {
+    private final VerificationTokenRepository verificationTokenRepository;
     private final UserMapper userMapper;
 
     @Override
     @Transactional
     public void createPasswordToken(UserReadDto userReadDto) {
-        var passwordToken = PasswordToken.builder()
+        var passwordToken = VerificationToken.builder()
                 .user(userMapper.mapToUser(userReadDto))
                 .token(createToken())
                 .expireDate(createExpireDate())
                 .build();
 
-        passwordTokenRepository.save(passwordToken);
+        verificationTokenRepository.save(passwordToken);
     }
 
     @Override
-    public PasswordToken findPasswordTokenBy(String userEmail) {
-        return passwordTokenRepository.findByUserEmail(userEmail)
+    public VerificationToken findPasswordTokenBy(String userEmail) {
+        return verificationTokenRepository.findByUserEmail(userEmail)
                 .orElseThrow(() -> new EntityNotFoundException("Token with user's email: " + userEmail + " not found!"));
     }
 
     @Override
     @Transactional
     public void removeUsedToken(String userEmail) {
-        PasswordToken passwordToken = passwordTokenRepository.findByUserEmail(userEmail)
+        VerificationToken passwordToken = verificationTokenRepository.findByUserEmail(userEmail)
                 .orElseThrow(() -> new EntityNotFoundException("Token with user's email: " + userEmail + " not found!"));
-        passwordTokenRepository.delete(passwordToken);
+        verificationTokenRepository.delete(passwordToken);
     }
 }

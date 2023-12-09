@@ -1,7 +1,7 @@
 package com.example.lease_by.vaidation.impl;
 
-import com.example.lease_by.model.entity.PasswordToken;
-import com.example.lease_by.model.repository.PasswordTokenRepository;
+import com.example.lease_by.model.entity.VerificationToken;
+import com.example.lease_by.model.repository.VerificationTokenRepository;
 import com.example.lease_by.vaidation.PasswordTokenValidation;
 import com.example.lease_by.vaidation.enums.PasswordTokenVerification;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +15,18 @@ import static com.example.lease_by.vaidation.enums.PasswordTokenVerification.*;
 @Component
 @RequiredArgsConstructor
 public class PasswordTokenValidationImpl implements PasswordTokenValidation {
-    private final PasswordTokenRepository passwordTokenRepository;
+    private final VerificationTokenRepository passwordTokenRepository;
 
     @Override
     public PasswordTokenVerification validatePasswordToken(String token) {
-        Optional<PasswordToken> passwordToken = passwordTokenRepository.findByToken(token);
+        Optional<VerificationToken> passwordToken = passwordTokenRepository.findByToken(token);
 
         return !isTokenValid(passwordToken) ? INVALID
                 : isExpire(passwordToken.get().getExpireDate()) ? EXPIRED
                 : VALID;
     }
 
-    private static boolean isTokenValid(Optional<PasswordToken> passwordToken) {
+    private static boolean isTokenValid(Optional<VerificationToken> passwordToken) {
         return passwordToken.isPresent();
     }
 
