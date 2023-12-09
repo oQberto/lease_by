@@ -33,6 +33,9 @@ public class User extends AuditingEntity {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "is_verified")
+    private Boolean isVerified;
+
     @Column(name = "role")
     @Enumerated(STRING)
     private Role role;
