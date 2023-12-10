@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+// TODO: refactor all Optional chains in the class
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -124,7 +126,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public Optional<UserReadDto> verifyUser(String token) {
+        return userRepository.findUserBy(token)
+                .map(this::updateVerificationStatus)
+                .map(userMapper::mapToUserReadDto);
+    }
+
+    private User updateVerificationStatus(User user) {
+        // TODO: remove a token after a verification
+        user.setIsVerified(true);
+        return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    @Transactional
     public void saveUserPassword(PasswordDto passwordDto) {
+        // TODO: use checkIfNewAndConfirmPasswordsMatches(String password1, String password2) instead if-else
+        // TODO: refactor an Optional expression in the method
         if (passwordDto.getPassword().equals(passwordDto.getConfirmPassword())) {
             userRepository.findUserBy(passwordDto.getToken())
                     .ifPresent(user -> {

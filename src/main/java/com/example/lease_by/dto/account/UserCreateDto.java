@@ -30,6 +30,8 @@ public class UserCreateDto implements UserDetails {
 
     Role role;
 
+    Boolean isVerified = false;
+
     ProfileCreateDto profileCreateDto;
 
     @Override

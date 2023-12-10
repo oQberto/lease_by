@@ -5,13 +5,13 @@ import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.VerificationToken;
 import com.example.lease_by.model.repository.VerificationTokenRepository;
 import com.example.lease_by.service.VerificationTokenService;
+import com.example.lease_by.service.util.VerifiedTokenUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.lease_by.service.util.PasswordTokenUtil.createExpireDate;
-import static com.example.lease_by.service.util.PasswordTokenUtil.createToken;
+import static com.example.lease_by.service.util.VerifiedTokenUtil.createExpireDate;
 
 @Service
 @RequiredArgsConstructor
@@ -22,18 +22,18 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     @Transactional
-    public void createPasswordToken(UserReadDto userReadDto) {
-        var passwordToken = VerificationToken.builder()
+    public void createToken(UserReadDto userReadDto) {
+        var verificationToken = VerificationToken.builder()
                 .user(userMapper.mapToUser(userReadDto))
-                .token(createToken())
+                .token(VerifiedTokenUtil.createToken())
                 .expireDate(createExpireDate())
                 .build();
 
-        verificationTokenRepository.save(passwordToken);
+        verificationTokenRepository.save(verificationToken);
     }
 
     @Override
-    public VerificationToken findPasswordTokenBy(String userEmail) {
+    public VerificationToken findVerificationTokenBy(String userEmail) {
         return verificationTokenRepository.findByUserEmail(userEmail)
                 .orElseThrow(() -> new EntityNotFoundException("Token with user's email: " + userEmail + " not found!"));
     }

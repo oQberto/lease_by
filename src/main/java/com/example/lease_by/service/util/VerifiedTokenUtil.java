@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @UtilityClass
-public class PasswordTokenUtil {
+public class VerifiedTokenUtil {
 
     public static String createToken() {
         return UUID.randomUUID().toString();

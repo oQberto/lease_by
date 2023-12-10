@@ -5,9 +5,9 @@ import com.example.lease_by.model.entity.VerificationToken;
 
 public interface VerificationTokenService {
 
-    void createPasswordToken(UserReadDto userReadDto);
+    void createToken(UserReadDto userReadDto);
 
-    VerificationToken findPasswordTokenBy(String userEmail);
+    VerificationToken findVerificationTokenBy(String userEmail);
 
     void removeUsedToken(String userEmail);
 }

@@ -18,5 +18,7 @@ public interface UserService {
 
     Optional<UserReadDto> updatePassword(Long id, PasswordEditDto passwordEditDto);
 
+    Optional<UserReadDto> verifyUser(String token);
+
     void saveUserPassword(PasswordDto passwordDto);
 }

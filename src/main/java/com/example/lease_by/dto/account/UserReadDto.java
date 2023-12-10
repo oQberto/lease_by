@@ -11,5 +11,6 @@ public class UserReadDto {
     String email;
     String username;
     Role role;
+    Boolean isVerified;
     ProfileReadDto profileReadDto;
 }

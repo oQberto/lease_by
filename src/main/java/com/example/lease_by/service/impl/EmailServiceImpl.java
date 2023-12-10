@@ -30,16 +30,28 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Async
     public void sendPasswordResetMessage(EmailContent emailContent) {
-        verificationTokenService.createPasswordToken(userService
+        verificationTokenService.createToken(userService
                 .getUserByEmail(emailContent.getReceiverEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User with email: " + emailContent.getReceiverEmail() + " not found!"))
         );
         String token = verificationTokenService
-                .findPasswordTokenBy(emailContent.getReceiverEmail())
+                .findVerificationTokenBy(emailContent.getReceiverEmail())
                 .getToken();
 
         javaMailSender.send(
                 buildSimpleMessage(token, emailContent)
+        );
+    }
+
+    @Override
+    @Async
+    public void sendUserVerificationMessage(String userEmail) {
+        String token = verificationTokenService
+                .findVerificationTokenBy(userEmail)
+                .getToken();
+
+        javaMailSender.send(
+                buildSimpleMessage(token, userEmail)
         );
     }
 }

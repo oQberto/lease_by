@@ -44,5 +44,5 @@ public class User extends AuditingEntity {
     private Profile profile;
 
     @OneToOne(mappedBy = "user", fetch = LAZY)
-    private VerificationToken passwordToken;
+    private VerificationToken verificationToken;
 }

@@ -1,16 +1,18 @@
 package com.example.lease_by.api.controller;
 
-import com.example.lease_by.api.controller.exception.PasswordTokenException;
+import com.example.lease_by.api.controller.exception.VerificationTokenException;
 import com.example.lease_by.api.controller.util.PageName.User;
 import com.example.lease_by.dto.account.*;
+import com.example.lease_by.listener.event.RegistrationCompleteEvent;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
-import com.example.lease_by.vaidation.PasswordTokenValidation;
+import com.example.lease_by.vaidation.VerificationTokenValidation;
 import com.example.lease_by.vaidation.group.CreateAction;
 import com.example.lease_by.vaidation.group.UpdateAction;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +31,8 @@ import java.util.List;
 import static com.example.lease_by.api.controller.util.UrlName.AccountController.*;
 import static com.example.lease_by.api.controller.util.UrlName.CityController.CITIES;
 import static com.example.lease_by.api.controller.util.UrlName.LoginController.LOGIN;
-import static com.example.lease_by.vaidation.enums.PasswordTokenVerification.EXPIRED;
-import static com.example.lease_by.vaidation.enums.PasswordTokenVerification.INVALID;
+import static com.example.lease_by.vaidation.enums.VerificationTokenStatus.EXPIRED;
+import static com.example.lease_by.vaidation.enums.VerificationTokenStatus.INVALID;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,7 +40,8 @@ import static com.example.lease_by.vaidation.enums.PasswordTokenVerification.INV
 public class AccountController {
     private final UserService userService;
     private final ProfileService profileService;
-    private final PasswordTokenValidation passwordTokenValidation;
+    private final VerificationTokenValidation verificationTokenValidation;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @PostMapping(REGISTER)
     public String registerUser(@ModelAttribute("user") @Validated({Default.class, CreateAction.class}) UserCreateDto userCreateDto,
@@ -53,8 +56,21 @@ public class AccountController {
         Authentication authentication = new UsernamePasswordAuthenticationToken(userCreateDto, null, List.of(Role.values()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        userService.createUser(userCreateDto);
+        UserReadDto registeredUser = userService.createUser(userCreateDto);
+        applicationEventPublisher.publishEvent(
+                new RegistrationCompleteEvent(registeredUser)
+        );
+
         return "redirect:" + CITIES;
+    }
+
+    @GetMapping("/verify-user")
+    public String verifyUser(@RequestParam("token") String token) {
+        isTokenValid(token);
+
+        userService.verifyUser(token);
+
+        return "redirect:/cities";
     }
 
     @GetMapping(FORGOT_PASSWORD)
@@ -87,10 +103,10 @@ public class AccountController {
     }
 
     private void isTokenValid(String token) {
-        var passwordTokenVerification = passwordTokenValidation.validatePasswordToken(token);
+        var verificationTokenStatus = verificationTokenValidation.validateVerificationToken(token);
 
-        if (passwordTokenVerification.equals(INVALID) || passwordTokenVerification.equals(EXPIRED)) {
-            throw new PasswordTokenException("You have an invalid or expired token. Request another token.");
+        if (verificationTokenStatus.equals(INVALID) || verificationTokenStatus.equals(EXPIRED)) {
+            throw new VerificationTokenException("You have an invalid or expired token. Request another token.");
         }
     }
 

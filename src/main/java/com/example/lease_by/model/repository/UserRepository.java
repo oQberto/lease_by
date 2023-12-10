@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("""
             select u
             from User u
-            join u.passwordToken t
+            join u.verificationToken t
             where t.token = :token
             """)
     Optional<User> findUserBy(String token);
