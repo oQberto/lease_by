@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-// TODO: refactor all Optional chains in the class
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
