@@ -40,9 +40,12 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     @Transactional
-    public void removeUsedToken(String userEmail) {
-        VerificationToken passwordToken = verificationTokenRepository.findByUserEmail(userEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Token with user's email: " + userEmail + " not found!"));
-        verificationTokenRepository.delete(passwordToken);
+    public UserReadDto removeUsedToken(UserReadDto userReadDto) {
+        verificationTokenRepository
+                .delete(verificationTokenRepository
+                        .findByUserEmail(userReadDto.getEmail())
+                        .orElseThrow(() -> new EntityNotFoundException("Token with user's email: " + userReadDto.getEmail() + " not found!")));
+
+        return userReadDto;
     }
 }

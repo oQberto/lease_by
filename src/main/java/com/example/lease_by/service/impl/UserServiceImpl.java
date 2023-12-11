@@ -8,9 +8,7 @@ import com.example.lease_by.model.repository.UserRepository;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
 import com.example.lease_by.service.VerificationTokenService;
-import com.example.lease_by.service.exception.PasswordNotMatchException;
 import com.example.lease_by.service.exception.PasswordUpdateException;
-import com.example.lease_by.service.exception.UserUpdateException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,59 +67,26 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Optional<UserReadDto> updateUser(Long id, UserEditDto userEditDto) {
-        isUserExists(userEditDto);
-
-        return Optional.ofNullable(userRepository.findUserById(id)
-                .map(user -> {
-                    User updatedUser = userMapper.updateUser(userEditDto, user);
-                    return userMapper.mapToUserReadDto(userRepository.saveAndFlush(updatedUser));
-                })
-                .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));
-    }
-
-    private void isUserExists(UserEditDto userEditDto) {
-        var userByEmail = userRepository.findUserByEmail(userEditDto.getEmail());
-        var userByUsername = userRepository.findUserByUsername(userEditDto.getUsername());
-
-        if (userByEmail.isPresent()) {
-            throw new UserUpdateException("User with email: " + userEditDto.getEmail() + " already exists!");
-        } else if (userByUsername.isPresent()) {
-            throw new UserUpdateException("User with username: " + userEditDto.getUsername() + " already exists!");
-        }
+        return getUserById(id)
+                .map(userMapper::mapToUser)
+                .map(user -> userMapper.updateUser(userEditDto, user))
+                .map(userRepository::saveAndFlush)
+                .map(userMapper::mapToUserReadDto);
     }
 
     @Override
     @Transactional
-    public Optional<UserReadDto> updatePassword(Long id, PasswordEditDto passwordEditDto) {
-        checkIfNewAndConfirmPasswordsMatches(
-                passwordEditDto.getNewPassword(),
-                passwordEditDto.getConfirmPassword()
-        );
-
-        return Optional.ofNullable(userRepository.findUserById(id)
-                .map(user -> {
-                    checkIfValidOldPassword(passwordEditDto, user);
-
-                    user.setPassword(passwordEncoder.encode(
-                            passwordEditDto.getNewPassword()
-                    ));
-
-                    return userRepository.saveAndFlush(user);
-                })
+    public UserReadDto updatePassword(Long id, PasswordEditDto passwordEditDto) {
+        return getUserById(id)
+                .filter(user -> checkIfNewAndConfirmPasswordsMatches(
+                        passwordEditDto.getNewPassword(),
+                        passwordEditDto.getConfirmPassword())
+                )
+                .map(userMapper::mapToUser)
+                .filter(user -> checkIfValidOldPassword(passwordEditDto, user))
+                .map(user -> setNewPassword(passwordEditDto, user))
                 .map(userMapper::mapToUserReadDto)
-                .orElseThrow(() -> new EntityNotFoundException("User with id: " + id + " not found!")));
-    }
-
-    public static void checkIfNewAndConfirmPasswordsMatches(String password1, String password2) {
-        if (!password1.equals(password2)) {
-            throw new PasswordUpdateException("New and confirm password don't match!");
-        }
-    }
-
-    private void checkIfValidOldPassword(PasswordEditDto passwordEditDto, User user) {
-        if (!passwordEncoder.matches(passwordEditDto.getOldPassword(), user.getPassword())) {
-            throw new PasswordUpdateException("Incorrect old password!");
-        }
+                .orElseThrow(() -> new PasswordUpdateException("New and confirm password don't match!"));
     }
 
     @Override
@@ -129,11 +94,11 @@ public class UserServiceImpl implements UserService {
     public Optional<UserReadDto> verifyUser(String token) {
         return userRepository.findUserBy(token)
                 .map(this::updateVerificationStatus)
-                .map(userMapper::mapToUserReadDto);
+                .map(userMapper::mapToUserReadDto)
+                .map(verificationTokenService::removeUsedToken);
     }
 
     private User updateVerificationStatus(User user) {
-        // TODO: remove a token after a verification
         user.setIsVerified(true);
         return userRepository.saveAndFlush(user);
     }
@@ -141,20 +106,38 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUserPassword(PasswordDto passwordDto) {
-        // TODO: use checkIfNewAndConfirmPasswordsMatches(String password1, String password2) instead if-else
-        // TODO: refactor an Optional expression in the method
-        if (passwordDto.getPassword().equals(passwordDto.getConfirmPassword())) {
-            userRepository.findUserBy(passwordDto.getToken())
-                    .ifPresent(user -> {
-                        user.setPassword(passwordEncoder.encode(
-                                passwordDto.getPassword()
-                        ));
-                        userRepository.save(user);
-                    });
-        } else {
-            throw new PasswordNotMatchException("Passwords don't match");
-        }
+        userRepository.findUserBy(passwordDto.getToken())
+                .filter(user -> checkIfNewAndConfirmPasswordsMatches(
+                        passwordDto.getPassword(),
+                        passwordDto.getConfirmPassword())
+                )
+                .map(user -> setNewPassword(passwordDto, user))
+                .map(userMapper::mapToUserReadDto)
+                .map(verificationTokenService::removeUsedToken)
+                .orElseThrow(() -> new PasswordUpdateException("New and confirm password don't match!"));
+    }
 
-        verificationTokenService.removeUsedToken(passwordDto.getUsername());
+    private boolean checkIfNewAndConfirmPasswordsMatches(String password1, String password2) {
+        return password1.equals(password2);
+    }
+
+    private boolean checkIfValidOldPassword(PasswordEditDto passwordEditDto, User user) {
+        return passwordEncoder.matches(passwordEditDto.getOldPassword(), user.getPassword());
+    }
+
+    private User setNewPassword(PasswordDto passwordDto, User user) {
+        user.setPassword(passwordEncoder.encode(
+                passwordDto.getPassword()
+        ));
+
+        return userRepository.save(user);
+    }
+
+    private User setNewPassword(PasswordEditDto passwordEditDto, User user) {
+        user.setPassword(passwordEncoder.encode(
+                passwordEditDto.getNewPassword()
+        ));
+
+        return userRepository.save(user);
     }
 }

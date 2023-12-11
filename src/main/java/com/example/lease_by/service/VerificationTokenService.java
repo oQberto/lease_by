@@ -9,5 +9,5 @@ public interface VerificationTokenService {
 
     VerificationToken findVerificationTokenBy(String userEmail);
 
-    void removeUsedToken(String userEmail);
+    UserReadDto removeUsedToken(UserReadDto userReadDto);
 }
