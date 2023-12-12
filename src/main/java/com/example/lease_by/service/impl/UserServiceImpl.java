@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserReadDto updatePassword(Long id, PasswordEditDto passwordEditDto) {
+    public Optional<UserReadDto> updatePassword(Long id, PasswordEditDto passwordEditDto) {
         return getUserById(id)
                 .filter(user -> checkIfNewAndConfirmPasswordsMatches(
                         passwordEditDto.getNewPassword(),
@@ -83,8 +83,7 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::mapToUser)
                 .filter(user -> checkIfValidOldPassword(passwordEditDto, user))
                 .map(user -> setNewPassword(passwordEditDto, user))
-                .map(userMapper::mapToUserReadDto)
-                .orElseThrow(() -> new PasswordUpdateException("New and confirm password don't match!"));
+                .map(userMapper::mapToUserReadDto);
     }
 
     @Override

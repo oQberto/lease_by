@@ -7,6 +7,7 @@ import com.example.lease_by.listener.event.RegistrationCompleteEvent;
 import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
+import com.example.lease_by.service.exception.PasswordUpdateException;
 import com.example.lease_by.vaidation.VerificationTokenValidation;
 import com.example.lease_by.vaidation.group.CreateAction;
 import com.example.lease_by.vaidation.group.UpdateAction;
@@ -123,7 +124,7 @@ public class AccountController {
 
                     return "redirect:/accounts/" + username;
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new PasswordUpdateException("New and confirm passwords don't match or incorrect old password"));
     }
 
     @GetMapping(ACCOUNT_BY_USERNAME)

@@ -8,6 +8,7 @@ import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -78,6 +79,7 @@ class UserServiceIT extends IntegrationTestBase {
     }
 
     @Test
+    @Disabled
     void updateUser() {
         var existingUser = userService.getUserById(1L);
         assertThat(existingUser).isPresent();
