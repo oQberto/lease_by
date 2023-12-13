@@ -5,12 +5,15 @@ import com.example.lease_by.api.controller.util.PageName.User;
 import com.example.lease_by.dto.account.*;
 import com.example.lease_by.listener.event.RegistrationCompleteEvent;
 import com.example.lease_by.model.entity.enums.Role;
+import com.example.lease_by.service.EmailService;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
+import com.example.lease_by.service.VerificationTokenService;
 import com.example.lease_by.service.exception.PasswordUpdateException;
 import com.example.lease_by.vaidation.VerificationTokenValidation;
 import com.example.lease_by.vaidation.group.CreateAction;
 import com.example.lease_by.vaidation.group.UpdateAction;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -40,9 +43,11 @@ import static com.example.lease_by.vaidation.enums.VerificationTokenStatus.INVAL
 @RequestMapping(ACCOUNTS)
 public class AccountController {
     private final UserService userService;
+    private final EmailService emailService;
     private final ProfileService profileService;
-    private final VerificationTokenValidation verificationTokenValidation;
+    private final VerificationTokenService verificationTokenService;
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final VerificationTokenValidation verificationTokenValidation;
 
     @PostMapping(REGISTER)
     public String registerUser(@ModelAttribute("user") @Validated({Default.class, CreateAction.class}) UserCreateDto userCreateDto,
@@ -72,6 +77,17 @@ public class AccountController {
         userService.verifyUser(token);
 
         return "redirect:/cities";
+    }
+
+    @GetMapping("/request-verification")
+    public String requestVerificationCode(@RequestParam("email") String email) {
+        UserReadDto userReadDto = userService.getUserByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User with email: " + email + " not found!"));
+
+        verificationTokenService.createToken(userReadDto);
+        emailService.sendUserVerificationMessage(email);
+
+        return "redirect:/accounts/" + userReadDto.getUsername();
     }
 
     @GetMapping(FORGOT_PASSWORD)

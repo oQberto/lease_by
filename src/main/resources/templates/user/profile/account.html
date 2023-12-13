@@ -49,6 +49,7 @@
                     <br>
                     <button type="submit">Update password</button>
                 </form>
+                <a th:href="@{/accounts/request-verification(email=${user.email})}">Request a verification code</a>
             </div>
         </div>
     </div>
