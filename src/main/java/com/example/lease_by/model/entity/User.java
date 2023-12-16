@@ -1,6 +1,7 @@
 package com.example.lease_by.model.entity;
 
 import com.example.lease_by.model.entity.enums.Role;
+import com.example.lease_by.model.entity.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.Audited;
@@ -39,6 +40,10 @@ public class User extends AuditingEntity {
     @Column(name = "role")
     @Enumerated(STRING)
     private Role role;
+
+    @Column(name = "status")
+    @Enumerated(STRING)
+    private UserStatus status;
 
     @OneToOne(mappedBy = "user", fetch = LAZY)
     private Profile profile;
