@@ -93,10 +93,12 @@ class UserServiceIT extends IntegrationTestBase {
                 .username("newUserName")
                 .build();
 
-        Optional<UserReadDto> actualResult = userService.updateUser(EXISTING_USER_ID, userEditDto);
-        assertThat(actualResult).isPresent();
+        UserReadDto actualResult = userService.updateUser(EXISTING_USER_ID, userEditDto);
+        assertThat(actualResult).isNotNull();
 
-        assertThat(actualResult).isEqualTo(userService.getUserById(EXISTING_USER_ID));
+        Optional<UserReadDto> expectedUser = userService.getUserById(EXISTING_USER_ID);
+        assertThat(expectedUser).isPresent();
+        assertThat(actualResult).isEqualTo(expectedUser.get());
     }
 
     @Test

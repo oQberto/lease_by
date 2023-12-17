@@ -173,16 +173,14 @@ public class AccountController {
     @PreAuthorize("isAuthenticated()")
     public String updateUser(@PathVariable("id") Long id,
                              @ModelAttribute("updatedUser") @Validated({Default.class, UpdateAction.class}) UserEditDto userEditDto) {
-        return userService.updateUser(id, userEditDto)
-                .map(it -> {
-                    var username = userService
-                            .getUserById(id)
-                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
-                            .getUsername();
+        userService.updateUser(id, userEditDto);
 
-                    return "redirect:/accounts/" + username;
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        var username = userService
+                .getUserById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
+                .getUsername();
+
+        return "redirect:/accounts/" + username;
     }
 
     @PostMapping(UPDATE_PROFILE_BY_USER_ID)

@@ -66,11 +66,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Optional<UserReadDto> updateUser(Long id, UserEditDto userEditDto) {
+    public UserReadDto updateUser(Long id, UserEditDto userEditDto) {
         return userRepository.findUserById(id)
                 .map(user -> userMapper.updateUser(userEditDto, user))
                 .map(userRepository::saveAndFlush)
-                .map(userMapper::mapToUserReadDto);
+                .map(userMapper::mapToUserReadDto)
+                .orElseThrow(() -> new UserUpdateException("Couldn't update user with id: " + id + "! User doesn't exist."));
     }
 
     @Override

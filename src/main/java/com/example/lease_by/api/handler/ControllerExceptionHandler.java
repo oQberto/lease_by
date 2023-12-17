@@ -22,7 +22,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/404.html";
+        return "error/4xx/404.html";
     }
 
     @ExceptionHandler(LoginException.class)
@@ -33,6 +33,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/403.html";
+        return "error/4xx/403.html";
     }
 }

@@ -15,7 +15,7 @@ public interface UserService {
 
     UserReadDto createUser(UserCreateDto dto);
 
-    Optional<UserReadDto> updateUser(Long id, UserEditDto userEditDto);
+    UserReadDto updateUser(Long id, UserEditDto userEditDto);
 
     UserReadDto updateUserStatus(Long id, UserStatus status);
 

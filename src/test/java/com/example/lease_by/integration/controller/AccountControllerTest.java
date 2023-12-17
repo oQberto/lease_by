@@ -59,7 +59,7 @@ class AccountControllerTest extends IntegrationTestBase {
         mockMvc.perform(get("/accounts/{userId}", NOT_EXISTING_USER_ID))
                 .andExpectAll(
                         status().is4xxClientError(),
-                        view().name("error/404.html"),
+                        view().name("error/4xx/404.html"),
                         model().attributeExists("error")
                 );
     }
@@ -89,7 +89,7 @@ class AccountControllerTest extends IntegrationTestBase {
         mockMvc.perform(get("/accounts/profile/{userId}", NOT_EXISTING_USER_ID))
                 .andExpectAll(
                         status().is4xxClientError(),
-                        view().name("error/404.html"),
+                        view().name("error/4xx/404.html"),
                         model().attributeExists("error")
                 );
     }
@@ -105,13 +105,13 @@ class AccountControllerTest extends IntegrationTestBase {
     }
 
     @Test
-    void updateUser_whenUserIdDoesNotExist_shouldReturnHttpStatus500() throws Exception {
+    void updateUser_whenUserIdDoesNotExist_shouldReturnHttpStatus400() throws Exception {
         mockMvc.perform(post("/accounts/{id}/update", NOT_EXISTING_USER_ID)
                         .param(email, "email@gmail.com")
                         .with(csrf()))
                 .andExpectAll(
                         status().is4xxClientError(),
-                        view().name("error/404.html"),
+                        view().name("error/4xx/400.html"),
                         model().attributeExists("error")
                 );
     }
@@ -146,7 +146,7 @@ class AccountControllerTest extends IntegrationTestBase {
                         .with(csrf()))
                 .andExpectAll(
                         status().is4xxClientError(),
-                        view().name("error/404.html"),
+                        view().name("error/4xx/404.html"),
                         model().attributeExists("error")
                 );
     }

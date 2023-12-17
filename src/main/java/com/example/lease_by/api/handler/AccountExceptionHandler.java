@@ -2,6 +2,7 @@ package com.example.lease_by.api.handler;
 
 import com.example.lease_by.service.exception.PasswordUpdateException;
 import com.example.lease_by.service.exception.UserCredentialsUpdateException;
+import com.example.lease_by.service.exception.UserUpdateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/409.html";
+        return "error/4xx/409.html";
     }
 
     @ExceptionHandler(PasswordUpdateException.class)
@@ -33,6 +34,17 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/400.html";
+        return "error/4xx/400.html";
+    }
+
+    @ExceptionHandler(UserUpdateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String userUpdateException(Model model,
+                                      UserUpdateException exception) {
+        log.info("Couldn't update user: ", exception);
+
+        model.addAttribute("error", exception.getMessage());
+
+        return "error/4xx/400.html";
     }
 }
