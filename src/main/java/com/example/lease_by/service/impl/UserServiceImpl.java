@@ -67,8 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public Optional<UserReadDto> updateUser(Long id, UserEditDto userEditDto) {
-        return getUserById(id)
-                .map(userMapper::mapToUser)
+        return userRepository.findUserById(id)
                 .map(user -> userMapper.updateUser(userEditDto, user))
                 .map(userRepository::saveAndFlush)
                 .map(userMapper::mapToUserReadDto);

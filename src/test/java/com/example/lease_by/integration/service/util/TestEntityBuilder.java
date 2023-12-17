@@ -14,13 +14,15 @@ import java.util.Set;
 public class TestEntityBuilder {
 
     public static User buildUser(Long id, String email, String username,
-                           String password, Role role) {
+                           String password, Role role, Boolean isVerified, UserStatus status) {
         return User.builder()
                 .id(id)
                 .email(email)
                 .username(username)
                 .password(password)
                 .role(role)
+                .status(status)
+                .isVerified(isVerified)
                 .build();
     }
 

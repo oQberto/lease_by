@@ -1,19 +1,19 @@
-INSERT INTO users (id, email, username, password, role)
-VALUES (1, 'user1@gmail.com', 'username1', '1231', 'ADMIN'),
-       (2, 'user2@gmail.com', 'username2', '1232', 'USER'),
-       (3, 'user3@gmail.com', 'username3', '1233', 'USER'),
-       (4, 'user4@gmail.com', 'username4', '1234', 'USER'),
-       (5, 'user5@gmail.com', 'username5', '1235', 'USER'),
-       (6, 'user6@gmail.com', 'username6', '1236', 'USER'),
-       (7, 'user7@gmail.com', 'username7', '1237', 'USER'),
-       (8, 'user8@gmail.com', 'username8', '1238', 'USER'),
-       (9, 'user9@gmail.com', 'username9', '1239', 'USER'),
-       (10, 'user10@gmail.com', 'username10', '12310', 'USER'),
-       (11, 'user11@gmail.com', 'username11', '12311', 'USER'),
-       (12, 'user12@gmail.com', 'username12', '12312', 'USER'),
-       (13, 'user13@gmail.com', 'username13', '12313', 'USER'),
-       (14, 'user14@gmail.com', 'username14', '12314', 'USER'),
-       (15, 'user15@gmail.com', 'username15', '12315', 'USER');
+INSERT INTO users (id, email, username, password, role, is_verified, status)
+VALUES (1, 'user1@gmail.com', 'username1', '1231', 'ADMIN', false, 'ACTIVE'),
+       (2, 'user2@gmail.com', 'username2', '1232', 'USER', true, 'ACTIVE'),
+       (3, 'user3@gmail.com', 'username3', '1233', 'USER', false, 'ACTIVE'),
+       (4, 'user4@gmail.com', 'username4', '1234', 'USER', false, 'BLOCKED'),
+       (5, 'user5@gmail.com', 'username5', '1235', 'USER', true, 'DELETED'),
+       (6, 'user6@gmail.com', 'username6', '1236', 'USER', true, 'ACTIVE'),
+       (7, 'user7@gmail.com', 'username7', '1237', 'USER', false, 'DELETED'),
+       (8, 'user8@gmail.com', 'username8', '1238', 'USER', true, 'BLOCKED'),
+       (9, 'user9@gmail.com', 'username9', '1239', 'USER', true, 'BLOCKED'),
+       (10, 'user10@gmail.com', 'username10', '12310', 'USER', false, 'ACTIVE'),
+       (11, 'user11@gmail.com', 'username11', '12311', 'USER', false, 'ACTIVE'),
+       (12, 'user12@gmail.com', 'username12', '12312', 'USER', true, 'ACTIVE'),
+       (13, 'user13@gmail.com', 'username13', '12313', 'USER', true, 'ACTIVE'),
+       (14, 'user14@gmail.com', 'username14', '12314', 'USER', true, 'DELETED'),
+       (15, 'user15@gmail.com', 'username15', '12315', 'USER', true, 'BLOCKED');
 SELECT setval('users_id_seq', (SELECT max(id) FROM users));
 
 INSERT INTO profile (id, user_id, avatar_img, first_name, last_name, phone_number)

@@ -56,7 +56,7 @@ class RentalServiceIT extends IntegrationTestBase {
     @Test
     void createRental_whenRentalCreateEditDtoAndUserEmailIsValid_shouldReturnNewRentalReadDto() {
         User user = buildUser(1L, "user1@gmail.com", "username1",
-                "1231", Role.ADMIN);
+                "1231", Role.ADMIN, false, UserStatus.ACTIVE);
         Profile profile = buildProfile(1L, "avatar1", "firstname1",
                 "lastname1", "(29)123-4567", user);
         UserReadDto userReadDto = userMapper.mapToUserReadDto(user);
@@ -73,7 +73,7 @@ class RentalServiceIT extends IntegrationTestBase {
     @Test
     void createRental_whenUserEmailIsNotValid_shouldThrowEntityNotFoundException() {
         User user = buildUser(anyLong(), anyString(), anyString(),
-                anyString(), Role.ADMIN);
+                anyString(), Role.ADMIN, false, UserStatus.ACTIVE);
 
         assertThatThrownBy(() -> rentalService.createRental(getRentalCreateEditDto(), user.getEmail()))
                 .isInstanceOf(EntityNotFoundException.class)
