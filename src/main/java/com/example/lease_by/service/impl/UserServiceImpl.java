@@ -4,6 +4,7 @@ import com.example.lease_by.dto.account.*;
 import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
 import com.example.lease_by.model.entity.User;
+import com.example.lease_by.model.entity.enums.Role;
 import com.example.lease_by.model.entity.enums.UserStatus;
 import com.example.lease_by.model.repository.UserRepository;
 import com.example.lease_by.service.ProfileService;
@@ -86,6 +87,20 @@ public class UserServiceImpl implements UserService {
 
     private static User setUserStatus(UserStatus status, User user) {
         user.setStatus(status);
+        return user;
+    }
+
+    @Override
+    public UserReadDto updateUserRole(Long id, Role role) {
+        return userRepository.findUserById(id)
+                .map(user -> setNewUserRole(role, user))
+                .map(userRepository::saveAndFlush)
+                .map(userMapper::mapToUserReadDto)
+                .orElseThrow(() -> new UserUpdateException("Couldn't update user with id: " + id + "! User doesn't exist."));
+    }
+
+    private static User setNewUserRole(Role role, User user) {
+        user.setRole(role);
         return user;
     }
 

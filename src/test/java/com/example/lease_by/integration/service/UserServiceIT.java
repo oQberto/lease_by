@@ -113,8 +113,28 @@ class UserServiceIT extends IntegrationTestBase {
     }
 
     @Test
-    void updateUserStatus_ifUserIdDoesNotExist_throwEntityNotFoundException() {
+    void updateUserStatus_ifUserIdDoesNotExist_throwUserUpdateException() {
         assertThatThrownBy(() -> userService.updateUserStatus(NOT_EXISTING_USER_ID, UserStatus.BLOCKED))
+                .isInstanceOf(UserUpdateException.class)
+                .hasMessageContaining(
+                        String.format(Message.USER_UPDATE_EXCEPTION, NOT_EXISTING_USER_ID)
+                );
+    }
+
+    @Test
+    void updateUserRole_ifUserExists_shouldReturnUpdatedUser() {
+        var existingUser = userService.getUserById(EXISTING_USER_ID);
+        assertThat(existingUser).isPresent();
+
+        UserReadDto actualResult = userService.updateUserRole(EXISTING_USER_ID, Role.USER);
+
+        assertThat(actualResult).isNotNull();
+        assertThat(actualResult.getRole()).isEqualTo(Role.USER);
+    }
+
+    @Test
+    void updateUserRole_ifUserIdDoesNotExist_throwUserUpdateException() {
+        assertThatThrownBy(() -> userService.updateUserRole(NOT_EXISTING_USER_ID, Role.USER))
                 .isInstanceOf(UserUpdateException.class)
                 .hasMessageContaining(
                         String.format(Message.USER_UPDATE_EXCEPTION, NOT_EXISTING_USER_ID)
