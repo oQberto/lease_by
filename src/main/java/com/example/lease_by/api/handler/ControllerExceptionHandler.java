@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import static com.example.lease_by.api.handler.util.ErrorPage.ERROR_PAGE_403;
+import static com.example.lease_by.api.handler.util.ErrorPage.ERROR_PAGE_404;
+
 @Slf4j
 @ControllerAdvice(basePackages = "com.example.lease_by.api.controller")
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -22,7 +25,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/4xx/404.html";
+        return ERROR_PAGE_404;
     }
 
     @ExceptionHandler(LoginException.class)
@@ -33,6 +36,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/4xx/403.html";
+        return ERROR_PAGE_403;
     }
 }

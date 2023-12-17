@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import static com.example.lease_by.api.handler.util.ErrorPage.ERROR_PAGE_400;
+import static com.example.lease_by.api.handler.util.ErrorPage.ERROR_PAGE_409;
+
 @Slf4j
 @ControllerAdvice(basePackages = "com.example.lease_by.api.controller")
 public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
@@ -23,7 +26,7 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/4xx/409.html";
+        return ERROR_PAGE_409;
     }
 
     @ExceptionHandler(PasswordUpdateException.class)
@@ -34,7 +37,7 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/4xx/400.html";
+        return ERROR_PAGE_400;
     }
 
     @ExceptionHandler(UserUpdateException.class)
@@ -45,6 +48,6 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
         model.addAttribute("error", exception.getMessage());
 
-        return "error/4xx/400.html";
+        return ERROR_PAGE_400;
     }
 }
