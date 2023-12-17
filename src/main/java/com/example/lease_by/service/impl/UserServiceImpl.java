@@ -4,11 +4,13 @@ import com.example.lease_by.dto.account.*;
 import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
 import com.example.lease_by.model.entity.User;
+import com.example.lease_by.model.entity.enums.UserStatus;
 import com.example.lease_by.model.repository.UserRepository;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
 import com.example.lease_by.service.VerificationTokenService;
 import com.example.lease_by.service.exception.PasswordUpdateException;
+import com.example.lease_by.service.exception.UserUpdateException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,6 +72,21 @@ public class UserServiceImpl implements UserService {
                 .map(user -> userMapper.updateUser(userEditDto, user))
                 .map(userRepository::saveAndFlush)
                 .map(userMapper::mapToUserReadDto);
+    }
+
+    @Override
+    @Transactional
+    public UserReadDto updateUserStatus(Long id, UserStatus status) {
+        return userRepository.findUserById(id)
+                .map(user -> setUserStatus(status, user))
+                .map(userRepository::saveAndFlush)
+                .map(userMapper::mapToUserReadDto)
+                .orElseThrow(() -> new UserUpdateException("Couldn't update user with id: " + id + "! User doesn't exist."));
+    }
+
+    private static User setUserStatus(UserStatus status, User user) {
+        user.setStatus(status);
+        return user;
     }
 
     @Override

@@ -45,7 +45,7 @@ public class User extends AuditingEntity {
     @Enumerated(STRING)
     private UserStatus status;
 
-    @OneToOne(mappedBy = "user", fetch = LAZY)
+    @OneToOne(mappedBy = "user", fetch = LAZY, cascade = CascadeType.ALL)
     private Profile profile;
 
     @OneToOne(mappedBy = "user", fetch = LAZY)

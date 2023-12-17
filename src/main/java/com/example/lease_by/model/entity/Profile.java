@@ -32,7 +32,7 @@ public class Profile {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 

@@ -1,6 +1,7 @@
 package com.example.lease_by.service;
 
 import com.example.lease_by.dto.account.*;
+import com.example.lease_by.model.entity.enums.UserStatus;
 
 import java.util.Optional;
 
@@ -15,6 +16,8 @@ public interface UserService {
     UserReadDto createUser(UserCreateDto dto);
 
     Optional<UserReadDto> updateUser(Long id, UserEditDto userEditDto);
+
+    UserReadDto updateUserStatus(Long id, UserStatus status);
 
     Optional<UserReadDto> updatePassword(Long id, PasswordEditDto passwordEditDto);
 

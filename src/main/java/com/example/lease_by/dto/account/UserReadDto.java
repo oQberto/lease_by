@@ -1,6 +1,7 @@
 package com.example.lease_by.dto.account;
 
 import com.example.lease_by.model.entity.enums.Role;
+import com.example.lease_by.model.entity.enums.UserStatus;
 import lombok.Builder;
 import lombok.Value;
 
@@ -11,6 +12,7 @@ public class UserReadDto {
     String email;
     String username;
     Role role;
+    UserStatus status;
     Boolean isVerified;
     ProfileReadDto profileReadDto;
 }
