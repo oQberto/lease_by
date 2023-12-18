@@ -54,6 +54,17 @@ class AdminControllerTest extends IntegrationTestBase {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    void updateUserStatus_whenUserHasRoleUSER_shouldReturnHttpStatus403() throws Exception {
+        mockMvc.perform(post("/admin/user/{id}/update-status", EXISTING_USER_ID)
+                        .param(status, UserStatus.BLOCKED.name())
+                        .with(csrf()))
+                .andExpectAll(
+                        status().is4xxClientError()
+                );
+    }
+
+    @Test
     void updateUserRole_whenUserIdExists_shouldReturnHttpStatus302() throws Exception {
         mockMvc.perform(post("/admin/user/{id}/update-role", EXISTING_USER_ID)
                         .param(role, Role.USER.name())
@@ -77,12 +88,33 @@ class AdminControllerTest extends IntegrationTestBase {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
+    void updateUserRole_whenUserHasRoleUSER_shouldReturnHttpStatus403() throws Exception {
+        mockMvc.perform(post("/admin/user/{id}/update-role", EXISTING_USER_ID)
+                        .param(status, UserStatus.BLOCKED.name())
+                        .with(csrf()))
+                .andExpectAll(
+                        status().is4xxClientError()
+                );
+    }
+
+    @Test
     void deleteUser_whenUserIdExists_shouldReturnHttpsStatus204() throws Exception {
         mockMvc.perform(post("/admin/user/{id}/delete", EXISTING_USER_ID)
                         .with(csrf()))
                 .andExpectAll(
                         status().is2xxSuccessful(),
                         redirectedUrl("/admin")
+                );
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    void deleteUser_whenUserHasRoleUSER_shouldReturnHttpsStatus403() throws Exception {
+        mockMvc.perform(post("/admin/user/{id}/delete", EXISTING_USER_ID)
+                        .with(csrf()))
+                .andExpectAll(
+                        status().is4xxClientError()
                 );
     }
 }

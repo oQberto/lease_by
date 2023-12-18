@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     private final UserService userService;
     private final CityService cityService;
     private final RentalService rentalService;
     private final AddressService addressService;
+
+    //TODO: create a main page of the admin panel
 
     @GetMapping
     public String showAdminPanel() {
@@ -27,7 +30,6 @@ public class AdminController {
     }
 
     @PostMapping("/user/{id}/update-status")
-    @PreAuthorize("hasRole('ADMIN')")
     public String updateUserStatus(@PathVariable("id") Long id,
                                    @RequestParam("status") UserStatus status) {
         userService.updateUserStatus(id, status);
@@ -36,7 +38,6 @@ public class AdminController {
     }
 
     @PostMapping("/user/{id}/update-role")
-    @PreAuthorize("hasRole('ADMIN')")
     public String updateUserRole(@PathVariable("id") Long id,
                                  @RequestParam("role") Role role) {
         userService.updateUserRole(id, role);
@@ -46,7 +47,6 @@ public class AdminController {
 
     @PostMapping("/user/{id}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('ADMIN')")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
 
