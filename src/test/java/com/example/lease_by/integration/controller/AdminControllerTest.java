@@ -75,4 +75,14 @@ class AdminControllerTest extends IntegrationTestBase {
                         model().attributeExists("error")
                 );
     }
+
+    @Test
+    void deleteUser_whenUserIdExists_shouldReturnHttpsStatus204() throws Exception {
+        mockMvc.perform(post("/admin/user/{id}/delete", EXISTING_USER_ID)
+                        .with(csrf()))
+                .andExpectAll(
+                        status().is2xxSuccessful(),
+                        redirectedUrl("/admin")
+                );
+    }
 }
