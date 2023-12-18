@@ -27,4 +27,6 @@ public interface UserService {
     Optional<UserReadDto> verifyUser(String token);
 
     void saveUserPassword(PasswordDto passwordDto);
+
+    void deleteUserById(Long id);
 }

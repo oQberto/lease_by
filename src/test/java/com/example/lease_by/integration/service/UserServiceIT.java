@@ -10,6 +10,8 @@ import com.example.lease_by.service.exception.UserUpdateException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -138,6 +140,19 @@ class UserServiceIT extends IntegrationTestBase {
                 .isInstanceOf(UserUpdateException.class)
                 .hasMessageContaining(
                         String.format(Message.USER_UPDATE_EXCEPTION, NOT_EXISTING_USER_ID)
+                );
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void deleteUserById_ifUserIdExists_shouldDeleteUser() {
+        userService.deleteUserById(EXISTING_USER_ID);
+
+        assertThatThrownBy(() -> userService.getUserById(EXISTING_USER_ID))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessageContaining(
+                        String.format(Message.ENTITY_NOT_FOUND_EXCEPTION, 1)
                 );
     }
 

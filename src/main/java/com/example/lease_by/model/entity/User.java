@@ -8,6 +8,9 @@ import lombok.experimental.FieldNameConstants;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -52,4 +55,8 @@ public class User extends AuditingEntity {
 
     @OneToOne(mappedBy = "user", fetch = LAZY)
     private VerificationToken verificationToken;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Rental> rentals = new ArrayList<>();
 }

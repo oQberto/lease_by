@@ -146,6 +146,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new PasswordUpdateException("New and confirm password don't match!"));
     }
 
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
     private boolean checkIfNewAndConfirmPasswordsMatches(String password1, String password2) {
         return password1.equals(password2);
     }
