@@ -1,16 +1,17 @@
 package com.example.lease_by.model.entity;
 
 import com.example.lease_by.model.entity.enums.Role;
+import com.example.lease_by.model.entity.enums.UserNetworkStatus;
 import com.example.lease_by.model.entity.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -23,7 +24,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "users")
 @EqualsAndHashCode(callSuper = false)
-@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+@Audited
 public class User extends AuditingEntity {
 
     @Id
@@ -50,13 +51,33 @@ public class User extends AuditingEntity {
     @Enumerated(STRING)
     private UserStatus status;
 
-    @OneToOne(mappedBy = "user", fetch = LAZY, cascade = CascadeType.ALL)
+    @Column(name = "network_status")
+    @Enumerated(STRING)
+    private UserNetworkStatus networkStatus;
+
+    @OneToOne(mappedBy = "user", fetch = LAZY, cascade = ALL)
     private Profile profile;
 
     @OneToOne(mappedBy = "user", fetch = LAZY)
     private VerificationToken verificationToken;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = ALL)
     private List<Rental> rentals = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "sender", cascade = ALL)
+    private List<ChatRoom> senderChats = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "recipient", cascade = ALL)
+    private List<ChatRoom> recipientChats = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "sender", cascade = ALL)
+    private List<ChatMessage> senderMessages = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "recipient", cascade = ALL)
+    private List<ChatMessage> recipientMessages = new ArrayList<>();
 }
