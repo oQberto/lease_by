@@ -5,6 +5,7 @@ import com.example.lease_by.mapper.UserMapper;
 import com.example.lease_by.model.entity.Profile;
 import com.example.lease_by.model.entity.User;
 import com.example.lease_by.model.entity.enums.Role;
+import com.example.lease_by.model.entity.enums.UserNetworkStatus;
 import com.example.lease_by.model.entity.enums.UserStatus;
 import com.example.lease_by.model.repository.UserRepository;
 import com.example.lease_by.service.ProfileService;
@@ -102,6 +103,17 @@ public class UserServiceImpl implements UserService {
     private static User setNewUserRole(Role role, User user) {
         user.setRole(role);
         return user;
+    }
+
+    @Override
+    @Transactional
+    public void updateUserNetworkStatus(String username, UserNetworkStatus userNetworkStatus) {
+        userRepository.findUserByUsername(username)
+                .map(user -> {
+                    user.setNetworkStatus(userNetworkStatus);
+                    return user;
+                })
+                .map(userRepository::saveAndFlush);
     }
 
     @Override

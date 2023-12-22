@@ -2,6 +2,7 @@ package com.example.lease_by.service;
 
 import com.example.lease_by.dto.account.*;
 import com.example.lease_by.model.entity.enums.Role;
+import com.example.lease_by.model.entity.enums.UserNetworkStatus;
 import com.example.lease_by.model.entity.enums.UserStatus;
 
 import java.util.Optional;
@@ -22,6 +23,8 @@ public interface UserService {
 
     UserReadDto updateUserRole(Long id, Role role);
 
+    void updateUserNetworkStatus(String username, UserNetworkStatus userNetworkStatus);
+
     Optional<UserReadDto> updatePassword(Long id, PasswordEditDto passwordEditDto);
 
     Optional<UserReadDto> verifyUser(String token);
@@ -29,4 +32,5 @@ public interface UserService {
     void saveUserPassword(PasswordDto passwordDto);
 
     void deleteUserById(Long id);
+
 }

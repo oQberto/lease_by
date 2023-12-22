@@ -1,5 +1,7 @@
 package com.example.lease_by.config;
 
+import com.example.lease_by.config.handler.UserLoginHandler;
+import com.example.lease_by.config.handler.UserLogoutHandler;
 import com.example.lease_by.service.impl.SecurityUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Set;
 
+import static com.example.lease_by.model.entity.enums.Role.ADMIN;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -36,6 +40,9 @@ public class SecurityConfiguration {
             "/image/**",
             "/js/**"
     };
+
+    private final UserLoginHandler userLoginHandler;
+    private final UserLogoutHandler userLogoutHandler;
     private final SecurityUserService securityUserService;
 
     @Bean
@@ -47,18 +54,21 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(URL_WHITE_LIST)
                         .permitAll()
+                        .requestMatchers("/admin/**")
+                        .hasRole(ADMIN.name())
                         .anyRequest()
                         .authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .defaultSuccessUrl("/cities"))
+                        .successHandler(userLoginHandler))
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
-                        .defaultSuccessUrl("/cities")
+                        .successHandler(userLoginHandler)
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService())))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/cities")
+                        .addLogoutHandler(userLogoutHandler)
                         .deleteCookies("JSESSIONID"))
                 .build();
     }
