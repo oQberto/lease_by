@@ -3,6 +3,7 @@ package com.example.lease_by.integration.service;
 import com.example.lease_by.dto.account.*;
 import com.example.lease_by.integration.IntegrationTestBase;
 import com.example.lease_by.model.entity.enums.Role;
+import com.example.lease_by.model.entity.enums.UserNetworkStatus;
 import com.example.lease_by.model.entity.enums.UserStatus;
 import com.example.lease_by.service.ProfileService;
 import com.example.lease_by.service.UserService;
@@ -13,10 +14,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @RequiredArgsConstructor
 class UserServiceIT extends IntegrationTestBase {
@@ -61,6 +64,22 @@ class UserServiceIT extends IntegrationTestBase {
                 .hasMessageContaining(
                         String.format(Message.ENTITY_NOT_FOUND_EXCEPTION, NOT_EXISTING_USER_ID)
                 );
+    }
+
+    @Test
+    void getUsersByNetworkStatus_whenNetworkStatusIsOnline_shouldReturnOnlineUsers() {
+        List<UserReadDto> onlineUsers = userService.getUsersByNetworkStatus(UserNetworkStatus.ONLINE);
+        assertThat(onlineUsers).hasSize(9);
+
+        List<Long> userIds = onlineUsers.stream()
+                .map(UserReadDto::getId)
+                .toList();
+
+        assertAll(() -> {
+                    assertThat(userIds).isNotEmpty();
+                    assertThat(userIds).contains(3L, 4L, 5L, 7L, 8L, 9L, 11L, 12L, 14L);
+                }
+        );
     }
 
     @Test
