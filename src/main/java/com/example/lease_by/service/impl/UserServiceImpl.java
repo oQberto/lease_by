@@ -118,11 +118,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUserNetworkStatus(String username, UserNetworkStatus userNetworkStatus) {
         userRepository.findUserByUsername(username)
-                .map(user -> {
-                    user.setNetworkStatus(userNetworkStatus);
-                    return user;
-                })
+                .map(user -> setNewNetworkStatus(userNetworkStatus, user))
                 .map(userRepository::saveAndFlush);
+    }
+
+    private static User setNewNetworkStatus(UserNetworkStatus userNetworkStatus, User user) {
+        user.setNetworkStatus(userNetworkStatus);
+        return user;
     }
 
     @Override
