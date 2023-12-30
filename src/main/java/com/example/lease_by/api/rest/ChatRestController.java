@@ -23,4 +23,12 @@ public class ChatRestController {
                 chatRoomService.getChatRoomsBySenderId(senderId)
         );
     }
+
+    @GetMapping("/{senderId}/{recipientId}")
+    public ResponseEntity<ChatRoomDto> getChat(@PathVariable("senderId") Long senderId,
+                                               @PathVariable("recipientId") Long recipientId) {
+        return ResponseEntity.of(
+                chatRoomService.getChatBy(senderId, recipientId)
+        );
+    }
 }
