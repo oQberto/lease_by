@@ -3,7 +3,6 @@ package com.example.lease_by.api.rest;
 import com.example.lease_by.dto.chat.ChatRoomDto;
 import com.example.lease_by.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +19,8 @@ public class ChatRestController {
 
     @GetMapping("/{senderId}")
     public ResponseEntity<List<ChatRoomDto>> getChatsBySenderId(@PathVariable("senderId") Long senderId) {
-        List<ChatRoomDto> chats = chatRoomService.getChatRoomsBySenderId(senderId);
-
-        return new ResponseEntity<>(
-                chats, HttpStatus.OK
+        return ResponseEntity.ok(
+                chatRoomService.getChatRoomsBySenderId(senderId)
         );
     }
 }
