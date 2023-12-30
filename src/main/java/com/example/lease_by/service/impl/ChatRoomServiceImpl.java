@@ -4,11 +4,11 @@ import com.example.lease_by.dto.chat.ChatRoomDto;
 import com.example.lease_by.mapper.ChatRoomMapper;
 import com.example.lease_by.model.repository.ChatRoomRepository;
 import com.example.lease_by.service.ChatRoomService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +25,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
-    public Optional<ChatRoomDto> getChatBy(Long senderId, Long recipientId) {
-        return Optional.of(
-                chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId)
-        ).map(chatRoomMapper::mapToChatRoomDto);
+    public ChatRoomDto getChatBy(Long senderId, Long recipientId) {
+        return chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId)
+                .map(chatRoomMapper::mapToChatRoomDto)
+                .orElseThrow(() -> new EntityNotFoundException("Chat not found!"));
     }
 }
