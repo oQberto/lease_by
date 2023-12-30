@@ -27,7 +27,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     @Override
     public Optional<ChatRoomDto> getChatBy(Long senderId, Long recipientId) {
         return Optional.of(
-                        chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId)
-                ).map(chatRoomMapper::mapToChatRoomDto);
+                chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId)
+        ).map(chatRoomMapper::mapToChatRoomDto);
     }
 }
