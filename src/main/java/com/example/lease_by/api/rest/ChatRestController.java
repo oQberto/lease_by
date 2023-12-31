@@ -1,13 +1,11 @@
 package com.example.lease_by.api.rest;
 
 import com.example.lease_by.dto.chat.ChatRoomDto;
+import com.example.lease_by.model.entity.enums.ChatRoomStatus;
 import com.example.lease_by.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +27,14 @@ public class ChatRestController {
                                                @PathVariable("recipientId") Long recipientId) {
         return ResponseEntity.ok(
                 chatRoomService.getChatBy(senderId, recipientId)
+        );
+    }
+
+    @PatchMapping("/update/{id}/{status}")
+    public ResponseEntity<ChatRoomDto> updateChatRoomStatus(@PathVariable("id") Long id,
+                                                            @PathVariable("status") ChatRoomStatus status) {
+        return ResponseEntity.ok(
+                chatRoomService.updateChatRoomStatus(id, status)
         );
     }
 }
