@@ -34,6 +34,23 @@ VALUES (1, 1, 'avatar1', 'firstname1', 'lastname1', '(29)123-4567'),
        (15, 15, 'avatar15', 'firstname15', 'lastname15', '(17)123-4567');
 SELECT setval('profile_id_seq', (SELECT max(id) FROM profile));
 
+INSERT INTO chat_room(id, sender_id, recipient_id)
+VALUES (1, 1, 2),
+       (2, 2, 3),
+       (3, 3, 4),
+       (4, 4, 5),
+       (5, 5, 6),
+       (6, 6, 7),
+       (7, 7, 8);
+SELECT setval('chat_room_id_seq', (SELECT max(id) FROM chat_room));
+
+INSERT INTO chat_message(id, chat_id, sender_id, recipient_id, content, sending_time)
+VALUES (1, 1, 1, 2, 'content', '2023-10-19 10:23:54'),
+       (1, 2, 2, 3, 'content1', '2023-10-19 10:24:54'),
+       (1, 3, 3, 4, 'content2', '2023-10-19 11:20:54'),
+       (1, 4, 4, 5, 'content3', '2023-10-19 12:24:54');
+SELECT setval('chat_message_id_seq', (SELECT max(id) FROM chat_message));
+
 INSERT INTO city (id, name, image)
 VALUES (1, 'Minsk', 'minskImage'),
        (2, 'Grodno', 'grodnoImage'),
@@ -155,7 +172,8 @@ VALUES (1, 'image1'),
        (14, 'image14');
 -- SELECT setval('image_id_seq', (SELECT max(id) FROM image));
 
-INSERT INTO rental_details (id, rental_id, property_type, parking_type, furnished, year_built, lease_term, short_term, pet_friendly)
+INSERT INTO rental_details (id, rental_id, property_type, parking_type, furnished, year_built, lease_term, short_term,
+                            pet_friendly)
 VALUES (1, 1, 'APARTMENT', 'NO_PARKING', 'NO_FURNITURE', '2024-10-08', 'MONTHLY', true, true),
        (2, 2, 'HOUSE', 'GARAGE', 'KITCHEN', '2024-10-08', 'MONTHLY', true, true),
        (3, 3, 'ROOM', 'DRIVEWAY', 'BEDROOM', '2025-10-08', 'MONTHLY', true, true),
