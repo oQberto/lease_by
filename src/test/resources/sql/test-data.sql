@@ -46,9 +46,9 @@ SELECT setval('chat_room_id_seq', (SELECT max(id) FROM chat_room));
 
 INSERT INTO chat_message(id, chat_id, sender_id, recipient_id, content, sending_time)
 VALUES (1, 1, 1, 2, 'content', '2023-10-19 10:23:54'),
-       (1, 2, 2, 3, 'content1', '2023-10-19 10:24:54'),
-       (1, 3, 3, 4, 'content2', '2023-10-19 11:20:54'),
-       (1, 4, 4, 5, 'content3', '2023-10-19 12:24:54');
+       (2, 2, 2, 3, 'content1', '2023-10-19 10:24:54'),
+       (3, 3, 3, 4, 'content2', '2023-10-19 11:20:54'),
+       (4, 4, 4, 5, 'content3', '2023-10-19 12:24:54');
 SELECT setval('chat_message_id_seq', (SELECT max(id) FROM chat_message));
 
 INSERT INTO city (id, name, image)
