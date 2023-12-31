@@ -1,5 +1,6 @@
 package com.example.lease_by.model.entity;
 
+import com.example.lease_by.model.entity.enums.ChatRoomStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.Audited;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -24,6 +26,10 @@ public class ChatRoom extends AuditingEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
+    @Enumerated(STRING)
+    @Column(name = "status")
+    private ChatRoomStatus status;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "sender_id")
