@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ChatRoomService {
 
+    ChatRoomDto getChatRoomById(Long id);
+
     List<ChatRoomDto> getChatRoomsBySenderId(Long senderId);
 
     ChatRoomDto getChatBy(Long senderId, Long recipientId);

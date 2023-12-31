@@ -20,6 +20,13 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatRoomMapper chatRoomMapper;
 
     @Override
+    public ChatRoomDto getChatRoomById(Long id) {
+        return chatRoomRepository.findById(id)
+                .map(chatRoomMapper::mapToChatRoomDto)
+                .orElseThrow(() -> new EntityNotFoundException("Chat room with id: " + id + " not found!"));
+    }
+
+    @Override
     public List<ChatRoomDto> getChatRoomsBySenderId(Long senderId) {
         return chatRoomRepository.findAllBySenderId(senderId).stream()
                 .map(chatRoomMapper::mapToChatRoomDto)
