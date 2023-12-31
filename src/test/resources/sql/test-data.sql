@@ -34,14 +34,14 @@ VALUES (1, 1, 'avatar1', 'firstname1', 'lastname1', '(29)123-4567'),
        (15, 15, 'avatar15', 'firstname15', 'lastname15', '(17)123-4567');
 SELECT setval('profile_id_seq', (SELECT max(id) FROM profile));
 
-INSERT INTO chat_room(id, sender_id, recipient_id)
-VALUES (1, 1, 2),
-       (2, 2, 3),
-       (3, 3, 4),
-       (4, 4, 5),
-       (5, 5, 6),
-       (6, 6, 7),
-       (7, 7, 8);
+INSERT INTO chat_room(id, sender_id, recipient_id, status)
+VALUES (1, 1, 2, 'ACTIVE'),
+       (2, 2, 3, 'DELETED'),
+       (3, 3, 4, 'ACTIVE'),
+       (4, 4, 5, 'DELETED'),
+       (5, 5, 6, 'ACTIVE'),
+       (6, 6, 7, 'DELETED'),
+       (7, 7, 8, 'ACTIVE');
 SELECT setval('chat_room_id_seq', (SELECT max(id) FROM chat_room));
 
 INSERT INTO chat_message(id, chat_id, sender_id, recipient_id, content, sending_time)
