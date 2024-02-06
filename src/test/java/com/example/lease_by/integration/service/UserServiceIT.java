@@ -42,6 +42,7 @@ class UserServiceIT extends IntegrationTestBase {
                 .username("username1")
                 .role(Role.ADMIN)
                 .status(UserStatus.ACTIVE)
+                .networkStatus(UserNetworkStatus.OFFLINE)
                 .isVerified(false)
                 .profileReadDto(ProfileReadDto.builder()
                         .id(1L)

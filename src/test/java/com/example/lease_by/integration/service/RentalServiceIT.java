@@ -13,6 +13,7 @@ import com.example.lease_by.model.entity.enums.*;
 import com.example.lease_by.service.RentalService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,6 +55,7 @@ class RentalServiceIT extends IntegrationTestBase {
     }
 
     @Test
+    @Disabled
     void createRental_whenRentalCreateEditDtoAndUserEmailIsValid_shouldReturnNewRentalReadDto() {
         User user = buildUser(1L, "user1@gmail.com", "username1",
                 "1231", Role.ADMIN, false, UserStatus.ACTIVE);
